@@ -1,0 +1,35 @@
+# --- Core ---
+python-dotenv>=1.0.1
+pydantic>=2.9.0
+pydantic-settings>=2.6.0
+
+# --- LLM client (Anthropic only — Opus 4.7 + Haiku 4.5) ---
+anthropic>=0.40.0
+
+# --- Web scraping (data-scout) ---
+requests>=2.32.0
+beautifulsoup4>=4.12.0
+lxml>=5.3.0
+httpx>=0.27.0
+
+# --- Templating (visual-designer) ---
+jinja2>=3.1.0
+
+# --- PDF (visual-designer / pdf_renderer) ---
+# WeasyPrint — primary для cloud-деплоя. Локально на Windows работает,
+# если установлен GTK3 runtime; иначе pdf_renderer.py упадёт на fallback
+# к headless Chrome/Edge.
+weasyprint>=62.0
+
+# --- UI (фаза 1) ---
+streamlit>=1.40.0
+
+# --- DB (фаза 1: SQLite встроен; фаза 2: supabase-py) ---
+# supabase>=2.10.0  # раскомментировать в фазе 2
+
+# --- Telegram auth (фаза 2) ---
+# pyTelegramBotAPI>=4.24.0  # раскомментировать в фазе 2
+
+# --- Tests ---
+pytest>=8.3.0
+pytest-asyncio>=0.24.0

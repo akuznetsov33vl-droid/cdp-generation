@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Индивидуальное предложение CDP Calltouch для LW Group / Lake Wood</title>
+<style>
+  @page {
+    size: A4;
+    margin: 18mm 16mm 20mm 16mm;
+    @bottom-center {
+      content: counter(page) " / " counter(pages);
+      font-family: Georgia, serif;
+      font-size: 9pt;
+      color: #999;
+    }
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    font-family: "Segoe UI", "Inter", "Helvetica Neue", Arial, sans-serif;
+    color: #1a1a1a;
+    font-size: 10.5pt;
+    line-height: 1.55;
+    background: #fff;
+  }
+
+  /* === COLOR SYSTEM === */
+  :root {
+    --ct-violet: #5B2FBF;       /* Calltouch corporate purple */
+    --ct-violet-dark: #3D1F8C;
+    --ct-violet-soft: #F2EDFF;
+    --cedar-deep: #2C4A2C;      /* Lake Wood brand vibe — deep cedar green */
+    --cedar-warm: #8B6B3D;      /* warm cedar accent */
+    --cedar-soft: #F8F4EB;      /* parchment */
+    --gray-900: #1a1a1a;
+    --gray-700: #4a4a4a;
+    --gray-500: #888;
+    --gray-300: #d8d8d8;
+    --gray-100: #f4f4f4;
+    --good: #1f7a4a;
+    --warn: #b14a1a;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: "Segoe UI", "Inter", Georgia, serif;
+    color: var(--gray-900);
+    margin: 0 0 8pt 0;
+    line-height: 1.25;
+  }
+
+  /* === COVER === */
+  .cover {
+    page-break-after: always;
+    height: 250mm;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0;
+  }
+  .cover-top {
+    border-top: 4pt solid var(--ct-violet);
+    padding-top: 18pt;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .cover-top .brand {
+    font-weight: 700;
+    color: var(--ct-violet);
+    letter-spacing: 1pt;
+    font-size: 11pt;
+  }
+  .cover-top .doctype {
+    color: var(--gray-500);
+    font-size: 9pt;
+    text-transform: uppercase;
+    letter-spacing: 1pt;
+  }
+  .cover-main h1 {
+    font-size: 30pt;
+    line-height: 1.1;
+    color: var(--gray-900);
+    margin-top: 60pt;
+    font-weight: 700;
+  }
+  .cover-main h1 .accent {
+    color: var(--ct-violet);
+  }
+  .cover-main h2 {
+    font-size: 16pt;
+    color: var(--cedar-deep);
+    font-weight: 500;
+    margin-top: 14pt;
+  }
+  .cover-bullets {
+    margin-top: 36pt;
+    border-left: 3pt solid var(--cedar-warm);
+    padding-left: 14pt;
+  }
+  .cover-bullets div {
+    font-size: 11pt;
+    color: var(--gray-700);
+    margin-bottom: 6pt;
+  }
+  .cover-bullets b { color: var(--gray-900); }
+  .cover-foot {
+    border-top: 1pt solid var(--gray-300);
+    padding-top: 12pt;
+    display: flex;
+    justify-content: space-between;
+    color: var(--gray-500);
+    font-size: 9pt;
+  }
+
+  /* === SECTION HEADER === */
+  .section-title {
+    color: var(--ct-violet);
+    font-size: 9pt;
+    text-transform: uppercase;
+    letter-spacing: 1.5pt;
+    font-weight: 700;
+    border-bottom: 2pt solid var(--ct-violet);
+    padding-bottom: 4pt;
+    margin: 0 0 14pt 0;
+  }
+  h1.page-h1 {
+    font-size: 20pt;
+    margin-bottom: 18pt;
+  }
+
+  .pagebreak { page-break-after: always; }
+  .nobreak { page-break-inside: avoid; }
+
+  /* === EXEC SUMMARY === */
+  .ctx-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10pt;
+    margin: 14pt 0;
+  }
+  .ctx-card {
+    background: var(--gray-100);
+    border-left: 3pt solid var(--ct-violet);
+    padding: 10pt 12pt;
+    border-radius: 2pt;
+  }
+  .ctx-card h4 {
+    font-size: 10pt;
+    color: var(--ct-violet);
+    margin: 0 0 4pt 0;
+  }
+  .ctx-card p {
+    font-size: 10pt;
+    margin: 0;
+    color: var(--gray-700);
+  }
+
+  .pillarbox {
+    background: var(--cedar-soft);
+    border: 1pt solid var(--cedar-warm);
+    padding: 12pt 14pt;
+    margin: 12pt 0;
+    border-radius: 3pt;
+  }
+  .pillarbox h4 {
+    color: var(--cedar-deep);
+    margin-top: 0;
+  }
+  .pillarbox p { margin: 4pt 0; }
+
+  /* === AUDIENCE TABLE === */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 8pt 0 14pt 0;
+    font-size: 9.5pt;
+  }
+  table th {
+    background: var(--ct-violet);
+    color: white;
+    text-align: left;
+    padding: 6pt 8pt;
+    font-weight: 600;
+    font-size: 9pt;
+  }
+  table td {
+    border-bottom: 1pt solid var(--gray-300);
+    padding: 6pt 8pt;
+    vertical-align: top;
+  }
+  table tr:nth-child(even) td { background: var(--gray-100); }
+  table .seg { font-weight: 700; color: var(--ct-violet); white-space: nowrap; }
+
+  /* === SCENARIO CARD === */
+  .scenario {
+    page-break-before: always;
+    page-break-inside: auto;
+  }
+  .scenario:first-of-type { page-break-before: always; }
+
+  .sc-num {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--ct-violet) 0%, var(--ct-violet-dark) 100%);
+    color: white;
+    font-weight: 700;
+    font-size: 13pt;
+    padding: 4pt 12pt;
+    border-radius: 20pt;
+    letter-spacing: 0.5pt;
+  }
+  .sc-tag {
+    display: inline-block;
+    background: var(--cedar-warm);
+    color: white;
+    font-size: 8pt;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1pt;
+    padding: 3pt 9pt;
+    border-radius: 12pt;
+    margin-left: 6pt;
+    vertical-align: middle;
+  }
+  .sc-tag.priority { background: #B91C5C; }
+  .sc-tag.standard { background: var(--cedar-warm); }
+  .sc-tag.advanced { background: var(--cedar-deep); }
+
+  .sc-name {
+    font-size: 19pt;
+    color: var(--gray-900);
+    margin: 14pt 0 4pt 0;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  .sc-pitch {
+    font-size: 11pt;
+    color: var(--gray-700);
+    font-style: italic;
+    border-left: 2pt solid var(--cedar-warm);
+    padding-left: 10pt;
+    margin-bottom: 14pt;
+  }
+
+  .sc-block {
+    margin: 12pt 0 8pt 0;
+    page-break-inside: avoid;
+  }
+  .sc-block .block-h {
+    font-size: 10pt;
+    text-transform: uppercase;
+    letter-spacing: 1pt;
+    color: var(--ct-violet);
+    font-weight: 700;
+    margin-bottom: 6pt;
+    display: flex;
+    align-items: center;
+    gap: 8pt;
+  }
+  .sc-block .block-h .ico {
+    display: inline-flex;
+    width: 18pt;
+    height: 18pt;
+    background: var(--ct-violet-soft);
+    color: var(--ct-violet);
+    border-radius: 4pt;
+    align-items: center;
+    justify-content: center;
+    font-size: 11pt;
+    font-weight: 700;
+  }
+
+  .logic-box {
+    background: var(--gray-100);
+    border: 1pt solid var(--gray-300);
+    border-radius: 4pt;
+    padding: 10pt 12pt;
+    font-family: "Consolas", "Courier New", monospace;
+    font-size: 9pt;
+    line-height: 1.55;
+    white-space: pre-wrap;
+    color: var(--gray-700);
+  }
+
+  .gives-box {
+    background: var(--cedar-soft);
+    border-left: 3pt solid var(--cedar-deep);
+    padding: 8pt 12pt;
+    border-radius: 2pt;
+  }
+  .gives-box ul { margin: 4pt 0 4pt 16pt; padding: 0; }
+  .gives-box li { margin: 2pt 0; }
+
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8pt;
+    margin: 4pt 0;
+  }
+  .metric {
+    background: white;
+    border: 1pt solid var(--gray-300);
+    border-radius: 4pt;
+    padding: 8pt 10pt;
+    text-align: center;
+  }
+  .metric .m-val {
+    font-size: 16pt;
+    font-weight: 700;
+    color: var(--ct-violet);
+    line-height: 1.1;
+    display: block;
+  }
+  .metric .m-label {
+    font-size: 8pt;
+    color: var(--gray-500);
+    text-transform: uppercase;
+    letter-spacing: 0.5pt;
+    margin-top: 3pt;
+    display: block;
+  }
+
+  .why-box {
+    background: linear-gradient(135deg, #FAF7FF 0%, #F2EDFF 100%);
+    border: 1pt solid var(--ct-violet);
+    border-left: 4pt solid var(--ct-violet);
+    border-radius: 3pt;
+    padding: 10pt 14pt;
+  }
+  .why-box p { margin: 4pt 0; }
+  .why-box strong { color: var(--ct-violet-dark); }
+
+  .quote {
+    background: white;
+    border: 1pt dashed var(--cedar-warm);
+    padding: 8pt 12pt;
+    margin: 6pt 0;
+    font-style: italic;
+    color: var(--gray-700);
+    font-size: 10pt;
+    border-radius: 3pt;
+  }
+  .quote .signature {
+    display: block;
+    margin-top: 4pt;
+    font-style: normal;
+    font-size: 9pt;
+    color: var(--cedar-deep);
+    font-weight: 600;
+  }
+
+  /* === CLOSING === */
+  .nogo-list {
+    background: #FFF6F4;
+    border-left: 3pt solid var(--warn);
+    padding: 10pt 14pt;
+    border-radius: 2pt;
+  }
+  .nogo-list ul { margin: 4pt 0 4pt 16pt; padding: 0; }
+  .nogo-list li::marker { color: var(--warn); }
+
+  .next-steps {
+    background: var(--ct-violet-soft);
+    border: 1pt solid var(--ct-violet);
+    padding: 12pt 14pt;
+    border-radius: 3pt;
+  }
+  .next-steps ol { margin: 4pt 0 4pt 18pt; padding: 0; }
+  .next-steps li { margin: 4pt 0; }
+
+  .cost-table th { background: var(--cedar-deep); }
+
+  /* utility */
+  .small { font-size: 9pt; color: var(--gray-500); }
+  .big { font-size: 11pt; }
+  ul.tight { margin: 4pt 0 4pt 16pt; padding: 0; }
+  ul.tight li { margin: 2pt 0; }
+
+  hr {
+    border: none;
+    height: 1pt;
+    background: var(--gray-300);
+    margin: 16pt 0;
+  }
+</style>
+</head>
+<body>
+
+<!-- =========== COVER =========== -->
+<section class="cover">
+  <div class="cover-top">
+    <div class="brand">CALLTOUCH · CDP</div>
+    <div class="doctype">Индивидуальное предложение</div>
+  </div>
+
+  <div class="cover-main">
+    <h1>10 уникальных сценариев&nbsp;<span class="accent">CDP Calltouch</span></h1>
+    <h2>для LW&nbsp;Group · Lake&nbsp;Wood<br>Премиум-домостроение из сибирского кедра</h2>
+
+    <div class="cover-bullets">
+      <div><b>Объекты:</b> brus-lw.ru · srub-lw.ru · shindel-centre.ru</div>
+      <div><b>Сегмент:</b> премиум, средний чек 25 млн ₽</div>
+      <div><b>Поток:</b> 50 заявок/нед · 200 в месяц · 1 договор на 100</div>
+      <div><b>Главная цель:</b> качество заявок, а не количество</div>
+    </div>
+  </div>
+
+  <div class="cover-foot">
+    <div>Подготовлено по итогам встречи 07.05.2026</div>
+    <div>Контактное лицо клиента: Артём Карычев</div>
+  </div>
+</section>
+
+<!-- =========== EXEC SUMMARY =========== -->
+<section>
+  <div class="section-title">Контекст и понимание клиента</div>
+  <h1 class="page-h1">Что мы услышали и почему предложение именно такое</h1>
+
+  <p>LW&nbsp;Group — производитель премиальных рубленых домов из сибирского кедра, домов из клееного бруса и деревянной черепицы. Производство — Кандинка, Томская область. География реализованных проектов: от Истры и Калуги до Германии, Алтая и Байкала. <b>400+ построенных объектов</b>, средний чек 25 млн ₽ при объекте под ключ до 100 млн ₽.</p>
+
+  <div class="ctx-grid">
+    <div class="ctx-card">
+      <h4>Главный KPI клиента</h4>
+      <p>Не количество, а <b>качество</b> 50 заявок в неделю. Артём прямо сказал: «лучше пусть будет в 3 раза меньше, но люди понимают, куда они позвонили».</p>
+    </div>
+    <div class="ctx-card">
+      <h4>Длинный цикл</h4>
+      <p>Из 100 заявок 1 договор — норма сегмента. От первого касания до контракта — 6–12 месяцев. Любая «спешка» убивает доверие.</p>
+    </div>
+    <div class="ctx-card">
+      <h4>Цена в центре стратегии</h4>
+      <p>Стоимость показана в баннерах и на сайте намеренно — чтобы отсечь тех, кто не может позволить дом за 25–100 млн.</p>
+    </div>
+    <div class="ctx-card">
+      <h4>Тёплая аудитория</h4>
+      <p>Свой YouTube — 16 000 подписчиков, активный Telegram, ВК, Max. Контент делает медиаотдел. Это уже прогретая база.</p>
+    </div>
+  </div>
+
+  <div class="pillarbox">
+    <h4>Что НЕ применяем (по позиции Артёма)</h4>
+    <p>Никаких скидок «дом за 5 млн», поздравлений с днём рождения, попапов «успей до пятницы», холодного обзвона ушедших, массовых SMS. Эти инструменты разрушают позиционирование объекта стоимостью в годовую выручку среднего предприятия.</p>
+  </div>
+
+  <div class="section-title" style="margin-top:18pt">Целевая аудитория · 4 сегмента</div>
+  <table>
+    <thead>
+      <tr><th style="width:14%">Сегмент</th><th style="width:36%">Кто это</th><th style="width:30%">Поведение на сайте</th><th>Что им нужно</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="seg">A · Доверенные лица</td>
+        <td>Генподрядчик, стройконтроль. Готовит тендер на выбор подрядчика для собственника. Самый массовый трафик.</td>
+        <td>Глубокое изучение каталога, скачивание PDF, страницы /production, /technology, /team. Многократные возвраты.</td>
+        <td>Структурированный коммерческий пакет для презентации боссу — реализованные объекты, регламент, сертификаты</td>
+      </tr>
+      <tr>
+        <td class="seg">Б · Партнёры</td>
+        <td>Архитектурные бюро и строй-компании, лоббирующие LW Group внутри своих проектов</td>
+        <td>Корпоративные сетевые признаки, заходы из YouTube/ВК, страница /partner</td>
+        <td>Партнёрская программа, ускоренный контакт с Тимуром / Денисом</td>
+      </tr>
+      <tr>
+        <td class="seg">В · Собственник</td>
+        <td>Конечный заказчик-мультимиллионер. Самый редкий, но самый ценный посетитель</td>
+        <td>Очень личное поведение: один длинный сеанс с просмотром 8–12 страниц. Часто заходят с YouTube-обзоров</td>
+        <td>Персональный контакт с Тимуром Карычевым, экскурсия в Кандинку</td>
+      </tr>
+      <tr>
+        <td class="seg">Г · Сегмент бань</td>
+        <td>Запад Москвы, дача 700–800 м². Чек 5–15 млн, цикл короче, можно прогревать активнее</td>
+        <td>Раздел /bani на srub-lw.ru, проекты Хонка, Хаапала, Шерегеш, Юж. Берег</td>
+        <td>Персонализированные триггеры, видео-обзоры конкретных бань, более частые касания</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p class="small">Каждый из 10 сценариев далее работает на один или несколько сегментов выше — указано отдельно в каждой карточке.</p>
+</section>
+
+
+<!-- =========== SCENARIO 1 =========== -->
+<section class="scenario">
+  <span class="sc-num">№ 1</span><span class="sc-tag priority">Приоритет старта</span>
+  <h2 class="sc-name">«Тендер-ассистент» для генподрядчика</h2>
+  <p class="sc-pitch">Перехватываем сегмент A на старте: понимаем, что заявка идёт в тендер, и сразу даём правильный пакет.</p>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">L</span>Логика работы сценария</div>
+    <div class="logic-box">Аудитория без контактов / с контактами
+        ↓
+Достижение цели: «глубокое изучение» = 5+ страниц проектов (/proect/*)
+ИЛИ скачивание PDF проекта
+ИЛИ просмотр /production + /team в одной сессии
+        ↓
+CDP проставляет тег: «профиль_тендер»
+        ↓
+[Если контакты есть]
+   Webhook в Битрикс24:
+   «Вероятно генподрядчик / стройконтроль готовит тендер.
+    Передать пакет: PDF реализованных, видео производства,
+    регламент. Звонить с акцентом на партнёрство.»
+
+[Если контактов нет]
+   На второй сессии — показ умной заявки:
+   «Готовите выбор подрядчика для клиента?
+    Архитектор подготовит коммерческий пакет за 1 рабочий день»
+        ↓
+После лида — email с PDF-пакетом:
+ВЕЛЛИНГТОН (Москва, 341 м²), РИВЕРСАЙД (399 м²),
+КРЕМЕР (Германия), сертификаты, гарантии, регламент</div>
+  </div>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">»</span>Текст УЗ (без скидок и без давления)</div>
+    <div class="quote">«Подбираете подрядчика для заказчика? Архитектор подготовит для вас пакет под презентацию: реализованные объекты ближайшего бюджета, тех. карта, регламент работы, сертификаты на сибирский кедр. 1 рабочий день, без обязательств.»<span class="signature">→ Подготовить пакет</span></div>
+  </div>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">+</span>Что даёт сценарий клиенту</div>
+    <div class="gives-box">
+      <ul>
+        <li><b>Сегментация трафика на старте</b> — менеджер на первом звонке знает, что говорит с генподрядчиком, а не с собственником, и сразу ведёт партнёрский, а не продающий разговор</li>
+        <li><b>Готовый «пакет для босса»</b> — генподрядчик получает рабочий артефакт, который покажет владельцу. У него нет повода отказаться от такого предложения</li>
+        <li><b>Тег в Битрикс24</b> — при последующих касаниях менеджер видит весь профиль клиента и продолжает диалог в нужном ключе</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">%</span>Ожидаемый результат</div>
+    <div class="metrics-grid">
+      <div class="metric"><span class="m-val">×1,5–2</span><span class="m-label">CR заявка → договор</span></div>
+      <div class="metric"><span class="m-val">+0,5–1%</span><span class="m-label">прирост сделок при том же трафике</span></div>
+      <div class="metric"><span class="m-val">25 млн&nbsp;₽</span><span class="m-label">чек одного дополнительного договора</span></div>
+    </div>
+    <p class="small" style="margin-top:6pt">При сохранении 200 заявок/мес сценарий рассчитан на +1 квалифицированный договор в квартал. Один договор окупает CDP на 10 лет вперёд.</p>
+  </div>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">!</span>Почему именно решение Calltouch</div>
+    <div class="why-box">
+      <p>В Битрикс24 нельзя посмотреть, что посетитель сайта изучил 5 проектов и скачал PDF — Битрикс работает только со сделкой. <b>CDP видит поведение до сделки</b> и обогащает заявку контекстом ещё до того, как менеджер поднимет трубку.</p>
+      <p>В готовых отраслевых картах Calltouch для сегмента «Строительство домов» уже есть механика «загрузка офлайн-базы для отслеживания возвращения» и «зависшая сделка после визита» — мы адаптируем их под ваши URL-паттерны и тексты, всё под ключ за абонплату.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- =========== SCENARIO 2 =========== -->
+<section class="scenario">
+  <span class="sc-num">№ 2</span><span class="sc-tag priority">Приоритет старта</span>
+  <h2 class="sc-name">Подписчик YouTube/Telegram уже на сайте</h2>
+  <p class="sc-pitch">Ваши 16 000 подписчиков YouTube и активный Telegram — самая прогретая аудитория. CDP связывает её с поведением на сайте.</p>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">L</span>Логика работы сценария</div>
+    <div class="logic-box">Импорт XLS / sha256-базы подписчиков YouTube + Telegram + ВК
+(выгружается через TGStat / SocialDataHub / ручной экспорт)
+        ↓
+Аудитория «подписчик медиа» загружена в CDP
+        ↓
+Триггер: посещение сайта таким клиентом
+        ↓
+Webhook в Битрикс24 на менеджера:
+   «{Имя} — подписчик YouTube 1.5 года, на сайте сейчас.
+    Смотрит проект ВЕЛЛИНГТОН.
+    Если оставит заявку — звонить с упоминанием канала,
+    не с холодным скриптом.»
+        ↓
+Если заявка → тег «из медиа» в сделке Битрикса
+                  + менеджер ведёт другой разговор
+        ↓
+Если ушёл без заявки → через 2 дня email от персонального
+менеджера: «Видели, что заходили на ВЕЛЛИНГТОН —
+у нас есть видео-тур по нему на канале + PDF планировок»</div>
+  </div>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">+</span>Что даёт сценарий клиенту</div>
+    <div class="gives-box">
+      <ul>
+        <li><b>Использование уже созданного актива</b> — медиаотдел LW Group вкладывает в YouTube большой ресурс. Сейчас связь «зритель канала ↔ посетитель сайта» теряется. CDP её восстанавливает</li>
+        <li><b>Закрывает главную боль Артёма</b> — «второй контакт = 90% игнор». Здесь это уже не «второй холодный контакт», а первый разговор с давно прогретым человеком</li>
+        <li><b>Точечный e-mail вместо рассылки</b> — клиент получает релевантное сообщение по тому проекту, который реально смотрел</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">%</span>Ожидаемый результат</div>
+    <div class="metrics-grid">
+      <div class="metric"><span class="m-val">2–3×</span><span class="m-label">CR в заявку у подписчика vs «холодный» трафик</span></div>
+      <div class="metric"><span class="m-val">16 000</span><span class="m-label">подписчиков становятся управляемой базой</span></div>
+      <div class="metric"><span class="m-val">−40%</span><span class="m-label">времени менеджера на квалификацию такой заявки</span></div>
+    </div>
+  </div>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">!</span>Почему именно решение Calltouch</div>
+    <div class="why-box">
+      <p>Calltouch — <b>единая экосистема</b>, в которой собраны вместе: единый профиль клиента, импорт зашифрованной базы (sha256), привязка cookie к контакту, нативная интеграция с Битрикс24, коллтрекинг и сквозная аналитика. Это <b>один продукт</b>, а не сборка из 5 разных сервисов с интеграциями между ними.</p>
+      <p>Загрузка sha256-базы и интеграция с Битрикс24 <b>включены в абонплату</b> — никаких отдельных оплат за подключение или настройку. Вы платите только за работающий результат.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- =========== SCENARIO 3 =========== -->
+<section class="scenario">
+  <span class="sc-num">№ 3</span><span class="sc-tag standard">Базовая механика</span>
+  <h2 class="sc-name">Возврат к конкретному проекту</h2>
+  <p class="sc-pitch">Клиент вернулся к ВЕЛЛИНГТОНУ третий раз — это сигнал «выбор сделан». Звонит ведущий архитектор по этому проекту, не общий продавец.</p>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">L</span>Логика работы сценария</div>
+    <div class="logic-box">Аудитория: повторный посетитель
+        ↓
+Триггер: просмотр одной и той же страницы проекта
+(/proect/maribor, /proect/elba, /proect/wellington,
+ /proect/riverside и т.д.) 3+ раза за 14 дней
+        ↓
+[Если контакты есть]
+   Webhook в Битрикс24:
+   «{Имя} 3 раза вернулся к проекту ВЕЛЛИНГТОН.
+    Вероятно, выбор сделан. Звонит архитектор Узгоров.»
+
+[Если контактов нет]
+   Показ попапа от лица главного архитектора
+   (с фото и именем — Узгоров Николай)
+        ↓
+Запись на персональную онлайн-консультацию 30 мин</div>
+  </div>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">»</span>Текст попапа</div>
+    <div class="quote">«Заметили, что вы возвращаетесь к проекту <b>ВЕЛЛИНГТОН</b>. Это нормально — на нём останавливаются те, кто ценит классическую планировку и большие диаметры. Главный архитектор бюро Николай Узгоров готов созвониться на 30 минут, чтобы обсудить адаптацию проекта под ваш рельеф и климат.»<span class="signature">→ Записаться к Николаю</span></div>
+  </div>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">+</span>Что даёт сценарий клиенту</div>
+    <div class="gives-box">
+      <ul>
+        <li><b>Перехват «дозревающего» лида в моменте</b> — клиент почти выбрал, но молчит. Архитектор созванивается, пока интерес горячий</li>
+        <li><b>Использование персонификации</b> — имя реального главного архитектора с сайта поднимает доверие и работает как премиум-приём</li>
+        <li><b>Признание поведения клиента</b> — «возвращаетесь третий раз» создаёт ощущение, что компания внимательна к каждому, кто потенциально станет заказчиком на 25 млн</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">%</span>Ожидаемый результат</div>
+    <div class="metrics-grid">
+      <div class="metric"><span class="m-val">8–12%</span><span class="m-label">CR попапа в запись к архитектору</span></div>
+      <div class="metric"><span class="m-val">2–4</span><span class="m-label">персональных консультации/мес из одного только этого триггера</span></div>
+      <div class="metric"><span class="m-val">×3</span><span class="m-label">CR заявка → договор у тех, кто прошёл консультацию архитектора</span></div>
+    </div>
+  </div>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">!</span>Почему именно решение Calltouch</div>
+    <div class="why-box">
+      <p>Битрикс24 не показывает, что клиент возвращался к одной странице 3 раза — он видит только «есть заявка / нет заявки». CDP <b>хранит всю историю поведения и срабатывает ровно в момент третьего возврата</b>, не раньше и не позже.</p>
+      <p>Древовидные сценарии Calltouch позволяют запустить разные ветки для «есть контакты» и «нет контактов» внутри одного сценария — без программистов и без необходимости перекраивать CRM. Имя главного архитектора и текст попапа меняются в визуальном конструкторе за минуты.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- =========== SCENARIO 4 =========== -->
+<section class="scenario">
+  <span class="sc-num">№ 4</span><span class="sc-tag advanced">Big Data партнёров</span>
+  <h2 class="sc-name">Сравнение технологий — перехват в момент сомнения</h2>
+  <p class="sc-pitch">Артём прямо сказал: клиент сравнивает 2–3 технологии, LW Group в 2× дороже. Нужен аргумент ДО того, как он ушёл к более дешёвой альтернативе.</p>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">L</span>Логика работы сценария</div>
+    <div class="logic-box">Аудитория: с контактами (была заявка), 7+ дней без контакта
+        ↓
+Триггер «Выявлен интерес» (входит в базовый CDP):
+сигнал, что клиент посещает сайты конкурентов
+в категории «дома из бруса / оцилиндровки / каркаса»
+        ↓
+Webhook в Битрикс24:
+   «{Имя} сравнивает технологии — был на сайтах
+    {Конкурент 1}, {Конкурент 2}.
+    Звонить с разбором кедр vs оцилиндровка vs клееный брус.»
+        ↓
+Параллельно — email от Тимура Карычева:
+   «Вы изучаете технологии. Это правильно.
+    Прикладываю PDF "Кедр vs клееный брус vs оцилиндровка:
+    что выбирают и через 10 лет не жалеют".
+    Если будут вопросы — звоните напрямую.»</div>
+  </div>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">+</span>Что даёт сценарий клиенту</div>
+    <div class="gives-box">
+      <ul>
+        <li><b>Перехват в самой опасной точке воронки</b> — момент сравнения с более дешёвой альтернативой. Сейчас клиенты в этой точке просто пропадают</li>
+        <li><b>Образовательный, не продающий контент</b> — соответствует премиум-позиционированию LW Group и не разрушает его</li>
+        <li><b>Email от Тимура Карычева, а не от менеджера</b> — повышает значимость для собственника, который тоже первое лицо в своей компании</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">%</span>Ожидаемый результат</div>
+    <div class="metrics-grid">
+      <div class="metric"><span class="m-val">2–3</span><span class="m-label">«спасённых» договора в год за счёт перехвата</span></div>
+      <div class="metric"><span class="m-val">+50–75 млн ₽</span><span class="m-label">выручки от спасённых сделок</span></div>
+      <div class="metric"><span class="m-val">×400+</span><span class="m-label">окупаемость сценария за год</span></div>
+    </div>
+  </div>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">!</span>Почему именно решение Calltouch</div>
+    <div class="why-box">
+      <p>Сигнал «клиент изучает конкурента в офлайне или в интернете» получает CDP через собственную сеть <b>Big Data партнёров Calltouch</b> — это эксклюзивная фича для российского рынка. Сценарий перехватывает клиента в самой опасной точке воронки, когда он сравнивает технологии и может уйти к более дешёвой альтернативе.</p>
+      <p>Скоринговая модель и триггер «Выявлен интерес» с 2026 года <b>включены в базовый тариф CDP Calltouch</b> (от 10 500 ₽/мес) — это не отдельная платная услуга, а часть продукта. Подключение Big Data партнёров — от 5 000 ₽/мес дополнительно, по факту полезности под этот сценарий.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- =========== SCENARIO 5 =========== -->
+<section class="scenario">
+  <span class="sc-num">№ 5</span><span class="sc-tag standard">Реактивация</span>
+  <h2 class="sc-name">Сезонный возврат на старт стройки</h2>
+  <p class="sc-pitch">Чтобы заехать в августе, проектирование должно закрыться в марте. Клиенты прошлого сезона возвращаются думать — нужен мягкий пинг с реальной причиной.</p>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">L</span>Логика работы сценария</div>
+    <div class="logic-box">Аудитория: оставлял заявку в ноябре–феврале,
+              договор не заключён
+        ↓
+Триггер: по расписанию (1 марта 2027)
+ИЛИ повторное посещение сайта в марте–апреле
+        ↓
+Email от персонального менеджера сделки в Битриксе:
+   «{Имя}, по вашему дому ВЕЛЛИНГТОН — сверим сроки сезона 2027?
+    Чтобы заехать к концу августа, проектирование надо закрыть
+    к концу марта (срок производства сруба 120 м² — 1,5 месяца,
+    плюс монтаж).
+    Если ваш проект ещё актуален — готов вернуться к разговору.
+    Если нет — просто ответьте «нет», уберу из календаря.
+    Александр Пампуха, проектный менеджер LW Group»
+        ↓
+Если открыл / кликнул → webhook менеджеру: «реактивирован, звонить»
+Если тишина → тег «холодный_осень2027» для следующей волны</div>
+  </div>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">+</span>Что даёт сценарий клиенту</div>
+    <div class="gives-box">
+      <ul>
+        <li><b>Реальная техническая причина возврата</b> — не «акция», а сроки сезона. Это работает в премиум-сегменте, в отличие от «успей до пятницы»</li>
+        <li><b>Тёплый возврат к уже состоявшемуся диалогу</b> — это не холодный обзвон, а продолжение прерванной беседы</li>
+        <li><b>Опция «сказать нет»</b> — снижает раздражение и поднимает доверие. Клиенты, которые отвечают «нет», тоже полезны: чистят базу</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">%</span>Ожидаемый результат</div>
+    <div class="metrics-grid">
+      <div class="metric"><span class="m-val">3–5%</span><span class="m-label">возврат к диалогу из «холодной» осенней базы</span></div>
+      <div class="metric"><span class="m-val">200+</span><span class="m-label">осенних лидов получают шанс на второй сезон</span></div>
+      <div class="metric"><span class="m-val">6–10</span><span class="m-label">реактивированных заявок к сезону 2027</span></div>
+    </div>
+  </div>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">!</span>Почему именно решение Calltouch</div>
+    <div class="why-box">
+      <p>В Битрикс24 можно сделать рассылку — но без поведенческого фильтра. CDP отправляет письма <b>только тем, кто оставлял заявку в нужное окно и не дошёл до договора</b>, и подставляет имя реального менеджера сделки из Битрикса в подпись.</p>
+      <p>Триггерные механики Calltouch дают <b>open rate в 2 раза выше</b>, чем массовые рассылки — за счёт точечности и персонализации. Для аудитории на 25 млн ₽ это критично: один лишний промах в B2C-рассылке убивает доверие на годы.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- =========== SCENARIO 6 =========== -->
+<section class="scenario">
+  <span class="sc-num">№ 6</span><span class="sc-tag advanced">VIP-механика</span>
+  <h2 class="sc-name">Виртуальная экскурсия в Кандинку с Тимуром Карычевым</h2>
+  <p class="sc-pitch">Тур по производству от лица собственника — самый дорогой и самый эффективный приём для конечного заказчика. CDP отлавливает момент, когда такой тур нужно предложить.</p>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">L</span>Логика работы сценария</div>
+    <div class="logic-box">Аудитория: высоко вовлечённый посетитель без лида
+        ↓
+Просмотр страниц /production + /team в одной сессии
++ длительность 5+ минут на сайте
+        ↓
+Ожидание лида: 7 минут — не наступило
+        ↓
+Показ попапа с фото Тимура Карычева
++ ценовой порог «от 50 млн ₽» в тексте — это фильтр
+        ↓
+Если записался → Webhook в Битрикс24
+                  с пометкой «VIP-тур, передать Тимуру»
+        ↓
+Если нет → через 2 дня email с авторским
+12-минутным фильмом о Кандинке (с YouTube-канала)</div>
+  </div>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">»</span>Текст попапа</div>
+    <div class="quote">«Прежде чем выбирать подрядчика на 50–100 млн ₽, разумно увидеть производство своими глазами — хотя бы онлайн. Я лично провожу 30-минутные онлайн-туры по нашему производству в Кандинке: показываю выдержку леса, технологию ручной рубки, контроль качества. Без презентаций, без скриптов. Просто покажу.»<span class="signature">— Тимур Карычев, основатель LW Group</span></div>
+  </div>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">+</span>Что даёт сценарий клиенту</div>
+    <div class="gives-box">
+      <ul>
+        <li><b>Поднимает планку входа</b> — фраза «от 50 млн ₽» в попапе работает как самоотбор: тот, кто кликает, уже понимает уровень</li>
+        <li><b>Личное обращение от собственника</b> — в премиум-сегменте это работает на порядок сильнее, чем «менеджер свяжется с вами»</li>
+        <li><b>Использует уже существующий ресурс</b> — производство в Кандинке + видео-материалы YouTube. Никаких новых вложений в контент не требуется</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">%</span>Ожидаемый результат</div>
+    <div class="metrics-grid">
+      <div class="metric"><span class="m-val">1–3</span><span class="m-label">VIP-тура с Тимуром в год — больше и не нужно</span></div>
+      <div class="metric"><span class="m-val">×30–50</span><span class="m-label">CR в договор у тех, кто прошёл тур</span></div>
+      <div class="metric"><span class="m-val">25–100 млн&nbsp;₽</span><span class="m-label">выручка с одного конвертированного собственника</span></div>
+    </div>
+  </div>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">!</span>Почему именно решение Calltouch</div>
+    <div class="why-box">
+      <p>Чтобы попап показался <b>только тем, кто реально вовлечён</b> (а не первому встречному), нужны: связка нескольких страниц + длительность + отсутствие лида. CDP делает это в одном древовидном сценарии за 1 рабочий день.</p>
+      <p>Самостоятельная разработка такой логики на сайте — это команда программистов на месяцы. Calltouch предлагает её настройку <b>под ключ бесплатно</b> — это уже включено в абонплату.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- =========== SCENARIO 7 =========== -->
+<section class="scenario">
+  <span class="sc-num">№ 7</span><span class="sc-tag standard">B2B-канал</span>
+  <h2 class="sc-name">Партнёрский трек — для строй-компаний и архитекторов</h2>
+  <p class="sc-pitch">Партнёры лоббируют LW Group у своих клиентов. Сейчас они приходят случайно — превращаем этот канал в управляемый.</p>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">L</span>Логика работы сценария</div>
+    <div class="logic-box">Аудитория: B2B-признаки
+   - корпоративные IP
+   - заходы в нерабочее время
+   - просмотр /partner на srub-lw.ru
+   - просмотр /technology без перехода на проекты
+        ↓
+Тегирование: «профиль_партнёр»
+        ↓
+Показ персонального попапа:
+   «Вы строй-компания или архитектурное бюро?
+    У нас есть партнёрская программа: проект под ключ
+    к вашему фасаду — мы делаем кедровый сруб.»
+        ↓
+Если оставил заявку → отдельный pipeline в Битриксе
+   «Партнёры» — Денис Лыхин (коммерческий директор)
+        ↓
+Welcome-цепочка партнёра:
+1. PDF «Условия партнёрства»
+2. Видеоинтервью с действующим партнёром
+3. Приглашение в закрытый Telegram-чат партнёров</div>
+  </div>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">+</span>Что даёт сценарий клиенту</div>
+    <div class="gives-box">
+      <ul>
+        <li><b>Сегментация B2B vs B2C на старте</b> — без ручной работы менеджера. Партнёры идут в свой pipeline и общаются с правильным человеком (коммерческим директором, а не продавцом)</li>
+        <li><b>Закрытое сообщество партнёров</b> — Telegram-чат как премиум-приём, поднимает удержание партнёров на годы</li>
+        <li><b>Один партнёр = поток</b> — добавление 3 новых партнёров в год даёт устойчивый поток в 6–15 объектов сверх обычной воронки</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">%</span>Ожидаемый результат</div>
+    <div class="metrics-grid">
+      <div class="metric"><span class="m-val">+3</span><span class="m-label">новых партнёра/год без увеличения рекл. бюджета</span></div>
+      <div class="metric"><span class="m-val">+15 млн ₽/мес</span><span class="m-label">потенциального дохода через партнёров на 3-й год</span></div>
+      <div class="metric"><span class="m-val">8–10%</span><span class="m-label">CR попапа партнёра в заявку</span></div>
+    </div>
+  </div>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">!</span>Почему именно решение Calltouch</div>
+    <div class="why-box">
+      <p>В стандартной форме сайта нельзя различить «частный заказчик» и «архитектор из бюро» — оба заполняют одинаковые поля. CDP <b>сегментирует по поведению</b> (страницы, IP, тайминг) и направляет каждого в свой pipeline в Битрикс24 автоматически.</p>
+      <p>В готовых отраслевых картах Calltouch есть механика «Импорт офлайн-базы клиентов» — мы можем загрузить ваш текущий список партнёров и отслеживать их возвраты на сайт отдельно.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- =========== SCENARIO 8 =========== -->
+<section class="scenario">
+  <span class="sc-num">№ 8</span><span class="sc-tag standard">Сегментация продукта</span>
+  <h2 class="sc-name">Сегмент бань — отдельный CJM</h2>
+  <p class="sc-pitch">Бани и гостевые домики — продукт с принципиально другой динамикой. Сейчас они в одной воронке с домами на 50 млн — это съедает время менеджеров.</p>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">L</span>Логика работы сценария</div>
+    <div class="logic-box">Аудитория: интерес к баням
+   - просмотр 2+ страниц /bani/* за сессию
+   - ИЛИ скачивание PDF по бане
+        ↓
+Тегирование: «профиль_баня»
+        ↓
+[Если контакты есть]
+   Webhook в Битрикс24:
+   «{Имя} в сегменте бань. Цикл короче, чек 5–15 млн.
+    Передать в отдельную ветку pipeline.»
+        ↓
+Email-серия (каждые 4–5 дней, ноль скидок):
+1. Видео-обзор «АНГАРСКИЙ БЕРЕГ» (Байкал, 23.4 м²)
+2. PDF «6 ошибок при заказе кедровой бани»
+3. Сравнение с финской Хонкой
+4. Приглашение на онлайн-консультацию архитектора</div>
+  </div>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">+</span>Что даёт сценарий клиенту</div>
+    <div class="gives-box">
+      <ul>
+        <li><b>Разводит чек-линейки</b> — менеджеры на «хочу баньку» больше не тратят столько же времени, сколько на ВЕЛЛИНГТОН за 50 млн</li>
+        <li><b>Использует реальные имена объектов</b> (АНГАРСКИЙ БЕРЕГ, ХАНАПАЛА, ЮЖНЫЙ БЕРЕГ) — это конкретные референсы, а не абстракция</li>
+        <li><b>Более активный прогрев</b> разрешён, потому что в этом сегменте Артём не блокировал серии писем — цикл короче, аудитория терпимее</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">%</span>Ожидаемый результат</div>
+    <div class="metrics-grid">
+      <div class="metric"><span class="m-val">+40–60%</span><span class="m-label">CR в этом сегменте после разделения воронок</span></div>
+      <div class="metric"><span class="m-val">−50%</span><span class="m-label">времени менеджеров на «бани» в смешанной воронке</span></div>
+      <div class="metric"><span class="m-val">+5–8 млн ₽/мес</span><span class="m-label">выручки от лучшей квалификации сегмента</span></div>
+    </div>
+  </div>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">!</span>Почему именно решение Calltouch</div>
+    <div class="why-box">
+      <p>В Битрикс24 разделить pipeline можно <b>только по факту заявки</b> — поле в форме. CDP делит трафик <b>по поведению до заявки</b> и проставляет тег ещё до того, как клиент дозреет. Это критично, когда лид «прыгает» между сайтами и страницами.</p>
+      <p>Email-цепочка из 4 касаний с интервалом 4–5 дней — стандартная механика Calltouch, настраивается визуально без программистов.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- =========== SCENARIO 9 =========== -->
+<section class="scenario">
+  <span class="sc-num">№ 9</span><span class="sc-tag priority">Приоритет старта</span>
+  <h2 class="sc-name">Premium-welcome после первой заявки — без скидок</h2>
+  <p class="sc-pitch">Артём против скидок и поздравлялок. Но welcome-серия с экспертным контентом — норма даже для самого премиум-сегмента.</p>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">L</span>Логика работы сценария (5 касаний за 14 дней, ноль продаж)</div>
+    <div class="logic-box">Триггер: Новый лид с сайта
+        ↓
+Час 0: SMS «{Имя}, заявка получена. Менеджер свяжется
+        в течение рабочего дня. На почту прислал PDF.»
+        ↓
+Час 0: Email №1 — PDF «Регламент работы LW Group:
+        от первого звонка до сдачи объекта». Без продажи.
+        ↓
+День 2: Email №2 — видеоинтервью с владельцем
+        реализованного дома (15 минут, без режиссуры)
+        ↓
+День 5: Email №3 — PDF «10 пунктов сметы, на которые
+        всегда смотрят опытные заказчики»
+        ↓
+День 9: Email №4 — приглашение в Telegram-канал команды
+        (там разбор объектов в реальном времени)
+        ↓
+День 14: Email №5 — приглашение на онлайн-тур
+        в Кандинку с Тимуром Карычевым (см. Сценарий №6)</div>
+  </div>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">+</span>Что даёт сценарий клиенту</div>
+    <div class="gives-box">
+      <ul>
+        <li><b>Прямой ответ на главный KPI Артёма</b> — «не больше заявок, а лучше». Клиент к моменту первого живого звонка уже видел всё: реализованные объекты, регламент, разбор сметы</li>
+        <li><b>Менеджер тратит время эффективнее</b> — звонок становится короче и сразу попадает в финальные вопросы по проекту, а не «знакомство с компанией»</li>
+        <li><b>Встраивает заявку в существующий медийный контур</b> — приглашение в Telegram и YouTube — это плавный переход в собственную аудиторию LW Group</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">%</span>Ожидаемый результат</div>
+    <div class="metrics-grid">
+      <div class="metric"><span class="m-val">×1,5</span><span class="m-label">CR заявка → договор за счёт прогрева</span></div>
+      <div class="metric"><span class="m-val">−30%</span><span class="m-label">времени менеджера на первый звонок</span></div>
+      <div class="metric"><span class="m-val">95%</span><span class="m-label">доставка контента всем заявкам, без человеческого фактора</span></div>
+    </div>
+  </div>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">!</span>Почему именно решение Calltouch</div>
+    <div class="why-box">
+      <p>Это <b>замена «второму контакту, который игнорируют 90% клиентов»</b>. Вместо холодного звонка через 3 дня — ценный контент по графику. Менеджер выходит на следующий разговор с прогретым человеком.</p>
+      <p>В стоимость CDP <b>включена настройка под ключ</b>: тексты email, графика, привязка к Битрикс24, тестирование. Никаких отдельных оплат за внедрение и интеграцию — всё под ключ силами Calltouch, входит в абонплату.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- =========== SCENARIO 10 =========== -->
+<section class="scenario">
+  <span class="sc-num">№ 10</span><span class="sc-tag standard">Квалификация по бюджету</span>
+  <h2 class="sc-name">Калькулятор не как ловушка, а как аналитик</h2>
+  <p class="sc-pitch">Артём специально показывает цены, чтобы отсечь несоответствующих. CDP усиливает этот фильтр — на стороне поведения и формы.</p>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">L</span>Логика работы сценария</div>
+    <div class="logic-box">Аудитория: любая
+        ↓
+Триггер: просмотр страниц с ценами / прайсом / проектами
+   (упоминание «65 000 ₽/м³», цены в карточках проектов)
+   + 60+ секунд на странице
+   + клиент НЕ завершил форму расчёта
+        ↓
+[Если контакты есть]
+   Webhook в Битрикс24:
+   «{Имя} 60+ сек изучает цены. Звонить с акцентом
+    "индивидуальный расчёт за 1 день".»
+
+[Если контактов нет]
+   Показ умной заявки с полем «бюджет»:
+   ○ от 5 млн   ○ 5–15 млн   ○ 15–30 млн   ○ 30+ млн
+   + регион + контакт
+        ↓
+Архитектор готовит индивидуальный PDF-расчёт за 1 раб. день</div>
+  </div>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">»</span>Текст попапа (никаких скидок!)</div>
+    <div class="quote">«Цена в карточке проекта — это <b>отправная точка</b>, а не финальный счёт. Реальная стоимость зависит от участка, региона, спецификации фундамента и индивидуальных решений по интерьеру. Архитектор сделает расчёт под ваши параметры за 1 рабочий день. Расчёт высылаем PDF, обсуждаем по телефону или лично.»<span class="signature">→ Узнать индивидуальную стоимость</span></div>
+  </div>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">+</span>Что даёт сценарий клиенту</div>
+    <div class="gives-box">
+      <ul>
+        <li><b>Встраивает квалификацию по бюджету в саму форму</b> — поле «от 5 млн» с шагами уже само разделяет случайных и серьёзных</li>
+        <li><b>Не «оставьте заявку», а артефакт работы</b> — индивидуальный PDF-расчёт. Это премиум-формат, отвечающий ожиданию заказчика на 25 млн</li>
+        <li><b>Усиливает фильтр Артёма</b> — клиенты «дом за 5 млн» сами не кликают на «расчёт по моим параметрам». До менеджеров долетает только адекватная вилка</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">%</span>Ожидаемый результат</div>
+    <div class="metrics-grid">
+      <div class="metric"><span class="m-val">−30–40%</span><span class="m-label">случайных заявок до отдела продаж</span></div>
+      <div class="metric"><span class="m-val">×2</span><span class="m-label">средний бюджет в новых заявках</span></div>
+      <div class="metric"><span class="m-val">~30 живых заявок/нед</span><span class="m-label">вместо 50 «всяких» — точно по KPI Артёма</span></div>
+    </div>
+  </div>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">!</span>Почему именно решение Calltouch</div>
+    <div class="why-box">
+      <p>Отслеживание «60 секунд на странице цен без отправки формы» — это <b>поведенческий триггер, доступный только в CDP</b>. В стандартной форме сайта такого условия нет.</p>
+      <p>Древовидный сценарий с двумя ветками («есть контакты / нет контактов») и подстановкой полей в умную заявку — стандартная функциональность Calltouch, настраивается за 1–2 рабочих дня.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- =========== ECONOMICS / NEXT STEPS =========== -->
+<section class="scenario">
+  <span class="sc-num">★</span>
+  <h2 class="sc-name">Экономика и следующий шаг</h2>
+  <p class="sc-pitch">Сводный расчёт по продуктам и план запуска пилота для LW Group.</p>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">$</span>Состав решения и стоимость</div>
+    <table class="cost-table">
+      <thead>
+        <tr><th>Продукт</th><th style="width:22%">Цена</th><th>Покрывает сценарии</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>CDP Calltouch</b><br><span class="small">Со встроенной скоринговой моделью и триггером «Выявлен интерес» — без доплат</span></td>
+          <td><b>от 10&nbsp;500 ₽/мес</b><br><span class="small">с НДС, до 60 000 визитов · далее по объёму</span></td>
+          <td>Все 10 сценариев + единое поведенческое поле + интеграция с Битрикс24 + настройка под ключ + первый отчёт эффективности</td>
+        </tr>
+        <tr>
+          <td><b>+ Big Data партнёров</b> <span class="small">(опционально, для сценария №&nbsp;4)</span></td>
+          <td><b>от 5&nbsp;000 ₽/мес</b></td>
+          <td>Сигнал об уходе клиента к конкуренту, оцифровка поведения вне сайта LW Group</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p class="small" style="margin-top:6pt"><b>Старт пилота: от 10&nbsp;500 ₽/мес.</b> Один дополнительный договор в течение года при среднем чеке 25 млн ₽ окупает CDP на 200 лет вперёд. Все сценарии настраиваются <b>под ключ силами Calltouch</b> (включено в абонплату), интеграция с Битрикс24 — бесплатно.</p>
+  </div>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">×</span>Что НЕ предлагаем (по позиции Артёма)</div>
+    <div class="nogo-list">
+      <ul>
+        <li>Smart SMS / массовые SMS-рассылки — продажа приостановлена и противоречит позиционированию</li>
+        <li>Поздравления с днём рождения / годовщиной покупки — «это для абонементов в спортзал»</li>
+        <li>Попапы со скидками «дом за 5 млн» — снижает ценность 25-млн объекта</li>
+        <li>Холодный обзвон ушедших — за 10 лет практики у LW Group не сработало</li>
+        <li>Любые механики, принципиально похожие на «ледоруб» / навязчивый лидген</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">→</span>Следующий шаг</div>
+    <div class="next-steps">
+      <ol>
+        <li><b>Передаём запрос в Отдел Бизнес-Аналитики Calltouch</b> — для подготовки медиаплана с конкретным расчётом по калькулятору маржинальности (Москва, 50 заявок/нед, средний чек 25 млн ₽).</li>
+        <li><b>Параллельно — встреча с командой Лидгена Calltouch</b> (как договорено по итогам звонка 07.05.2026): они обсудят возможность точечной поставки целевых лидов с офером «дом из кедра, бюджет 25+ млн».</li>
+        <li><b>При согласовании пилота</b> — дорожная карта CDP за 1–3 рабочих дня, полный запуск 5 приоритетных сценариев из 10 — за 8–12 рабочих дней.</li>
+      </ol>
+      <p style="margin-top:10pt"><b>Приоритет старта (наш выбор):</b> Сценарии <b>№ 1, 2, 9, 10</b> — они дают качество вместо количества (главный KPI Артёма) и не нарушают премиум-позиционирование. Сценарии №&nbsp;4 и №&nbsp;6 — фаза 2 после первого среза эффективности.</p>
+    </div>
+  </div>
+
+  <hr>
+  <p class="small" style="text-align:center">Подготовлено командой Calltouch на основе анализа сайтов <b>brus-lw.ru</b>, <b>srub-lw.ru</b> и расшифровки встречи с Артёмом Карычевым 07.05.2026.<br>Документ носит индивидуальный характер. Прогнозные значения основаны на отраслевой статистике и не являются публичной офертой.</p>
+</section>
+
+</body>
+</html>

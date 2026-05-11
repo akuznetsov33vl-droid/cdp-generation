@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Индивидуальное предложение CDP Calltouch для {{ client_name }}</title>
+<style>
+  @page {
+    size: A4;
+    margin: 18mm 16mm 20mm 16mm;
+    @bottom-center {
+      content: "CDP Calltouch · {{ client_name }} · " counter(page) " / " counter(pages);
+      font-family: "Segoe UI", Arial, sans-serif;
+      font-size: 9pt;
+      color: #888;
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    font-family: "Segoe UI", "Inter", "Helvetica Neue", Arial, sans-serif;
+    color: #0F172A; font-size: 10.5pt; line-height: 1.55; background: #fff;
+  }
+  :root {
+    --ct-violet: #5B2FBF;
+    --ct-violet-dark: #3D1F8C;
+    --ct-violet-soft: #F2EDFF;
+    --ocean-cyan: #0EA5C7;
+    --ocean-deep: #075F73;
+    --ocean-soft: #E0F4F8;
+    --gray-900: #0F172A;
+    --gray-700: #334155;
+    --gray-500: #64748B;
+    --gray-300: #CBD5E1;
+    --gray-100: #F1F5F9;
+    --warn: #EA580C;
+    --good: #16A34A;
+  }
+  h1, h2, h3, h4 { color: var(--gray-900); margin: 0 0 8pt 0; line-height: 1.25; }
+  .cover {
+    page-break-after: always; height: 250mm;
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .cover-top {
+    border-top: 4pt solid var(--ct-violet);
+    padding-top: 18pt; display: flex; justify-content: space-between; align-items: baseline;
+  }
+  .cover-top .brand { font-weight: 700; color: var(--ct-violet); letter-spacing: 1pt; font-size: 11pt; }
+  .cover-top .doctype { color: var(--gray-500); font-size: 9pt; text-transform: uppercase; letter-spacing: 1pt; }
+  .cover-main h1 {
+    font-size: 30pt; line-height: 1.1; color: var(--gray-900);
+    margin-top: 60pt; font-weight: 700;
+  }
+  .cover-main h1 .accent { color: var(--ct-violet); }
+  .cover-main h2 { font-size: 16pt; color: var(--ocean-deep); font-weight: 500; margin-top: 14pt; }
+  .cover-bullets { margin-top: 36pt; border-left: 3pt solid var(--ocean-cyan); padding-left: 14pt; }
+  .cover-bullets div { font-size: 11pt; color: var(--gray-700); margin-bottom: 6pt; }
+  .cover-bullets b { color: var(--gray-900); }
+  .cover-foot {
+    border-top: 1pt solid var(--gray-300); padding-top: 12pt;
+    display: flex; justify-content: space-between; color: var(--gray-500); font-size: 9pt;
+  }
+  .section-title {
+    color: var(--ct-violet); font-size: 9pt; text-transform: uppercase; letter-spacing: 1.5pt;
+    font-weight: 700; border-bottom: 2pt solid var(--ct-violet); padding-bottom: 4pt; margin: 0 0 14pt 0;
+  }
+  h1.page-h1 { font-size: 20pt; margin-bottom: 18pt; }
+  .pagebreak { page-break-after: always; }
+  .nobreak { page-break-inside: avoid; }
+  .ctx-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10pt; margin: 14pt 0;
+  }
+  .ctx-card {
+    background: var(--gray-100); border-left: 3pt solid var(--ct-violet);
+    padding: 10pt 12pt; border-radius: 2pt;
+  }
+  .ctx-card h4 { font-size: 10pt; color: var(--ct-violet); margin: 0 0 4pt 0; }
+  .ctx-card p { font-size: 10pt; margin: 0; color: var(--gray-700); }
+  .pillarbox {
+    background: var(--ocean-soft); border: 1pt solid var(--ocean-cyan);
+    padding: 12pt 14pt; margin: 12pt 0; border-radius: 3pt;
+  }
+  .pillarbox h4 { color: var(--ocean-deep); margin-top: 0; }
+  table { width: 100%; border-collapse: collapse; margin: 8pt 0 14pt 0; font-size: 9.5pt; }
+  table th { background: var(--ct-violet); color: white; text-align: left; padding: 6pt 8pt; font-weight: 600; font-size: 9pt; }
+  table td { border-bottom: 1pt solid var(--gray-300); padding: 6pt 8pt; vertical-align: top; }
+  table tr:nth-child(even) td { background: var(--gray-100); }
+  .seg { font-weight: 700; color: var(--ct-violet); white-space: nowrap; }
+
+  .scenario { page-break-before: always; page-break-inside: auto; }
+  .scenario:first-of-type { page-break-before: always; }
+  .sc-num {
+    display: inline-block; background: linear-gradient(135deg, var(--ct-violet), var(--ct-violet-dark));
+    color: white; font-weight: 700; font-size: 13pt; padding: 4pt 12pt; border-radius: 20pt; letter-spacing: 0.5pt;
+  }
+  .sc-tag {
+    display: inline-block; color: white; font-size: 8pt; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 1pt; padding: 3pt 9pt; border-radius: 12pt;
+    margin-left: 6pt; vertical-align: middle;
+  }
+  .sc-tag.priority { background: #B91C5C; }
+  .sc-tag.standard { background: var(--ocean-cyan); }
+  .sc-tag.advanced { background: var(--ocean-deep); }
+  .sc-name { font-size: 19pt; color: var(--gray-900); margin: 14pt 0 4pt 0; font-weight: 700; line-height: 1.2; }
+  .sc-pitch {
+    font-size: 11pt; color: var(--gray-700); font-style: italic;
+    border-left: 2pt solid var(--ocean-cyan); padding-left: 10pt; margin-bottom: 14pt;
+  }
+  .sc-block { margin: 12pt 0 8pt 0; page-break-inside: avoid; }
+  .sc-block .block-h {
+    font-size: 10pt; text-transform: uppercase; letter-spacing: 1pt;
+    color: var(--ct-violet); font-weight: 700; margin-bottom: 6pt;
+    display: flex; align-items: center; gap: 8pt;
+  }
+  .sc-block .block-h .ico {
+    display: inline-flex; width: 18pt; height: 18pt; background: var(--ct-violet-soft);
+    color: var(--ct-violet); border-radius: 4pt; align-items: center; justify-content: center;
+    font-size: 11pt; font-weight: 700;
+  }
+  .logic-box {
+    background: var(--gray-100); border: 1pt solid var(--gray-300); border-radius: 4pt;
+    padding: 10pt 12pt; font-family: "Consolas", "Courier New", monospace;
+    font-size: 9pt; line-height: 1.55; white-space: pre-wrap; color: var(--gray-700);
+  }
+  .gives-box { background: var(--ocean-soft); border-left: 3pt solid var(--ocean-deep); padding: 8pt 12pt; border-radius: 2pt; }
+  .gives-box ul { margin: 4pt 0 4pt 16pt; padding: 0; }
+  .gives-box li { margin: 2pt 0; }
+  .metrics-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8pt; margin: 4pt 0; }
+  .metric { background: white; border: 1pt solid var(--gray-300); border-radius: 4pt; padding: 8pt 10pt; text-align: center; }
+  .metric .m-val { font-size: 16pt; font-weight: 700; color: var(--ct-violet); line-height: 1.1; display: block; }
+  .metric .m-label { font-size: 8pt; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.5pt; margin-top: 3pt; display: block; }
+  .why-box {
+    background: linear-gradient(135deg, #FAF7FF 0%, #F2EDFF 100%);
+    border: 1pt solid var(--ct-violet); border-left: 4pt solid var(--ct-violet);
+    border-radius: 3pt; padding: 10pt 14pt;
+  }
+  .why-box strong { color: var(--ct-violet-dark); }
+  .quote {
+    background: white; border: 1pt dashed var(--ocean-cyan);
+    padding: 8pt 12pt; margin: 6pt 0; font-style: italic; color: var(--gray-700);
+    font-size: 10pt; border-radius: 3pt;
+  }
+  .nogo-list { background: #FFF6F4; border-left: 3pt solid var(--warn); padding: 10pt 14pt; border-radius: 2pt; }
+  .nogo-list ul { margin: 4pt 0 4pt 16pt; padding: 0; }
+  .nogo-list li::marker { color: var(--warn); }
+  .next-steps { background: var(--ct-violet-soft); border: 1pt solid var(--ct-violet); padding: 12pt 14pt; border-radius: 3pt; }
+  .next-steps ol { margin: 4pt 0 4pt 18pt; padding: 0; }
+  .next-steps li { margin: 4pt 0; }
+  .cost-table th { background: var(--ocean-deep); }
+  .small { font-size: 9pt; color: var(--gray-500); }
+  ul.tight { margin: 4pt 0 4pt 16pt; padding: 0; }
+  ul.tight li { margin: 2pt 0; }
+  hr { border: none; height: 1pt; background: var(--gray-300); margin: 16pt 0; }
+</style>
+</head>
+<body>
+
+<section class="cover">
+  <div class="cover-top">
+    <div class="brand">CALLTOUCH · CDP</div>
+    <div class="doctype">Индивидуальное предложение</div>
+  </div>
+  <div class="cover-main">
+    <h1>{{ scenarios|length }} уникальных сценариев <span class="accent">CDP Calltouch</span></h1>
+    <h2>для {{ client_name }}{% if industry %}<br>{{ industry }}{% endif %}</h2>
+    <div class="cover-bullets">
+      <div><b>Домены:</b> {{ site_facts.primary_domain }}{% if site_facts.additional_domains %} · {{ site_facts.additional_domains|join(' · ') }}{% endif %}</div>
+      {% if target_segments %}<div><b>Сегменты:</b> {{ target_segments|join(' · ') }}</div>{% endif %}
+      {% if brief_facts.main_kpi %}<div><b>Главный KPI:</b> {{ brief_facts.main_kpi }}</div>{% endif %}
+    </div>
+  </div>
+  <div class="cover-foot">
+    <div>Подготовлено {{ generated_at_human }}</div>
+    {% if site_facts.team_members %}<div>Контактное лицо: {{ site_facts.team_members[0].name }}</div>{% endif %}
+  </div>
+</section>
+
+<section>
+  <div class="section-title">Контекст и понимание клиента</div>
+  <h1 class="page-h1">Что мы услышали и почему предложение именно такое</h1>
+
+  {% if site_facts.raw_summary %}
+  <p>{{ site_facts.raw_summary }}</p>
+  {% endif %}
+
+  <div class="ctx-grid">
+    {% if brief_facts.main_kpi %}
+    <div class="ctx-card"><h4>Главный KPI</h4><p>{{ brief_facts.main_kpi }}</p></div>
+    {% endif %}
+    {% for pain in brief_facts.pain_points[:3] %}
+    <div class="ctx-card"><h4>Боль / задача</h4><p>{{ pain }}</p></div>
+    {% endfor %}
+    {% for cons in brief_facts.constraints[:2] %}
+    <div class="ctx-card"><h4>Ограничение</h4><p>{{ cons }}</p></div>
+    {% endfor %}
+  </div>
+
+  {% if brief_facts.explicit_no_go %}
+  <div class="pillarbox">
+    <h4>Что НЕ применяем (по позиции клиента)</h4>
+    <ul class="tight">
+      {% for ng in brief_facts.explicit_no_go %}<li>{{ ng }}</li>{% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+
+  {% if target_segments %}
+  <div class="section-title" style="margin-top:18pt">Целевая аудитория · {{ target_segments|length }} сегмент(а/ов)</div>
+  <ul class="tight">
+    {% for seg in target_segments %}<li>{{ seg }}</li>{% endfor %}
+  </ul>
+  {% endif %}
+
+  <p class="small">Каждый из {{ scenarios|length }} сценариев далее работает на один или несколько сегментов выше — указано отдельно в каждой карточке.</p>
+</section>
+
+{% for sc in scenarios %}
+<section class="scenario">
+  <span class="sc-num">№ {{ loop.index }}</span><span class="sc-tag {{ sc.tag }}">
+    {%- if sc.tag == 'priority' %}Приоритет старта{% elif sc.tag == 'advanced' %}Продвинутый{% else %}Стандарт{% endif -%}
+  </span>
+  <h2 class="sc-name">{{ sc.title }}</h2>
+  <p class="sc-pitch">{{ sc.pitch }}</p>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">A</span>Аудитория</div>
+    <p>{{ sc.audience }}</p>
+  </div>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">L</span>Логика работы сценария</div>
+    <div class="logic-box">{{ sc.logic_pseudocode }}</div>
+  </div>
+
+  {% if sc.popup_text %}
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">»</span>Текст попапа / уведомления</div>
+    <div class="quote">{{ sc.popup_text }}</div>
+  </div>
+  {% endif %}
+
+  {% if sc.email_text %}
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">✉</span>Текст email</div>
+    <div class="quote">{{ sc.email_text }}</div>
+  </div>
+  {% endif %}
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">+</span>Что даёт сценарий клиенту</div>
+    <div class="gives-box">
+      <ul>
+        {% for g in sc.gives_to_client %}<li>{{ g }}</li>{% endfor %}
+      </ul>
+    </div>
+  </div>
+
+  {% if sc.expected_metrics %}
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">%</span>Ожидаемый результат</div>
+    <div class="metrics-grid">
+      {% for m in sc.expected_metrics %}
+      <div class="metric"><span class="m-val">{{ m.value }}</span><span class="m-label">{{ m.label }}</span></div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">!</span>Почему именно решение Calltouch</div>
+    <div class="why-box"><p>{{ sc.why_calltouch }}</p></div>
+  </div>
+</section>
+{% endfor %}
+
+<section class="scenario">
+  <span class="sc-num">★</span>
+  <h2 class="sc-name">Экономика и следующий шаг</h2>
+  <p class="sc-pitch">Сводный расчёт по продуктам и план запуска пилота для {{ client_name }}.</p>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">$</span>Состав решения и стоимость</div>
+    <table class="cost-table">
+      <thead>
+        <tr><th>Продукт</th><th style="width:24%">Цена</th><th>Покрывает сценарии</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>CDP Calltouch</b><br><span class="small">Со встроенной скоринговой моделью и триггером «Выявлен интерес» — без доплат</span></td>
+          <td><b>от 10&nbsp;500&nbsp;₽/мес</b><br><span class="small">с НДС, до 60 000 визитов · далее по объёму</span></td>
+          <td>Все {{ scenarios|length }} сценариев + единое поведенческое поле + интеграция с CRM + настройка под ключ</td>
+        </tr>
+        {% if 'big_data' in pricing.additional_products or pricing.additional_products %}
+        <tr>
+          <td><b>+ Big Data партнёров</b> <span class="small">(опционально)</span></td>
+          <td><b>от 5&nbsp;000&nbsp;₽/мес</b></td>
+          <td>Сигнал об уходе клиента к конкуренту, оцифровка поведения вне сайта</td>
+        </tr>
+        {% endif %}
+      </tbody>
+    </table>
+    {% if pricing.notes %}<p class="small">{{ pricing.notes }}</p>{% endif %}
+  </div>
+
+  {% if no_go_list %}
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">×</span>Что НЕ предлагаем</div>
+    <div class="nogo-list">
+      <ul>{% for ng in no_go_list %}<li>{{ ng }}</li>{% endfor %}</ul>
+    </div>
+  </div>
+  {% endif %}
+
+  {% if next_steps %}
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">→</span>Следующий шаг</div>
+    <div class="next-steps">
+      <ol>{% for ns in next_steps %}<li>{{ ns }}</li>{% endfor %}</ol>
+    </div>
+  </div>
+  {% endif %}
+
+  <hr>
+  <p class="small" style="text-align:center">
+    Подготовлено командой Calltouch для {{ client_name }}.<br>
+    Документ носит индивидуальный характер. Прогнозные значения основаны на отраслевой статистике и не являются публичной офертой.
+  </p>
+</section>
+
+</body>
+</html>

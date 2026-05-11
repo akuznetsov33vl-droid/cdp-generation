@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>CDP Calltouch для Level Group — единое поле клиентских данных и 3 уникальных сценария</title>
+<style>
+  @page {
+    size: A4;
+    margin: 17mm 15mm 19mm 15mm;
+    @bottom-right {
+      content: counter(page) " / " counter(pages);
+      font-family: "Georgia", serif;
+      font-size: 9pt;
+      color: #8a8a8a;
+    }
+    @bottom-left {
+      content: "CDP Calltouch · Level Group · 2026";
+      font-family: "Segoe UI", sans-serif;
+      font-size: 8.5pt;
+      color: #8a8a8a;
+      letter-spacing: 0.5pt;
+    }
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    font-family: "Segoe UI", "Inter", "Helvetica Neue", Arial, sans-serif;
+    color: #1a1a1a;
+    font-size: 10.5pt;
+    line-height: 1.55;
+    background: #fff;
+  }
+
+  :root {
+    --level-blue: #0A1F44;       /* Level Group corporate deep blue */
+    --level-blue-2: #1B3A6E;
+    --level-soft: #EEF1F8;
+    --gold: #C9A961;             /* premium accent */
+    --gold-soft: #F8F2E0;
+    --ct-violet: #5B2FBF;        /* Calltouch brand */
+    --ct-violet-soft: #F2EDFF;
+    --gray-900: #1a1a1a;
+    --gray-700: #4a4a4a;
+    --gray-500: #888;
+    --gray-300: #d8d8d8;
+    --gray-100: #f5f5f8;
+    --good: #1f7a4a;
+    --warn: #b14a1a;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: "Segoe UI", "Inter", Georgia, serif;
+    margin: 0 0 8pt 0;
+    line-height: 1.25;
+    color: var(--gray-900);
+  }
+
+  /* ---------- COVER ---------- */
+  .cover {
+    page-break-after: always;
+    height: 252mm;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background:
+      linear-gradient(135deg, rgba(10,31,68,0.97) 0%, rgba(27,58,110,0.95) 100%);
+    color: #fff;
+    margin: -17mm -15mm 0 -15mm;
+    padding: 24mm 18mm 20mm 18mm;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover::before {
+    content: "";
+    position: absolute;
+    top: -100pt;
+    right: -100pt;
+    width: 400pt;
+    height: 400pt;
+    border: 1pt solid rgba(201,169,97,0.25);
+    border-radius: 50%;
+  }
+  .cover::after {
+    content: "";
+    position: absolute;
+    bottom: -150pt;
+    left: -150pt;
+    width: 500pt;
+    height: 500pt;
+    border: 1pt solid rgba(201,169,97,0.15);
+    border-radius: 50%;
+  }
+  .cover-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    border-bottom: 1pt solid rgba(255,255,255,0.2);
+    padding-bottom: 12pt;
+    z-index: 2;
+    position: relative;
+  }
+  .cover-top .left {
+    color: var(--gold);
+    font-weight: 700;
+    letter-spacing: 2pt;
+    font-size: 11pt;
+  }
+  .cover-top .right {
+    color: rgba(255,255,255,0.7);
+    font-size: 9pt;
+    text-transform: uppercase;
+    letter-spacing: 1.5pt;
+  }
+  .cover-main {
+    z-index: 2;
+    position: relative;
+  }
+  .cover-main .pre {
+    color: var(--gold);
+    font-size: 10pt;
+    text-transform: uppercase;
+    letter-spacing: 3pt;
+    margin-bottom: 14pt;
+  }
+  .cover-main h1 {
+    color: white;
+    font-size: 32pt;
+    line-height: 1.1;
+    font-weight: 700;
+    margin-bottom: 12pt;
+  }
+  .cover-main h1 .accent {
+    color: var(--gold);
+    display: block;
+  }
+  .cover-main h2 {
+    color: rgba(255,255,255,0.8);
+    font-size: 14pt;
+    font-weight: 400;
+    margin-top: 18pt;
+    line-height: 1.4;
+  }
+  .cover-bullets {
+    margin-top: 30pt;
+    border-left: 2pt solid var(--gold);
+    padding-left: 14pt;
+  }
+  .cover-bullets div {
+    font-size: 11pt;
+    color: rgba(255,255,255,0.85);
+    margin-bottom: 5pt;
+  }
+  .cover-bullets b { color: white; }
+  .cover-foot {
+    z-index: 2;
+    position: relative;
+    border-top: 1pt solid rgba(255,255,255,0.2);
+    padding-top: 12pt;
+    display: flex;
+    justify-content: space-between;
+    color: rgba(255,255,255,0.6);
+    font-size: 9pt;
+  }
+
+  /* ---------- COMMON ---------- */
+  .section-title {
+    color: var(--ct-violet);
+    font-size: 9pt;
+    text-transform: uppercase;
+    letter-spacing: 1.5pt;
+    font-weight: 700;
+    border-bottom: 2pt solid var(--ct-violet);
+    padding-bottom: 4pt;
+    margin: 0 0 14pt 0;
+  }
+  h1.page-h1 {
+    font-size: 22pt;
+    margin-bottom: 18pt;
+    color: var(--level-blue);
+  }
+  h1.page-h1 .accent { color: var(--gold); }
+
+  .pagebreak { page-break-after: always; }
+  .nobreak { page-break-inside: avoid; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 8pt 0 14pt 0;
+    font-size: 9.5pt;
+  }
+  table th {
+    background: var(--level-blue);
+    color: white;
+    text-align: left;
+    padding: 6pt 8pt;
+    font-weight: 600;
+    font-size: 9pt;
+  }
+  table td {
+    border-bottom: 1pt solid var(--gray-300);
+    padding: 6pt 8pt;
+    vertical-align: top;
+  }
+  table tr:nth-child(even) td { background: var(--gray-100); }
+  .seg { font-weight: 700; color: var(--level-blue); white-space: nowrap; }
+
+  /* ---------- CONTEXT BLOCKS ---------- */
+  .ctx-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10pt;
+    margin: 14pt 0;
+  }
+  .ctx-card {
+    background: var(--gray-100);
+    border-left: 3pt solid var(--level-blue);
+    padding: 10pt 12pt;
+    border-radius: 2pt;
+  }
+  .ctx-card h4 { font-size: 10pt; color: var(--level-blue); margin: 0 0 4pt 0; }
+  .ctx-card p { font-size: 10pt; margin: 0; color: var(--gray-700); }
+
+  .pillar {
+    background: var(--gold-soft);
+    border: 1pt solid var(--gold);
+    padding: 12pt 14pt;
+    margin: 12pt 0;
+    border-radius: 3pt;
+  }
+  .pillar h4 { color: var(--level-blue); margin-top: 0; }
+
+  /* ---------- BENCHMARK ---------- */
+  .benchmark {
+    background: linear-gradient(135deg, #FAFAFA 0%, #F2EDFF 100%);
+    border: 1pt solid var(--ct-violet);
+    border-left: 4pt solid var(--ct-violet);
+    padding: 12pt 16pt;
+    border-radius: 3pt;
+    margin: 14pt 0;
+  }
+  .benchmark h4 {
+    color: var(--ct-violet);
+    margin: 0 0 8pt 0;
+  }
+  .benchmark .nums {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8pt;
+    margin: 10pt 0;
+  }
+  .benchmark .num {
+    background: white;
+    border-radius: 4pt;
+    padding: 8pt;
+    text-align: center;
+  }
+  .benchmark .num .v {
+    display: block;
+    font-size: 18pt;
+    font-weight: 700;
+    color: var(--ct-violet);
+    line-height: 1.1;
+  }
+  .benchmark .num .l {
+    display: block;
+    font-size: 8pt;
+    color: var(--gray-500);
+    text-transform: uppercase;
+    letter-spacing: 0.5pt;
+    margin-top: 3pt;
+  }
+
+  /* ---------- BIG DATA FIELD ---------- */
+  .field-wrap {
+    margin: 14pt 0;
+  }
+  .field-layer {
+    background: white;
+    border: 1pt solid var(--level-blue);
+    border-radius: 4pt;
+    padding: 12pt 14pt;
+    margin-bottom: 10pt;
+    page-break-inside: avoid;
+  }
+  .field-layer .layer-h {
+    display: flex;
+    align-items: center;
+    gap: 10pt;
+    margin-bottom: 8pt;
+  }
+  .field-layer .layer-num {
+    background: var(--level-blue);
+    color: var(--gold);
+    font-weight: 700;
+    font-size: 12pt;
+    width: 28pt;
+    height: 28pt;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .field-layer .layer-name {
+    color: var(--level-blue);
+    font-size: 12pt;
+    font-weight: 700;
+    margin: 0;
+  }
+  .field-layer .layer-sub {
+    color: var(--gray-500);
+    font-size: 9pt;
+    margin: 0;
+  }
+  .field-layer ul {
+    margin: 4pt 0 4pt 18pt;
+    padding: 0;
+    font-size: 10pt;
+  }
+  .field-layer li { margin: 3pt 0; color: var(--gray-700); }
+  .field-layer li b { color: var(--gray-900); }
+  .field-layer code {
+    background: var(--ct-violet-soft);
+    color: var(--ct-violet);
+    padding: 1pt 5pt;
+    border-radius: 2pt;
+    font-size: 9pt;
+  }
+
+  /* ---------- SCENARIO ---------- */
+  .scenario {
+    page-break-before: always;
+  }
+  .sc-num {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--level-blue) 0%, var(--level-blue-2) 100%);
+    color: var(--gold);
+    font-weight: 700;
+    font-size: 13pt;
+    padding: 4pt 14pt;
+    border-radius: 20pt;
+    letter-spacing: 1pt;
+  }
+  .sc-tag {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--level-blue);
+    font-size: 8pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1pt;
+    padding: 3pt 9pt;
+    border-radius: 12pt;
+    margin-left: 6pt;
+    vertical-align: middle;
+  }
+  .sc-tag.a2 { background: var(--ct-violet); color: white; }
+  .sc-tag.a3 { background: var(--level-blue); color: white; }
+
+  .sc-name {
+    font-size: 20pt;
+    color: var(--level-blue);
+    margin: 14pt 0 4pt 0;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  .sc-pitch {
+    font-size: 11pt;
+    color: var(--gray-700);
+    font-style: italic;
+    border-left: 2pt solid var(--gold);
+    padding-left: 10pt;
+    margin-bottom: 14pt;
+  }
+
+  .sc-block {
+    margin: 12pt 0 8pt 0;
+    page-break-inside: avoid;
+  }
+  .sc-block .block-h {
+    font-size: 10pt;
+    text-transform: uppercase;
+    letter-spacing: 1pt;
+    color: var(--level-blue);
+    font-weight: 700;
+    margin-bottom: 6pt;
+    display: flex;
+    align-items: center;
+    gap: 8pt;
+  }
+  .sc-block .block-h .ico {
+    display: inline-flex;
+    width: 18pt;
+    height: 18pt;
+    background: var(--gold-soft);
+    color: var(--level-blue);
+    border-radius: 4pt;
+    align-items: center;
+    justify-content: center;
+    font-size: 11pt;
+    font-weight: 700;
+  }
+
+  .logic-box {
+    background: var(--level-soft);
+    border: 1pt solid var(--gray-300);
+    border-radius: 4pt;
+    padding: 10pt 12pt;
+    font-family: "Consolas", "Courier New", monospace;
+    font-size: 9pt;
+    line-height: 1.55;
+    white-space: pre-wrap;
+    color: var(--gray-700);
+  }
+
+  .gives-box {
+    background: var(--gold-soft);
+    border-left: 3pt solid var(--gold);
+    padding: 8pt 12pt;
+    border-radius: 2pt;
+  }
+  .gives-box ul { margin: 4pt 0 4pt 16pt; padding: 0; }
+  .gives-box li { margin: 2pt 0; }
+
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8pt;
+    margin: 4pt 0;
+  }
+  .metric {
+    background: white;
+    border: 1pt solid var(--gray-300);
+    border-radius: 4pt;
+    padding: 8pt 10pt;
+    text-align: center;
+  }
+  .metric .m-val {
+    font-size: 16pt;
+    font-weight: 700;
+    color: var(--level-blue);
+    line-height: 1.1;
+    display: block;
+  }
+  .metric .m-label {
+    font-size: 8pt;
+    color: var(--gray-500);
+    text-transform: uppercase;
+    letter-spacing: 0.5pt;
+    margin-top: 3pt;
+    display: block;
+  }
+
+  .why-box {
+    background: linear-gradient(135deg, #FAF7FF 0%, #F2EDFF 100%);
+    border: 1pt solid var(--ct-violet);
+    border-left: 4pt solid var(--ct-violet);
+    border-radius: 3pt;
+    padding: 10pt 14pt;
+  }
+  .why-box p { margin: 4pt 0; }
+  .why-box strong { color: var(--ct-violet); }
+
+  .quote {
+    background: white;
+    border: 1pt dashed var(--gold);
+    padding: 8pt 12pt;
+    margin: 6pt 0;
+    font-style: italic;
+    color: var(--gray-700);
+    font-size: 10pt;
+    border-radius: 3pt;
+  }
+  .quote .signature {
+    display: block;
+    margin-top: 4pt;
+    font-style: normal;
+    font-size: 9pt;
+    color: var(--level-blue);
+    font-weight: 600;
+  }
+
+  /* ---------- COMPARE ---------- */
+  .cmp-table th { background: var(--level-blue); }
+  .cmp-table td.win { background: #EAF4EC; color: var(--good); font-weight: 600; }
+  .cmp-table td.eq  { background: #FFF7E0; }
+  .cmp-table td.no  { color: var(--gray-500); }
+
+  /* ---------- CASES ---------- */
+  .case-card {
+    background: white;
+    border: 1pt solid var(--gray-300);
+    border-left: 4pt solid var(--gold);
+    padding: 12pt 14pt;
+    margin: 10pt 0;
+    border-radius: 3pt;
+    page-break-inside: avoid;
+  }
+  .case-card h4 {
+    color: var(--level-blue);
+    margin: 0 0 4pt 0;
+    font-size: 12pt;
+  }
+  .case-card .source {
+    font-size: 8pt;
+    color: var(--gray-500);
+    text-transform: uppercase;
+    letter-spacing: 0.5pt;
+    margin-bottom: 6pt;
+  }
+
+  /* ---------- NEXT STEPS ---------- */
+  .next-steps {
+    background: var(--ct-violet-soft);
+    border: 1pt solid var(--ct-violet);
+    padding: 12pt 14pt;
+    border-radius: 3pt;
+  }
+  .next-steps ol { margin: 4pt 0 4pt 18pt; padding: 0; }
+  .next-steps li { margin: 4pt 0; }
+
+  .small { font-size: 9pt; color: var(--gray-500); }
+  ul.tight { margin: 4pt 0 4pt 16pt; padding: 0; }
+  ul.tight li { margin: 2pt 0; }
+
+  hr {
+    border: none;
+    height: 1pt;
+    background: var(--gray-300);
+    margin: 16pt 0;
+  }
+</style>
+</head>
+<body>
+
+<!-- ============== COVER ============== -->
+<section class="cover">
+  <div class="cover-top">
+    <div class="left">CALLTOUCH · CDP</div>
+    <div class="right">Конфиденциально · 2026</div>
+  </div>
+
+  <div class="cover-main">
+    <div class="pre">Стратегическое предложение</div>
+    <h1>Единое поле клиентских данных<br><span class="accent">для Level Group</span></h1>
+    <h2>3 уникальных сценария на основе Big Data,<br>построенных под архитектуру 14 жилых проектов и 4 коммерческих кластеров Level</h2>
+
+    <div class="cover-bullets">
+      <div><b>Бенчмарк рынка:</b> ГК ФСК — рост digital-вклада в сделки с 50% до 70% за счёт CDP</div>
+      <div><b>Кейс Calltouch в премиуме:</b> CPL целевого лида 319 ₽ при рыночном CPL 25 000 ₽</div>
+      <div><b>Big Data партнёров Calltouch:</b> оцифровка до 82% пешеходного трафика</div>
+      <div><b>Скоринговая модель:</b> входит в базовый тариф CDP · от 10 500 ₽/мес</div>
+    </div>
+  </div>
+
+  <div class="cover-foot">
+    <div>Подготовлено для Level Group · level.ru · business.level.ru</div>
+    <div>Дата: 7 мая 2026</div>
+  </div>
+</section>
+
+
+<!-- ============== CONTEXT ============== -->
+<section>
+  <div class="section-title">Понимание клиента</div>
+  <h1 class="page-h1">Level Group <span class="accent">·</span> экосистема, готовая к CDP</h1>
+
+  <p>Level Group — топ-3 девелопер старой Москвы, более 11 сданных проектов и ещё 13 в стадии строительства. Линейка от комфорт-класса (от 7,3 млн ₽) до делюкса в Хамовниках (от 210,8 млн ₽). Параллельно — собственный B2B-бизнес <b>Level work</b>, управляющая компания <b>Level Home</b>, рефереральная программа <b>Level+</b>, личный кабинет, приложение «Домиленд+», цифровая брокерская платформа.</p>
+
+  <p>Эта структура — <b>идеальный клиент для CDP</b>. Каждый из 14 жилых проектов имеет свою воронку, свой сайт-лендинг и своего менеджера. При этом покупатель часто <b>пересекает 3–5 проектов</b> прежде чем принимает решение, а собственник одного проекта — <b>органически растёт в апгрейд</b> через 2–4 года. Сейчас эти связи теряются между разрозненными воронками.</p>
+
+  <div class="ctx-grid">
+    <div class="ctx-card">
+      <h4>Что есть у Level сейчас</h4>
+      <p>14 ЖК, 4 коммерческих, Level Home, программа Level+, реферальная программа, личный кабинет клиента и брокера, отлаженный медиа-микс (ВК, YouTube, Telegram, Дзен, MAX).</p>
+    </div>
+    <div class="ctx-card">
+      <h4>Чего нет</h4>
+      <p>Единого поведенческого профиля клиента, который видит его во ВСЕХ проектах одновременно — и в жилой части, и в коммерции, и в Level Home. Каждая воронка работает изолированно.</p>
+    </div>
+    <div class="ctx-card">
+      <h4>Главный потенциал</h4>
+      <p>Cross-project routing (передача клиента между ЖК), активация собственников под Level+ (апгрейд класса), переключение B2C-инвестора в B2B Level work — всё через единый CDP-слой.</p>
+    </div>
+    <div class="ctx-card">
+      <h4>Чувствительность сегмента</h4>
+      <p>Премиум-класс. Никаких массовых SMS-промо, никаких ловушек. Только персональные коммуникации, основанные на реальном поведении клиента, и работа на повышение LTV.</p>
+    </div>
+  </div>
+
+  <div class="benchmark">
+    <h4>Бенчмарк рынка · кейс ГК ФСК (девелопер)</h4>
+    <p style="margin:0 0 4pt 0">Один из ближайших по масштабу аналогов Level: ФСК выстроила CDP с обогащением через DMP (Aidata, MTS), скоринговые модели и персонализацию рекламных коммуникаций. Результаты:</p>
+    <div class="nums">
+      <div class="num"><span class="v">50→70%</span><span class="l">digital-вклад в сделки</span></div>
+      <div class="num"><span class="v">×2,5</span><span class="l">эффективность медийной рекламы</span></div>
+      <div class="num"><span class="v">−15%</span><span class="l">экономия рекл. бюджета</span></div>
+      <div class="num"><span class="v">&lt;0,9%</span><span class="l">cost CDP к инкрементальной выручке</span></div>
+    </div>
+    <p class="small" style="margin:6pt 0 0 0">Источник: AdIndex, кейс «Как ГК ФСК первыми в категории недвижимости достигли максимального уровня цифровой зрелости». Calltouch с собственной Big Data партнёров и встроенной скоринговой моделью реализует те же принципы — без привлечения внешних DMP и без отдельной оплаты скоринга.</p>
+  </div>
+
+  <div class="pillar">
+    <h4>Главный тезис предложения</h4>
+    <p style="margin:4pt 0 0 0">У Level Group <b>уже есть всё</b>, чтобы стать №1 по цифровому вкладу в сделки в премиум-сегменте: широкий портфель проектов, лояльные собственники, реферальная программа, два бизнеса (B2C+B2B), офисы продаж в локациях. CDP Calltouch — это <b>цемент</b>, который связывает всё это в единое клиентское поле и активирует уже накопленный потенциал. Ниже — три сценария, разработанные специально под архитектуру Level Group.</p>
+  </div>
+</section>
+
+
+<!-- ============== BIG DATA UNIFIED FIELD ============== -->
+<section class="pagebreak">
+  <div class="section-title">Фундамент решения</div>
+  <h1 class="page-h1">Единое поле клиентских данных <span class="accent">·</span> 4 слоя профиля</h1>
+
+  <p>Все три сценария ниже работают на одном фундаменте — едином профиле клиента в CDP Calltouch. Этот профиль объединяет <b>идентификацию</b>, <b>поведение во всех проектах</b>, <b>транзакционную историю</b> и <b>скоринг с обогащением через Big Data партнёров</b>. Без такого слоя сценарии превращаются в разрозненные тактики.</p>
+
+  <div class="field-wrap">
+
+    <div class="field-layer">
+      <div class="layer-h">
+        <div class="layer-num">1</div>
+        <div>
+          <div class="layer-name">Идентификация · кто этот клиент во всех системах Level одновременно</div>
+          <div class="layer-sub">Связка ID из Битрикс24 · ЛК клиента · ЛК брокера · Level Home · cookies сайта</div>
+        </div>
+      </div>
+      <ul>
+        <li><b>Битрикс Lead/Deal ID</b> — основная связка с CRM, через которую видна вся история сделок</li>
+        <li><b>Level Cabinet ID</b> + <b>Level Broker ID</b> — клиенты, работающие через личные кабинеты</li>
+        <li><b>Level Home Tenant ID</b> — собственники, оплачивающие услуги управляющей компании (отдельный, очень тёплый сегмент)</li>
+        <li><b>sha256-хэш телефона/почты</b> — для безопасной загрузки внешних баз и связки с Big Data партнёров</li>
+        <li><b>Cookies сайта</b> + <b>JS-скрипт Calltouch</b> — связь анонимного поведения с контактными данными при первой заявке</li>
+        <li>Связь между доменами <code>level.ru</code> и <code>business.level.ru</code> через единый JS-скрипт CDP — сейчас этой связи нет</li>
+      </ul>
+    </div>
+
+    <div class="field-layer">
+      <div class="layer-h">
+        <div class="layer-num">2</div>
+        <div>
+          <div class="layer-name">Поведение · что клиент делает в системе Level</div>
+          <div class="layer-sub">Полная картинка интереса — в реальном времени, по всем 14 ЖК и 4 коммерческим объектам</div>
+        </div>
+      </div>
+      <ul>
+        <li><b>Массив просмотренных проектов</b> с весами: <code>{project_id, visit_count, last_visit, total_seconds}</code> для каждого из 14 ЖК + 4 коммерции</li>
+        <li><b>Класс интереса</b> (комфорт / комфорт+ / бизнес / делюкс) — детектируется по соотношению просмотров проектов разного класса</li>
+        <li><b>Бюджетный коридор</b> — определяется по диапазону цен на просматриваемых страницах: 7–15 / 15–30 / 30–100 / 100+ млн ₽</li>
+        <li><b>Тип продукта</b> — квартиры / апартаменты / паркинг / кладовая / коммерция</li>
+        <li><b>Сценарий покупки</b> — детект по визитам разделов: ипотека / рассрочка / trade-in / 100% оплата</li>
+        <li><b>Big Data партнёров Calltouch</b> — посещение офисов продаж Level в офлайне, посещение конкурирующих сайтов / классифайдов</li>
+      </ul>
+    </div>
+
+    <div class="field-layer">
+      <div class="layer-h">
+        <div class="layer-num">3</div>
+        <div>
+          <div class="layer-name">Транзакции и сервис · история отношений с Level</div>
+          <div class="layer-sub">Сделки, эксплуатация, программы лояльности — единый pipeline уровня клиента, а не уровня проекта</div>
+        </div>
+      </div>
+      <ul>
+        <li><b>Состоявшиеся сделки</b> — массив <code>{project_id, deal_date, deal_amount, status}</code> для определения «однократного» vs «повторного» vs «инвестора»</li>
+        <li><b>Trade-in запросы</b> — было / не было обращение по программе Level+</li>
+        <li><b>Реферальная скидка Level+</b> — текущий накопленный размер (1% за каждого приведённого друга, копится 3 года)</li>
+        <li><b>Услуги Level Home</b> — оплачивает / не оплачивает эксплуатацию (это самый тёплый из всех сегментов)</li>
+        <li><b>Брокерская активность</b> — был ли вход в кабинет брокера, какие проекты предлагал</li>
+      </ul>
+    </div>
+
+    <div class="field-layer">
+      <div class="layer-h">
+        <div class="layer-num">4</div>
+        <div>
+          <div class="layer-name">Скоринг и сегмент · автоматическая классификация</div>
+          <div class="layer-sub">Скоринговая модель Calltouch — встроена в CDP, входит в базовый тариф (от 10 500 ₽/мес)</div>
+        </div>
+      </div>
+      <ul>
+        <li><b>Тип покупателя</b>: Новый · Собственник · Повторный покупатель · Инвестор (2+ объекта) · Брокер</li>
+        <li><b>Готовность</b>: Холодный / Тёплый / Горячий — на основе глубины поведения, частоты возвратов, активности на ценовых страницах</li>
+        <li><b>Фаза CJM</b>: Исследование → Сравнение → Расчёт ипотеки → Готов к сделке → Постпродажа</li>
+        <li><b>Триггер «Выявлен интерес»</b> (включён в CDP) — клиент посещает сайты конкурирующих застройщиков. Сигнал работает в режиме реального времени</li>
+        <li><b>Прогноз LTV</b> — учитывает потенциал апгрейда класса, повторных покупок, реферальной программы и пользования Level Home</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="benchmark">
+    <h4>Это поле — само по себе уже актив</h4>
+    <p style="margin:0">Даже без запуска ни одного триггера единое поле даёт Level <b>дашборд состояния клиентской базы</b>: сколько собственников возвращалось на сайт за 30 дней, сколько профилей активны на бизнес-классе, какая доля собственников Level Home интересуется новыми ЖК. Это уровень видимости, которого сейчас нет ни в одной CRM-системе застройщика. Уже через 30 дней работы CDP — в реальном времени.</p>
+  </div>
+</section>
+
+
+<!-- ============== SCENARIO 1 ============== -->
+<section class="scenario">
+  <span class="sc-num">№ 1</span><span class="sc-tag">Cross-Project Routing</span>
+  <h2 class="sc-name">«Маршрутизация клиента между 14 проектами Level»</h2>
+  <p class="sc-pitch">Клиент мигрирует между несколькими ЖК — это не «холодный посетитель». CDP передаёт его профиль между менеджерами, чтобы каждый следующий разговор начинался с того места, где закончился предыдущий.</p>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">P</span>Проблема, которую решает</div>
+    <p style="margin:0">Покупатель премиум-сегмента в среднем сравнивает 3–5 проектов перед сделкой. В Level это значит, что один и тот же клиент проходит через воронки <b>Бауманской → Войковской → Павелецкой Сити</b>, и каждый раз менеджер видит «нового лида». На практике у клиента уже сформированы предпочтения по классу, бюджету, типу планировки — но эти данные не передаются между менеджерами проектов. Из-за этого:</p>
+    <ul class="tight">
+      <li>каждый менеджер делает первый «знакомительный» звонок заново — −20–30 минут с каждого профиля</li>
+      <li>клиент устаёт повторять одно и то же — снижается доверие</li>
+      <li>не формируется ощущение «компании, которая знает меня» — это бьёт по премиум-восприятию Level</li>
+    </ul>
+  </div>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">L</span>Логика работы сценария</div>
+    <div class="logic-box">Аудитория: посетители сайта (с контактами и без)
+        ↓
+Триггер: переключение между двумя проектами Level
+         одного класса в течение 14 дней + 3+ просмотра второго
+        ↓
+CDP читает поле слоя 2: класс интереса, бюджетный коридор,
+тип продукта (планировки), сценарий покупки (ипотека/100%)
+        ↓
+[Если контакты есть]
+   Webhook в Битрикс24 менеджеру второго проекта:
+   «Клиент Иванов А. → 4 раза смотрел Бауманскую (бизнес,
+    47–60 млн), сейчас на Войковской (бизнес, 16–35 млн).
+    Ищет 2-комнатную, склонен к ипотеке. Подобрать 3
+    планировки в пересечении.»
+
+[Если контактов нет]
+   Показ персонального попапа:
+   «Мы видим, что вы рассматриваете несколько проектов Level.
+    Менеджер по локации [Войковская] подготовит 3 планировки
+    в этом районе, соответствующие тому, что вам понравилось
+    в [Бауманской]. 1 рабочий день, без обязательств.»
+        ↓
+В CDP проставляется тег «cross-project_migrant»
+для дальнейшей сегментации</div>
+  </div>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">»</span>Текст попапа</div>
+    <div class="quote">«Видим, что вы рассматриваете несколько проектов в нашем портфеле — это нормально, классную квартиру выбирают вдумчиво. Менеджер по локации <b>«Левел Войковская»</b> подготовит 3 планировки в этом районе, максимально соответствующие тому, что вам понравилось в Бауманской. По бюджету, площади и комнатности.»<span class="signature">→ Получить подборку под мои критерии</span></div>
+  </div>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">+</span>Что даёт Level Group</div>
+    <div class="gives-box">
+      <ul>
+        <li><b>Менеджер второго проекта работает с прогретым клиентом</b>, а не повторяет вступительный разговор. На третий-четвёртый проект цикл сокращается ещё сильнее</li>
+        <li><b>Клиент чувствует себя в одной компании</b>, а не в 14 отдельных воронках. Это критично для премиум-восприятия и для конкуренции с конкурентами в той же ценовой категории</li>
+        <li><b>Снижение потерь на пересечении воронок</b> — сейчас клиент часто отваливается между проектами (один менеджер «потерял», другой ещё не «нашёл»). CDP закрывает эту дыру в реальном времени</li>
+        <li><b>База тегированных «cross-project_migrant»</b> становится отдельным сегментом для будущих кампаний — это самые «думающие» клиенты, готовые к покупке</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">%</span>Ожидаемый результат</div>
+    <div class="metrics-grid">
+      <div class="metric"><span class="m-val">×1,4–1,7</span><span class="m-label">CR заявка → договор у мигрирующих клиентов</span></div>
+      <div class="metric"><span class="m-val">−30%</span><span class="m-label">время менеджера на первый продуктивный звонок</span></div>
+      <div class="metric"><span class="m-val">+8–12</span><span class="m-label">дополнительных сделок/месяц при текущем трафике</span></div>
+    </div>
+    <p class="small" style="margin-top:6pt">Расчёт на основе кейса премиум-застройщика Calltouch (CPL 319 ₽ vs 25 000 ₽ рынка) и средней доли мигрирующих клиентов 25–35% от трафика премиум-сегмента.</p>
+  </div>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">!</span>Почему это работает только на CDP Calltouch</div>
+    <div class="why-box">
+      <p>Связка <b>сайт level.ru ↔ Битрикс24 ↔ передача профиля между менеджерами в реальном времени</b> — это объединение трёх задач: единого профиля (CDP), сквозной аналитики (откуда пришёл клиент, какие звонки уже были) и триггерной механики (срабатывание по изменению поведения).</p>
+      <p>В Calltouch эти три уровня — <b>один продукт</b>: CDP + коллтрекинг + сквозная аналитика связаны нативно. Звонки клиента в один проект автоматически добавляются в его профиль и доступны менеджеру другого проекта при следующем посещении.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============== SCENARIO 2 ============== -->
+<section class="scenario">
+  <span class="sc-num">№ 2</span><span class="sc-tag a2">Класс-апгрейд через Level+</span>
+  <h2 class="sc-name">«Реактивация собственников через Big Data + Level Trade-in»</h2>
+  <p class="sc-pitch">Собственник Левел Лесного 3 года назад. Сегодня он на сайте и смотрит Левел Бауманскую — это сигнал об апгрейде класса. У него уже накоплена реферальная скидка, и есть Trade-in потенциал. Менеджер про это не знает.</p>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">P</span>Проблема, которую решает</div>
+    <p style="margin:0">У Level есть огромный, недооценённый актив — <b>тысячи собственников проданных квартир</b>. Эти люди:</p>
+    <ul class="tight">
+      <li>уже доверяют бренду Level (купили один раз — купят второй)</li>
+      <li>часть из них органически растёт в апгрейд: рождение детей, рост дохода, смена района</li>
+      <li>имеют накопленную скидку Level+ (1% за каждого приведённого друга, накапливается 3 года)</li>
+      <li>часть — потенциальные пользователи Trade-in (старая квартира + доплата = новая)</li>
+    </ul>
+    <p>Сейчас, когда такой собственник возвращается на сайт изучать новый ЖК, менеджер видит «нового анонимного посетителя» или, в лучшем случае, «лид с обратного звонка». Латентный потенциал реферальной программы и Trade-in остаётся неактивированным.</p>
+  </div>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">L</span>Логика работы сценария</div>
+    <div class="logic-box">Подготовка (one-time): импорт sha256-базы собственников
+из Битрикс24 + Level Home в CDP Calltouch
+        ↓
+Аудитория: «собственник Level» (любой ЖК)
+        ↓
+Триггер: возврат на сайт + просмотр проекта класса выше
+         собственного (например, владелец Лесного [комфорт]
+         смотрит Бауманскую [бизнес]) + 3+ просмотра планировок
+         ИЛИ посещение страницы /level-plus/ или /trade-in/
+        ↓
+CDP читает поле слоя 3: текущий проект клиента, дата сделки,
+накопленная реф. скидка, статус Level Home
+        ↓
+Webhook в Битрикс24 в отдел Trade-in (Level+):
+«Иванов А. — собственник Левел Лесной (комфорт, сделка 2023).
+ Сейчас на Бауманской (бизнес). Накоплена реф. скидка 2%.
+ Является активным пользователем Level Home.
+ Trade-in потенциал — оценочно 7,5 млн от текущей квартиры.»
+        ↓
+Параллельно — email от персонального менеджера Trade-in:
+«Помним вашу квартиру в [Левел Лесной]. Если рассматриваете
+ апгрейд — наши специалисты Level+ за 1 рабочий день
+ подготовят расчёт обмена с учётом накопленной скидки 2%
+ и текущей рыночной стоимости вашей квартиры.»</div>
+  </div>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">+</span>Что даёт Level Group</div>
+    <div class="gives-box">
+      <ul>
+        <li><b>Активация спящего актива</b> — собственники уже куплены и оплачены (CAC = 0). Реактивация на повторную сделку даёт по сути «бесплатные» лиды премиум-качества</li>
+        <li><b>Программа Level+ становится управляемой</b>: сейчас она работает «по запросу», а CDP делает её <b>проактивной</b> — мы сами идём к собственнику, у которого видны признаки готовности к апгрейду</li>
+        <li><b>Trade-in воронка получает квалифицированные лиды</b> с расчётом ещё до первого звонка — менеджер не «продаёт идею Trade-in», а сразу обсуждает условия конкретной сделки</li>
+        <li><b>Уровень эмоциональной связи с брендом</b> поднимается на новую планку: «компания помнит мою квартиру и сама предложила апгрейд» — это работает на NPS и на органическое сарафанное радио</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">%</span>Ожидаемый результат</div>
+    <div class="metrics-grid">
+      <div class="metric"><span class="m-val">3–5%</span><span class="m-label">конверсия из «возврат собственника» в Trade-in заявку</span></div>
+      <div class="metric"><span class="m-val">×6–10</span><span class="m-label">CR в сделку у собственника vs нового клиента</span></div>
+      <div class="metric"><span class="m-val">+15–25</span><span class="m-label">апгрейд-сделок/год при текущей базе собственников</span></div>
+    </div>
+    <p class="small" style="margin-top:6pt">При средней цене апгрейда 30+ млн ₽ — годовая дополнительная выручка от 450 млн ₽ только за счёт активации существующей базы. Расчёт основан на отраслевых показателях реактивации в премиум-недвижимости.</p>
+  </div>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">!</span>Почему это работает только на CDP Calltouch</div>
+    <div class="why-box">
+      <p>Этот сценарий требует <b>трёх уровней интеграции одновременно</b>: загрузка sha256-базы собственников, привязка cookies к контактам в реальном времени, передача обогащённого профиля в Битрикс24. В CDP Calltouch это делается без интегратора — <b>загрузка базы и интеграция CRM включены в абонплату</b>.</p>
+      <p>Сценарий усиливается через <b>Big Data партнёров Calltouch</b>: можно увидеть, посещал ли собственник офис продаж Level в офлайне, или сайты конкурирующих застройщиков. Это даёт менеджеру Trade-in критическое окно реакции — пока клиент не ушёл к конкуренту.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============== SCENARIO 3 ============== -->
+<section class="scenario">
+  <span class="sc-num">№ 3</span><span class="sc-tag a3">B2C → B2B мост</span>
+  <h2 class="sc-name">«Инвестор в Level — переключение на коммерческую недвижимость»</h2>
+  <p class="sc-pitch">Клиент уже владеет 2 квартирами в Level и сегодня изучает Level work Воронцовскую. Это не случайность — это естественный путь инвестора. CDP связывает level.ru и business.level.ru в одну воронку.</p>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">P</span>Проблема, которую решает</div>
+    <p style="margin:0">Level имеет два бизнеса под одним брендом: <b>жилая недвижимость</b> (level.ru) и <b>коммерческая</b> (business.level.ru — Level work, офисы класса А, лайт индастриал, ритейл с чеком от 22,2 до 493 млн ₽). Эти два мира существуют в разных воронках, на разных доменах, у них разные менеджеры. И самое главное: <b>они не видят друг друга</b>.</p>
+    <p>Между тем естественный путь премиум-клиента Level выглядит так:</p>
+    <ul class="tight">
+      <li>купил 1-ю квартиру для жизни — собственник</li>
+      <li>через 2–3 года купил 2-ю для сдачи — частный инвестор</li>
+      <li>становится интересно вложение в коммерческую недвижимость с доходностью 8–12% — потенциальный клиент Level work</li>
+    </ul>
+    <p>Сейчас инвестор переключается между <b>level.ru</b> и <b>business.level.ru</b>, но менеджеры обоих воронок видят его как «нового анонимного посетителя» в каждом из них. Готовый ICP инвестора пропадает в этом разрыве.</p>
+  </div>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">L</span>Логика работы сценария</div>
+    <div class="logic-box">Подготовка: единый JS-скрипт CDP на двух доменах
+            (level.ru + business.level.ru) + загрузка
+            базы собственников 2+ объектов из Битрикса
+        ↓
+Аудитория: «собственник 2+ квартир Level»
+            ИЛИ «активный пользователь Premium collection»
+        ↓
+Триггер: посещение business.level.ru
+         ИЛИ страницы /investors/
+         ИЛИ просмотр Level work Воронцовской / Нижегородской
+        ↓
+CDP читает поле слоя 3 + 4: количество сделок,
+суммарная стоимость портфеля, статус инвестора
+        ↓
+Webhook в Битрикс24 в B2B-отдел Level work:
+«Иванов А.А. — собственник 2 квартир в Level
+ (Причальный + Бауманская, общий портфель 145 млн ₽).
+ Сейчас на Level work Воронцовская, изучает офис 60 м².
+ Перевести в B2B-pipeline. Менеджер: Сидоров.»
+        ↓
+Параллельно — email от управляющего директора по B2B:
+«Видим вашу историю работы с Level в жилой части.
+ Если рассматриваете коммерческую недвижимость как
+ диверсификацию — приглашаем в Закрытый клуб инвесторов
+ Level. Доходность 8–12%, оценка участка
+ индивидуальным аналитиком.»
+        ↓
+Если согласие — добавление в закрытый Telegram-канал
+«Инвестклуб Level» с эксклюзивными стартами продаж</div>
+  </div>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">»</span>Текст email от B2B-директора</div>
+    <div class="quote">«{Имя}, мы видим вашу историю с Level — спасибо, что вы с нами уже не первый объект. Сейчас вы изучаете <b>Level work Воронцовская</b>. Это закономерный путь: значимая часть наших премиум-клиентов в жилой части постепенно начинает рассматривать коммерческую недвижимость как диверсификацию портфеля. Доходность по нашим коммерческим объектам — <b>8–12% годовых</b>, при сохранении ликвидности и того же уровня инфраструктуры, к которому вы привыкли в жилой части. Если интересно — приглашаю в наш <b>Закрытый клуб инвесторов Level</b>. Это персональная аналитика по вашему портфелю и эксклюзивные старты продаж.»<span class="signature">— Управляющий директор по коммерческой недвижимости Level Group</span></div>
+  </div>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">+</span>Что даёт Level Group</div>
+    <div class="gives-box">
+      <ul>
+        <li><b>Открытие нового канала продаж в коммерции</b> — без увеличения рекламного бюджета. Источник лидов — собственная B2C-база</li>
+        <li><b>Радикальный рост LTV клиента</b>: один частный инвестор, конвертированный в коммерческую недвижимость, приносит сделку 22–493 млн ₽ дополнительно к жилой части</li>
+        <li><b>Кросс-продукт связь level.ru ↔ business.level.ru</b> впервые становится управляемой. Раньше клиент перетекал между сайтами — но менеджеры этого не видели</li>
+        <li><b>«Закрытый клуб инвесторов»</b> в Telegram — это удержание лучших клиентов на годы. Прецеденты: подобные клубы у крупных частных банков и УК — модель полностью применима к девелопменту</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">%</span>Ожидаемый результат</div>
+    <div class="metrics-grid">
+      <div class="metric"><span class="m-val">2–5</span><span class="m-label">B2B-сделок/год из B2C-базы инвесторов</span></div>
+      <div class="metric"><span class="m-val">от 50&nbsp;млн&nbsp;₽</span><span class="m-label">средний чек одной такой сделки</span></div>
+      <div class="metric"><span class="m-val">+200–500&nbsp;млн&nbsp;₽</span><span class="m-label">годовая дополнительная выручка Level work</span></div>
+    </div>
+    <p class="small" style="margin-top:6pt">Расчёт на основе средней цены коммерческого объекта Level work (22–493 млн ₽) и доли инвесторов в премиум-сегменте, готовых к диверсификации в коммерческую недвижимость (3–7% от B2C-базы по отраслевым данным).</p>
+  </div>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">!</span>Почему это работает только на CDP Calltouch</div>
+    <div class="why-box">
+      <p>Сценарий требует <b>сквозной идентификации клиента между двумя доменами</b> (level.ru и business.level.ru) и связки с <b>двумя независимыми pipeline в Битрикс24</b> (B2C-жилая и B2B-коммерческая). Это нетривиальная техническая задача, и она решается только на уровне CDP — не на уровне CRM или сквозной аналитики.</p>
+      <p>В Calltouch <b>один JS-скрипт работает на любом количестве доменов</b> и связывает поведение через единый профиль. Никаких отдельных интеграций или дополнительных оплат — просто включается в настройках siteID.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============== COMPETITIVE COMPARE ============== -->
+<section class="pagebreak">
+  <div class="section-title">Сравнение по запросу клиента</div>
+  <h1 class="page-h1">Calltouch CDP <span class="accent">·</span> Mindbox <span class="accent">·</span> Altcraft</h1>
+
+  <p>Все три — сильные продукты, но <b>построены под разные задачи</b>. Mindbox — лидер CDP в e-commerce и крупном ритейле. Altcraft — омниканальная платформа, исторически сильна в финансовом секторе и госах (включая возможность установки в контур заказчика). Calltouch — единственная экосистема, выросшая из <b>звонковой воронки и сквозной аналитики</b>, что критично именно для девелопмента.</p>
+
+  <table class="cmp-table">
+    <thead>
+      <tr>
+        <th style="width:30%">Критерий, важный для Level</th>
+        <th>Mindbox</th>
+        <th>Altcraft</th>
+        <th>Calltouch CDP</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><b>Профиль ЦА вендора</b></td>
+        <td>Крупный e-commerce и ритейл</td>
+        <td>Банки, финансы, госы, страхование</td>
+        <td class="win">Звонковые тематики и длинный цикл сделки — <b>профильный сегмент</b></td>
+      </tr>
+      <tr>
+        <td><b>Связка с коллтрекингом</b><br><span class="small">в премиум-недвижимости 70%+ обращений — звонки</span></td>
+        <td class="no">Через интеграцию (отдельно)</td>
+        <td class="no">Через интеграцию (отдельно)</td>
+        <td class="win">Нативно, в одном продукте</td>
+      </tr>
+      <tr>
+        <td><b>Сквозная аналитика</b><br><span class="small">от первого касания до сделки</span></td>
+        <td>Отдельный модуль</td>
+        <td class="no">Через интеграции</td>
+        <td class="win">Включена в продукт</td>
+      </tr>
+      <tr>
+        <td><b>Big Data партнёров</b><br><span class="small">оцифровка офлайн-офисов продаж</span></td>
+        <td class="no">Нет</td>
+        <td class="no">Нет</td>
+        <td class="win">Эксклюзивно: до 82% пешеходного трафика</td>
+      </tr>
+      <tr>
+        <td><b>Скоринговая модель + триггер «Выявлен интерес»</b></td>
+        <td>Доступно в старших тарифах</td>
+        <td>Доступно</td>
+        <td class="win">Включено в базовый тариф (от 10 500 ₽)</td>
+      </tr>
+      <tr>
+        <td><b>Стартовая стоимость</b></td>
+        <td class="no">от 18 000 ₽/мес</td>
+        <td>от 9 990 ₽/мес</td>
+        <td class="win">от 10 500 ₽/мес</td>
+      </tr>
+      <tr>
+        <td><b>Запуск под ключ</b><br><span class="small">все настройки силами вендора</span></td>
+        <td class="no">от 90 000 ₽ при абонплате &lt; 200к</td>
+        <td>Дополнительно</td>
+        <td class="win">Бесплатно, входит в тариф</td>
+      </tr>
+      <tr>
+        <td><b>Срок до первого результата</b></td>
+        <td class="no">1–2 месяца обучения системы</td>
+        <td class="no">1–2 месяца настройки</td>
+        <td class="win">1–3 дня (Big Data даёт быстрый старт)</td>
+      </tr>
+      <tr>
+        <td><b>Готовые отраслевые карты</b><br><span class="small">для застройщиков</span></td>
+        <td class="eq">Кастомные настройки</td>
+        <td class="eq">Кастомные настройки</td>
+        <td class="win">Готовая карта «Застройщики», 13+ механик</td>
+      </tr>
+      <tr>
+        <td><b>Готовые продуктовые рекомендации</b><br><span class="small">для e-commerce</span></td>
+        <td class="win">Сильная сторона Mindbox</td>
+        <td class="eq">Доступно</td>
+        <td>Не основной фокус</td>
+      </tr>
+      <tr>
+        <td><b>RFM-анализ и крупные базы 100к+</b><br><span class="small">для масштабных кампаний в ритейле</span></td>
+        <td class="win">Сильная сторона Mindbox</td>
+        <td>Доступно</td>
+        <td>Не основной фокус</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="pillar">
+    <h4>Главный вывод для Level</h4>
+    <p>В жилой недвижимости и коммерческой первичке <b>основной канал обращения — звонок</b>, основной актив — <b>офисы продаж и пешеходный трафик возле строек</b>, а главная задача — <b>работать с длинным циклом сделки и кросс-проектным выбором</b>. Это ровно те три области, где Calltouch построен как профильный инструмент. Mindbox при сопоставимом функционале по триггерам сильнее в e-commerce и ритейле; Altcraft — в финансах и при необходимости установки в контур.</p>
+    <p style="margin-bottom:0"><b>Для архитектуры Level Group — 14 ЖК, 4 коммерции, Level Home, B2C+B2B связка, длинный цикл сделки, активная офлайн-точка продаж в каждой локации</b> — экосистема Calltouch покрывает все ключевые задачи нативно, в одном продукте.</p>
+  </div>
+</section>
+
+
+<!-- ============== CASES ============== -->
+<section class="pagebreak">
+  <div class="section-title">Релевантные кейсы и материалы</div>
+  <h1 class="page-h1">Что уже работает в недвижимости <span class="accent">·</span> доказательная база</h1>
+
+  <div class="case-card">
+    <h4>ГК ФСК — первые в недвижимости РФ с максимальной цифровой зрелостью</h4>
+    <div class="source">Источник: AdIndex, апрель 2022</div>
+    <p style="margin:0">Один из крупнейших застройщиков России развернул CDP-экосистему с обогащением через DMP (Aidata, MTS) и скоринговые модели. <b>Результаты:</b> цифровой вклад в сделки вырос с 50% до 70%, эффективность медийной рекламы — в 2,5 раза, экономия рекламного бюджета — более 15%. Окупаемость системы — менее 0,9% от инкрементальной выручки. Треть всех рекламных кампаний строится на данных CDP.</p>
+    <p style="margin:6pt 0 0 0" class="small"><b>Применимость к Level:</b> ФСК сопоставим по масштабу. Calltouch реализует те же принципы (Big Data партнёров + скоринг + персонализация) — но без отдельной оплаты внешних DMP и со встроенным скорингом в базовом тарифе.</p>
+  </div>
+
+  <div class="case-card">
+    <h4>ГК «Точно» — оцифровка 82% пешеходного трафика</h4>
+    <div class="source">Источник: внутренний кейс Calltouch</div>
+    <p style="margin:0">Девелопер использовал связку <b>CDP + Big Data партнёров Calltouch</b> для оцифровки пешеходов рядом с офисами продаж и стройками. Результат: <b>82% посетителей офлайн-точек</b> идентифицированы и связаны с цифровым профилем, точность рекламных кампаний выросла, стоимость привлечения клиента снизилась.</p>
+    <p style="margin:6pt 0 0 0" class="small"><b>Применимость к Level:</b> у Level — офисы продаж в каждой локации (Бауманская, Войковская, Академическая, Шелепиха, Мичуринский, Хамовники, Кожуховская и т.д.). Big Data Calltouch может оцифровать пешеходный трафик каждого офиса продаж и связать его с поведением на сайте.</p>
+  </div>
+
+  <div class="case-card">
+    <h4>Премиум-застройщик — CPL 319 ₽ vs 25 000 ₽ рынка</h4>
+    <div class="source">Источник: внутренний кейс Calltouch (обезличенный)</div>
+    <p style="margin:0">База контактов 2 000 человек. За один месяц Calltouch выявил <b>160 «выявленных интересов»</b> (срабатывания триггера на интерес к недвижимости в этой ценовой категории) и сконвертировал их в <b>47 целевых лидов</b>. Стоимость целевого лида — <b>319 ₽</b> при средней рыночной стоимости лида в премиум-недвижимости <b>25 000 ₽</b>. Разница в 78 раз.</p>
+    <p style="margin:6pt 0 0 0" class="small"><b>Применимость к Level:</b> ровно тот же механизм — реактивация существующей базы через триггер «Выявлен интерес», который уже включён в базовый тариф CDP. На объёме базы Level (десятки тысяч собственников, лидов, контактов) масштаб эффекта — на порядок больше.</p>
+  </div>
+
+  <div class="case-card">
+    <h4>Цифровой Девелопмент-2025 — отраслевой бенчмарк</h4>
+    <div class="source">Источник: Бизнес-форум, Москва, 1 декабря 2025</div>
+    <p style="margin:0">Ежегодное отраслевое мероприятие, на котором лидеры рынка фиксируют цифровизацию девелопмента как <b>главный фактор конкурентоспособности 2025–2026</b>. Ключевые тренды: единый профиль клиента, персонализация рекламных коммуникаций, автоматизация работы с базой собственников, использование AI/ML для скоринга и LTV-прогнозирования.</p>
+    <p style="margin:6pt 0 0 0" class="small"><b>Применимость к Level:</b> предложение, описанное в этом документе, реализует все ключевые тренды форума одновременно. Запуск CDP в 2026 году ставит Level в позицию лидера по цифровой зрелости в премиум-сегменте Москвы.</p>
+  </div>
+</section>
+
+
+<!-- ============== ECONOMICS / NEXT STEPS ============== -->
+<section class="pagebreak">
+  <div class="section-title">Экономика и следующий шаг</div>
+  <h1 class="page-h1">Состав решения и план запуска</h1>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">$</span>Состав решения и стоимость</div>
+    <table>
+      <thead>
+        <tr><th>Продукт</th><th style="width:24%">Цена</th><th>Что включено</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>CDP Calltouch</b><br><span class="small">База, со встроенной скоринговой моделью, триггерами и сквозной аналитикой</span></td>
+          <td><b>от 10 500 ₽/мес</b><br><span class="small">с НДС, до 60 000 визитов · далее по объёму</span></td>
+          <td>Все 3 сценария + единое поле клиентских данных + интеграция с Битрикс24 + настройка под ключ + первый отчёт эффективности</td>
+        </tr>
+        <tr>
+          <td><b>+ Big Data партнёров</b><br><span class="small">Оцифровка офлайн-точек и сигналы по конкурентам</span></td>
+          <td><b>от 5 000 ₽/мес</b></td>
+          <td>Усиление сценариев №2 и №3, оцифровка пешеходного трафика возле всех офисов продаж Level</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="small" style="margin-top:6pt"><b>Старт пилота: от 10 500 ₽/мес.</b> При среднем чеке Level от 7,3 до 210,8 млн ₽ — окупаемость с <b>любой одной дополнительной сделки</b> в течение года кратная. Все настройки выполняются силами Calltouch и включены в абонплату.</p>
+  </div>
+
+  <div class="sc-block">
+    <div class="block-h"><span class="ico">→</span>Следующий шаг и план запуска</div>
+    <div class="next-steps">
+      <ol>
+        <li><b>Дорожная карта · 1–3 рабочих дня</b> — финализируем единое поле клиентских данных под архитектуру Битрикс24 Level, согласовываем перечень доменов (level.ru + business.level.ru) и список проектов в скоупе.</li>
+        <li><b>Подключение и интеграция · 2–5 рабочих дней</b> — устанавливаем JS-скрипт на оба домена, интегрируем Битрикс24 (бесплатно), загружаем sha256-базу собственников из Level Home.</li>
+        <li><b>Настройка трёх сценариев · 1–2 рабочих дня</b> — настраиваем триггеры, тексты попапов и email от лица персональных менеджеров, тестируем на закрытом контуре.</li>
+        <li><b>Запуск и анализ · 7–30 дней</b> — запускаем сценарии, ведём срез эффективности, в конце — презентация результатов с рекомендациями по масштабированию.</li>
+        <li><b>Фаза 2</b> — на основе первых результатов подключаем Big Data партнёров для оцифровки офисов продаж и масштабирования сценария №3 в B2B-направление.</li>
+      </ol>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="benchmark">
+    <h4>Что мы предлагаем Level Group по сути</h4>
+    <p>Не «ещё один маркетинговый инструмент», а <b>цифровую инфраструктуру для следующего этапа роста компании</b>. Level Group уже построил эталонную экосистему продуктов — 14 ЖК, коммерция, управляющая компания, программа лояльности. CDP Calltouch — это слой, который связывает всё это в единое клиентское поле и активирует уже накопленный потенциал.</p>
+    <p style="margin-bottom:0">Один год работы CDP при текущей базе Level Group <b>гарантированно даёт</b> минимум: десятки реактивированных собственников, активацию программы Level+ как канала повторных продаж, открытие нового канала B2C → B2B и <b>как минимум один новый потенциал стратегического масштаба</b> — единое цифровое поле клиента в премиум-сегменте Москвы.</p>
+  </div>
+
+  <hr>
+  <p class="small" style="text-align:center">Подготовлено командой Calltouch на основе анализа level.ru, business.level.ru и портфеля продуктов Level Group.<br>Прогнозные значения основаны на отраслевых данных и кейсах рынка (ФСК, ГК Точно, премиум-застройщик из портфеля Calltouch). Документ носит индивидуальный характер и не является публичной офертой.</p>
+</section>
+
+</body>
+</html>
