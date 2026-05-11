@@ -2,6 +2,13 @@
 
 > AI-инструмент для автоматической генерации индивидуальных коммерческих предложений по продуктам Calltouch CDP под конкретных клиентов.
 
+## 🌐 Production
+
+**App:** https://cdp-generation-akuznetsov.streamlit.app
+**Пароль:** см. Streamlit Cloud Secrets (`app_password`)
+
+**Полное описание состояния, архитектуры и гочей:** [`docs/RESUME.md`](./docs/RESUME.md)
+
 ## Быстрый старт (фаза 1, локально)
 
 ```bash
