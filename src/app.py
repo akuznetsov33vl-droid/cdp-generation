@@ -3,10 +3,31 @@
 from __future__ import annotations
 
 import logging
+import os
 import sys
 from pathlib import Path
 
 import streamlit as st
+
+
+def _hydrate_env_from_secrets() -> None:
+    """Streamlit Cloud хранит секреты в `st.secrets`, но pydantic-settings
+    читает только переменные окружения. Прокидываем явно ДО get_settings().
+    """
+    try:
+        secrets = st.secrets
+    except (FileNotFoundError, KeyError):
+        return
+    try:
+        items = list(secrets.items())
+    except (AttributeError, TypeError):
+        return
+    for key, value in items:
+        if isinstance(value, str) and key not in os.environ:
+            os.environ[key] = value
+
+
+_hydrate_env_from_secrets()
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 if str(PROJECT_ROOT) not in sys.path:
