@@ -405,8 +405,52 @@ _THEME_CSS = """
 }
 
 #MainMenu, footer, header[data-testid="stHeader"] { visibility: hidden; }
+
+.cosmic-footer {
+  position: fixed;
+  bottom: 14px;
+  right: 22px;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  z-index: 100;
+  opacity: 0.75;
+  transition: opacity 0.3s ease;
+  user-select: none;
+}
+.cosmic-footer:hover { opacity: 1; }
+.cosmic-footer a {
+  color: var(--strange-gold) !important;
+  text-decoration: none !important;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-shadow: 0 0 8px rgba(255, 185, 56, 0.45);
+  transition: all 0.25s ease;
+  border-bottom: 1px solid rgba(255, 185, 56, 0.3);
+  padding-bottom: 1px;
+}
+.cosmic-footer a:hover {
+  color: var(--arc-cyan) !important;
+  text-shadow: 0 0 14px var(--arc-cyan), 0 0 28px rgba(0, 212, 255, 0.55);
+  border-bottom-color: var(--arc-cyan);
+}
+.cosmic-footer .sep {
+  color: var(--rune-violet);
+  margin: 0 10px;
+  text-shadow: 0 0 6px var(--rune-violet);
+}
 </style>
 """
+
+_FOOTER_HTML = (
+    '<div class="cosmic-footer">'
+    'Crafted by <a href="https://lumenstudio.su" target="_blank" rel="noopener noreferrer">Lumen&nbsp;Studio</a>'
+    '<span class="sep">◆</span>'
+    '<span>Calltouch CDP</span>'
+    '</div>'
+)
 
 _ARC_REACTOR_SVG = """
 <svg class="arc-reactor" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -479,6 +523,7 @@ _PORTAL_RUNE_SVG = """
 """
 
 st.markdown(_THEME_CSS, unsafe_allow_html=True)
+st.markdown(_FOOTER_HTML, unsafe_allow_html=True)
 
 _HEADER_HTML = (
     '<div class="cosmic-header">'
