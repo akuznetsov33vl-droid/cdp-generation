@@ -543,9 +543,7 @@ except (ConfigError, ValueError) as exc:
     st.info("Проверь, что ANTHROPIC_API_KEY задан в окружении (Streamlit Secrets / .env).")
     st.stop()
 
-st.markdown(f'<span class="ct-pill">Opus: {settings.anthropic_model_opus}</span> '
-            f'<span class="ct-pill">Haiku: {settings.anthropic_model_haiku}</span>',
-            unsafe_allow_html=True)
+# Технические детали моделей сознательно скрыты в UI — менеджер видит чистый портал.
 
 def _normalize_url(raw: str) -> str:
     """Достроить https:// если пользователь ввёл просто `level.ru`."""
