@@ -18,14 +18,39 @@ from src.prompts import load_prompt
 
 log = logging.getLogger(__name__)
 
-USER_AGENT = "Mozilla/5.0 (compatible; CDPGenerationBot/0.1; +https://calltouch.ru)"
+USER_AGENT = (
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+    "(KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
+)
+DEFAULT_HEADERS = {
+    "User-Agent": USER_AGENT,
+    "Accept": (
+        "text/html,application/xhtml+xml,application/xml;q=0.9,"
+        "image/avif,image/webp,*/*;q=0.8"
+    ),
+    "Accept-Language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Sec-Ch-Ua": '"Chromium";v="131", "Not_A Brand";v="24"',
+    "Sec-Ch-Ua-Mobile": "?0",
+    "Sec-Ch-Ua-Platform": '"Windows"',
+    "Sec-Fetch-Dest": "document",
+    "Sec-Fetch-Mode": "navigate",
+    "Sec-Fetch-Site": "none",
+    "Sec-Fetch-User": "?1",
+    "Upgrade-Insecure-Requests": "1",
+}
 PAGE_BUDGET = 8
 PAGE_TEXT_LIMIT = 6000
 
 
 def _fetch(url: str, *, timeout: float = 20.0) -> str:
-    headers = {"User-Agent": USER_AGENT, "Accept-Language": "ru,en;q=0.7"}
-    with httpx.Client(headers=headers, follow_redirects=True, timeout=timeout) as client:
+    with httpx.Client(
+        headers=DEFAULT_HEADERS,
+        follow_redirects=True,
+        timeout=timeout,
+        http2=False,
+        verify=True,
+    ) as client:
         resp = client.get(url)
         resp.raise_for_status()
         return resp.text
@@ -94,11 +119,14 @@ def _pick_relevant_links(base: str, links: list[tuple[str, str]]) -> list[str]:
 def _crawl(urls: Iterable[str]) -> str:
     """Скачать главную и до PAGE_BUDGET внутренних страниц, склеить текст."""
     bundles: list[str] = []
+    last_error: str = ""
     for url in urls:
         try:
             html = _fetch(url)
         except (httpx.HTTPError, httpx.InvalidURL) as exc:
-            log.warning("scout: не удалось скачать %s: %s", url, exc)
+            err_msg = f"{type(exc).__name__}: {exc}"
+            log.warning("scout: не удалось скачать %s: %s", url, err_msg)
+            last_error = err_msg
             continue
 
         text, links = _extract_text(html)
@@ -113,7 +141,10 @@ def _crawl(urls: Iterable[str]) -> str:
             bundles.append(f"=== СВЯЗАННАЯ СТРАНИЦА: {sub} ===\n{sub_text}")
 
     if not bundles:
-        raise ScrapeError("Не удалось скачать ни одной страницы клиента.")
+        raise ScrapeError(
+            f"Не удалось скачать ни одной страницы клиента. Последняя ошибка: {last_error or 'нет деталей'}. "
+            "Возможно, сайт блокирует автоматические запросы или временно недоступен."
+        )
     return "\n\n".join(bundles)[:60_000]
 
 
