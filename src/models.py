@@ -106,7 +106,7 @@ class ProjectRef(BaseModel):
 
 class TeamMember(BaseModel):
     name: str
-    role: str
+    role: str | None = None
 
 
 class PricingSignal(BaseModel):
@@ -115,15 +115,16 @@ class PricingSignal(BaseModel):
 
 
 class ContactBlock(BaseModel):
-    kind: Literal["phone", "email", "address", "office", "messenger"]
+    # `kind` намеренно str, не Literal: Haiku может вернуть «whatsapp», «zoom»,
+    # «mob_phone» — лучше пропустить, чем уронить весь pipeline на парсинге.
+    kind: str
     value: str
     note: str | None = None
 
 
 class SocialChannel(BaseModel):
-    platform: Literal[
-        "youtube", "telegram", "vk", "max", "instagram", "facebook", "tiktok", "rutube", "other"
-    ]
+    # `platform` — str по той же причине: на сайтах встречаются дзен/одноклассники/etc.
+    platform: str
     handle: str | None = None
     url: str | None = None
     subscribers: float | None = None
