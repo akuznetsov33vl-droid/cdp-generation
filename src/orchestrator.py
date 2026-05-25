@@ -6,9 +6,17 @@ import logging
 from collections.abc import Callable
 from typing import Any
 
-from src.agents import data_scout, doc_keeper, pdf_renderer, reviewer, scenario_author, visual_designer
+from src.agents import (
+    data_scout,
+    doc_keeper,
+    intro_writer,
+    pdf_renderer,
+    reviewer,
+    scenario_author,
+    visual_designer,
+)
 from src.exceptions import PDFRenderError
-from src.models import GenerationRequest, GenerationResult, PricingBlock
+from src.models import GenerationRequest, GenerationResult, IntroPair, IntroRequest, PricingBlock
 
 log = logging.getLogger(__name__)
 
@@ -87,6 +95,32 @@ def generate(req: GenerationRequest, *, progress: ProgressFn | None = None) -> G
 
     p("Готово.", 1.0)
     return result
+
+
+def generate_intro(req: IntroRequest, *, progress: ProgressFn | None = None) -> IntroPair:
+    """Сгенерировать короткий «цепляющий заход» (Telegram + Email)."""
+    p = progress or _noop
+
+    p("Парсим сайт клиента…", 0.10)
+    facts = data_scout.collect_facts(
+        primary_url=str(req.client_url),
+        additional_urls=[str(u) for u in req.additional_urls],
+        industry_hint=req.industry_hint,
+    )
+
+    p("Пишем intro для Telegram и Email (Claude Opus, ~30 сек)…", 0.50)
+    draft = intro_writer.run(req=req, facts=facts)
+
+    pair = IntroPair(
+        request_id=req.request_id,
+        client_name=draft.client_name or facts.company_name or facts.primary_domain,
+        industry=draft.industry or facts.industry_detected,
+        telegram_version=draft.telegram_version,
+        email_version=draft.email_version,
+        scenarios_pitched=draft.scenarios_pitched,
+    )
+    p("Готово.", 1.0)
+    return pair
 
 
 def to_summary(result: GenerationResult) -> dict[str, Any]:

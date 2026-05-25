@@ -50,6 +50,45 @@ class GenerationRequest(BaseModel):
     target_scenarios_count: int = Field(default=5, ge=3, le=10)
 
 
+class IntroRequest(BaseModel):
+    """Запрос на генерацию «цепляющего захода» — короткого intro-сообщения
+    для холодного контакта (email + Telegram) с N короткими сценариями."""
+
+    model_config = ConfigDict(frozen=False)
+
+    request_id: UUID = Field(default_factory=uuid4)
+    client_url: AnyHttpUrl
+    additional_urls: list[AnyHttpUrl] = []
+    recipient_name: str | None = None
+    recipient_role: str | None = None
+    sender_name: str | None = None
+    brief: str = ""
+    industry_hint: str | None = None
+    scenarios_count: int = Field(default=2, ge=1, le=3)
+
+
+class EmailIntro(BaseModel):
+    subject: str = Field(max_length=120)
+    body: str
+
+
+class IntroScenarioPitch(BaseModel):
+    title: str
+    one_liner: str
+
+
+class IntroPair(BaseModel):
+    """Финальный артефакт intro: два варианта одного сообщения."""
+
+    request_id: UUID
+    client_name: str
+    industry: str
+    telegram_version: str
+    email_version: EmailIntro
+    scenarios_pitched: list[IntroScenarioPitch]
+    generated_at: datetime = Field(default_factory=datetime.utcnow)
+
+
 class ProductRef(BaseModel):
     name: str
     url: str | None = None

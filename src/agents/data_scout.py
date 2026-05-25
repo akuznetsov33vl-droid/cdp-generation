@@ -117,19 +117,25 @@ def _crawl(urls: Iterable[str]) -> str:
     return "\n\n".join(bundles)[:60_000]
 
 
-def run(req: GenerationRequest) -> SiteFacts:
+def collect_facts(
+    *,
+    primary_url: str,
+    additional_urls: list[str] | None = None,
+    industry_hint: str | None = None,
+) -> SiteFacts:
+    """Чистое ядро: краулинг + LLM-extract. Принимает строки, не Pydantic-модель,
+    чтобы быть переиспользуемым из любого pipeline (КП и intro)."""
     settings = get_settings()
-    primary = str(req.client_url)
-    extra = [str(u) for u in req.additional_urls]
-    log.info("scout: краулим %s + %s доп. доменов", primary, len(extra))
+    extra = additional_urls or []
+    log.info("scout: краулим %s + %s доп. доменов", primary_url, len(extra))
 
-    blob = _crawl([primary, *extra])
+    blob = _crawl([primary_url, *extra])
 
     prompt_template = load_prompt("data_scout_extract")
     user_msg = prompt_template.format(
-        primary_domain=primary,
+        primary_domain=primary_url,
         additional_domains=", ".join(extra) if extra else "(нет)",
-        industry_hint=req.industry_hint or "(не указано)",
+        industry_hint=industry_hint or "(не указано)",
         site_blob=blob,
     )
 
@@ -144,7 +150,16 @@ def run(req: GenerationRequest) -> SiteFacts:
         max_tokens=4096,
     )
     if not facts.primary_domain:
-        facts.primary_domain = primary
+        facts.primary_domain = primary_url
     if extra and not facts.additional_domains:
         facts.additional_domains = extra
     return facts
+
+
+def run(req: GenerationRequest) -> SiteFacts:
+    """Обёртка для совместимости со старым пайплайном КП."""
+    return collect_facts(
+        primary_url=str(req.client_url),
+        additional_urls=[str(u) for u in req.additional_urls],
+        industry_hint=req.industry_hint,
+    )

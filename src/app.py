@@ -34,8 +34,8 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from src.config import get_settings  # noqa: E402
 from src.exceptions import CDPGenerationError, ConfigError  # noqa: E402
-from src.models import GenerationRequest  # noqa: E402
-from src.orchestrator import generate  # noqa: E402
+from src.models import GenerationRequest, IntroRequest  # noqa: E402
+from src.orchestrator import generate, generate_intro  # noqa: E402
 
 logging.basicConfig(
     level=logging.INFO,
@@ -600,72 +600,8 @@ def _normalize_url(raw: str) -> str:
     return f"https://{raw}"
 
 
-with st.form("generation_form", clear_on_submit=False):
-    col_url, col_count = st.columns([3, 1])
-    with col_url:
-        client_url = st.text_input(
-            "URL клиента",
-            placeholder="level.ru (можно без https://)",
-            help="Главный домен сайта клиента. Префикс https:// добавится автоматически.",
-        )
-        additional_raw = st.text_input(
-            "Дополнительные домены (через запятую, опционально)",
-            placeholder="business.level.ru, srub-lw.ru",
-        )
-    with col_count:
-        scenarios_count = st.number_input(
-            "Сколько сценариев",
-            min_value=3, max_value=10,
-            value=settings.target_scenarios_count,
-            step=1,
-        )
-        industry_hint = st.text_input(
-            "Отрасль (подсказка)",
-            placeholder="премиум-недвижимость",
-        )
-
-    brief = st.text_area(
-        "Бриф / транскрипт встречи",
-        height=260,
-        placeholder=(
-            "Расшифровка встречи с клиентом, ключевые задачи, "
-            "пожелания, ограничения. Чем подробнее — тем точнее КП."
-        ),
-    )
-    extra_notes = st.text_area(
-        "Доп. пожелания менеджера (опционально)",
-        height=100,
-    )
-
-    submitted = st.form_submit_button("Сгенерировать КП")
-
-if submitted:
-    if not client_url.strip():
-        st.error("URL клиента обязателен.")
-        st.stop()
-    if not brief.strip() or len(brief.strip()) < 50:
-        st.error("Бриф слишком короткий — нужна расшифровка встречи или подробное описание.")
-        st.stop()
-
-    primary_url = _normalize_url(client_url)
-    additional = [
-        _normalize_url(u) for u in additional_raw.split(",") if u.strip()
-    ]
-
-    try:
-        request = GenerationRequest(
-            client_url=primary_url,  # type: ignore[arg-type]
-            additional_urls=additional,  # type: ignore[arg-type]
-            brief=brief.strip(),
-            extra_notes=extra_notes.strip() or None,
-            industry_hint=industry_hint.strip() or None,
-            target_scenarios_count=int(scenarios_count),
-        )
-    except ValueError as exc:
-        st.error(f"Невалидные параметры: {exc}")
-        st.stop()
-
-    progress_bar = st.progress(0.0, text="Стартуем pipeline…")
+def _make_progress_callbacks():
+    progress_bar = st.progress(0.0, text="Стартуем…")
     log_box = st.empty()
     log_lines: list[str] = []
 
@@ -674,59 +610,303 @@ if submitted:
         log_box.markdown("\n".join(log_lines))
         progress_bar.progress(min(pct, 1.0), text=msg)
 
-    try:
-        result = generate(request, progress=_progress)
-    except CDPGenerationError as exc:
-        progress_bar.empty()
-        st.error(f"Ошибка генерации: {exc}")
-        st.stop()
-    except Exception as exc:  # noqa: BLE001
-        progress_bar.empty()
-        st.exception(exc)
-        st.stop()
+    return progress_bar, _progress
 
-    progress_bar.empty()
-    if result.review_passed:
-        st.success(f"КП готово · {len(result.scenarios)} сценариев · ревью пройдено.")
-    else:
-        st.warning(f"КП готово, но ревью нашёл замечания: {len(result.review_issues)} шт.")
 
-    col_a, col_b = st.columns(2)
-    with col_a:
-        st.metric("Клиент", result.client_name)
-        st.metric("Отрасль", result.industry)
-        st.metric("Сценариев", len(result.scenarios))
-    with col_b:
-        if result.html_path:
-            st.download_button(
-                "📄 Скачать HTML",
-                data=result.html_path.read_bytes(),
-                file_name=result.html_path.name,
-                mime="text/html",
+tab_kp, tab_intro = st.tabs(["🜂  Полное КП", "⚡  Цепляющий заход"])
+
+# ============================================================================
+# Вкладка 1 — Полное КП (как было)
+# ============================================================================
+
+with tab_kp:
+    st.markdown(
+        "<p style='color:var(--text-dim); letter-spacing:0.08em; font-size:0.9rem;'>"
+        "Развёрнутая презентация на 8–15 страниц со сценариями, метриками и экономикой. "
+        "Поздняя стадия продажи — когда уже есть встреча, бриф, контекст."
+        "</p>",
+        unsafe_allow_html=True,
+    )
+
+    with st.form("generation_form", clear_on_submit=False):
+        col_url, col_count = st.columns([3, 1])
+        with col_url:
+            client_url = st.text_input(
+                "URL клиента",
+                placeholder="level.ru (можно без https://)",
+                help="Главный домен сайта клиента. Префикс https:// добавится автоматически.",
             )
-        if result.pdf_path:
-            st.download_button(
-                "📑 Скачать PDF",
-                data=result.pdf_path.read_bytes(),
-                file_name=result.pdf_path.name,
-                mime="application/pdf",
+            additional_raw = st.text_input(
+                "Дополнительные домены (через запятую, опционально)",
+                placeholder="business.level.ru, srub-lw.ru",
             )
+        with col_count:
+            scenarios_count = st.number_input(
+                "Сколько сценариев",
+                min_value=3, max_value=10,
+                value=settings.target_scenarios_count,
+                step=1,
+            )
+            industry_hint = st.text_input(
+                "Отрасль (подсказка)",
+                placeholder="премиум-недвижимость",
+            )
+
+        brief = st.text_area(
+            "Бриф / транскрипт встречи",
+            height=260,
+            placeholder=(
+                "Расшифровка встречи с клиентом, ключевые задачи, "
+                "пожелания, ограничения. Чем подробнее — тем точнее КП."
+            ),
+        )
+        extra_notes = st.text_area(
+            "Доп. пожелания менеджера (опционально)",
+            height=100,
+        )
+
+        submitted = st.form_submit_button("Сгенерировать КП")
+
+    if submitted:
+        if not client_url.strip():
+            st.error("URL клиента обязателен.")
+            st.stop()
+        if not brief.strip() or len(brief.strip()) < 5:
+            st.error("Бриф пустой — напиши хотя бы пару слов, что обсудили.")
+            st.stop()
+
+        primary_url = _normalize_url(client_url)
+        additional = [
+            _normalize_url(u) for u in additional_raw.split(",") if u.strip()
+        ]
+
+        try:
+            request = GenerationRequest(
+                client_url=primary_url,  # type: ignore[arg-type]
+                additional_urls=additional,  # type: ignore[arg-type]
+                brief=brief.strip(),
+                extra_notes=extra_notes.strip() or None,
+                industry_hint=industry_hint.strip() or None,
+                target_scenarios_count=int(scenarios_count),
+            )
+        except ValueError as exc:
+            st.error(f"Невалидные параметры: {exc}")
+            st.stop()
+
+        progress_bar, _progress = _make_progress_callbacks()
+
+        try:
+            result = generate(request, progress=_progress)
+        except CDPGenerationError as exc:
+            progress_bar.empty()
+            st.error(f"Ошибка генерации: {exc}")
+            st.stop()
+        except Exception as exc:  # noqa: BLE001
+            progress_bar.empty()
+            st.exception(exc)
+            st.stop()
+
+        progress_bar.empty()
+        if result.review_passed:
+            st.success(f"КП готово · {len(result.scenarios)} сценариев · ревью пройдено.")
         else:
-            st.info(
-                "PDF не сгенерирован (Chrome/Edge не найден). "
-                "HTML можно открыть в браузере и распечатать в PDF вручную."
+            st.warning(f"КП готово, но ревью нашёл замечания: {len(result.review_issues)} шт.")
+
+        col_a, col_b = st.columns(2)
+        with col_a:
+            st.metric("Клиент", result.client_name)
+            st.metric("Отрасль", result.industry)
+            st.metric("Сценариев", len(result.scenarios))
+        with col_b:
+            if result.html_path:
+                st.download_button(
+                    "📄 Скачать HTML",
+                    data=result.html_path.read_bytes(),
+                    file_name=result.html_path.name,
+                    mime="text/html",
+                )
+            if result.pdf_path:
+                st.download_button(
+                    "📑 Скачать PDF",
+                    data=result.pdf_path.read_bytes(),
+                    file_name=result.pdf_path.name,
+                    mime="application/pdf",
+                )
+            else:
+                st.info(
+                    "PDF не сгенерирован (Chrome/Edge не найден). "
+                    "HTML можно открыть в браузере и распечатать в PDF вручную."
+                )
+
+        if result.review_issues:
+            with st.expander("Замечания ревьюера", expanded=not result.review_passed):
+                for issue in result.review_issues:
+                    icon = {"error": "🔴", "warning": "🟡", "info": "🔵"}.get(issue.severity, "•")
+                    where = f" ({issue.where})" if issue.where else ""
+                    st.markdown(f"{icon} **{issue.severity}**{where}: {issue.message}")
+
+        with st.expander("Сценарии (заголовки)"):
+            for i, sc in enumerate(result.scenarios, 1):
+                st.markdown(f"**{i}. {sc.title}** — _{sc.pitch}_")
+
+        with st.expander("Сырые факты с сайта"):
+            st.json(result.site_facts.model_dump(mode="json"))
+
+
+# ============================================================================
+# Вкладка 2 — Цепляющий заход (новая)
+# ============================================================================
+
+with tab_intro:
+    st.markdown(
+        "<p style='color:var(--text-dim); letter-spacing:0.08em; font-size:0.9rem;'>"
+        "Короткое intro для холодного контакта — два варианта сразу (email + Telegram). "
+        "Цель — продать встречу 15–20 минут, показав N конкретных сценариев под бизнес клиента. "
+        "Имя ЛПР и имя отправителя необязательны."
+        "</p>",
+        unsafe_allow_html=True,
+    )
+
+    with st.form("intro_form", clear_on_submit=False):
+        col_intro_url, col_intro_count = st.columns([3, 1])
+        with col_intro_url:
+            intro_client_url = st.text_input(
+                "URL клиента",
+                key="intro_client_url",
+                placeholder="level.ru (можно без https://)",
+            )
+            intro_additional_raw = st.text_input(
+                "Дополнительные домены (через запятую, опционально)",
+                key="intro_additional_raw",
+                placeholder="business.level.ru",
             )
 
-    if result.review_issues:
-        with st.expander("Замечания ревьюера", expanded=not result.review_passed):
-            for issue in result.review_issues:
-                icon = {"error": "🔴", "warning": "🟡", "info": "🔵"}.get(issue.severity, "•")
-                where = f" ({issue.where})" if issue.where else ""
-                st.markdown(f"{icon} **{issue.severity}**{where}: {issue.message}")
+        with col_intro_count:
+            intro_scenarios_count = st.number_input(
+                "Сценариев в письме",
+                min_value=1, max_value=3, value=2, step=1,
+                key="intro_scenarios_count",
+                help="Сколько коротких сценариев упомянуть. 2 — золотая середина.",
+            )
+            intro_industry_hint = st.text_input(
+                "Отрасль (подсказка)",
+                key="intro_industry_hint",
+                placeholder="онлайн-школа, премиум-авто, …",
+            )
 
-    with st.expander("Сценарии (заголовки)"):
-        for i, sc in enumerate(result.scenarios, 1):
-            st.markdown(f"**{i}. {sc.title}** — _{sc.pitch}_")
+        col_intro_to, col_intro_from = st.columns(2)
+        with col_intro_to:
+            intro_recipient_name = st.text_input(
+                "Имя получателя (опционально)",
+                key="intro_recipient_name",
+                placeholder="Пётр",
+                help="Если знаешь имя ЛПР — впиши. Без него обращение будет обезличенным.",
+            )
+            intro_recipient_role = st.text_input(
+                "Должность (опционально)",
+                key="intro_recipient_role",
+                placeholder="директор по маркетингу",
+            )
+        with col_intro_from:
+            intro_sender_name = st.text_input(
+                "Имя отправителя (опционально)",
+                key="intro_sender_name",
+                placeholder="Александр / Дмитрий / Снежана / Полина",
+                help="Кто подписывает письмо. Без него — «команда Calltouch».",
+            )
 
-    with st.expander("Сырые факты с сайта"):
-        st.json(result.site_facts.model_dump(mode="json"))
+        intro_brief = st.text_area(
+            "Контекст / бриф (опционально, от 5 символов если задан)",
+            key="intro_brief",
+            height=120,
+            placeholder=(
+                "Что мы уже знаем о клиенте — пара фраз. Можно ничего не писать, "
+                "тогда intro построится только на распарсенном сайте."
+            ),
+        )
+
+        intro_submitted = st.form_submit_button("Сгенерировать заход")
+
+    if intro_submitted:
+        if not intro_client_url.strip():
+            st.error("URL клиента обязателен — это единственное, без чего intro не построить.")
+            st.stop()
+
+        if intro_brief.strip() and len(intro_brief.strip()) < 5:
+            st.error("Если пишешь бриф — хотя бы 5 символов.")
+            st.stop()
+
+        intro_primary_url = _normalize_url(intro_client_url)
+        intro_additional = [
+            _normalize_url(u) for u in intro_additional_raw.split(",") if u.strip()
+        ]
+
+        try:
+            intro_request = IntroRequest(
+                client_url=intro_primary_url,  # type: ignore[arg-type]
+                additional_urls=intro_additional,  # type: ignore[arg-type]
+                recipient_name=intro_recipient_name.strip() or None,
+                recipient_role=intro_recipient_role.strip() or None,
+                sender_name=intro_sender_name.strip() or None,
+                brief=intro_brief.strip(),
+                industry_hint=intro_industry_hint.strip() or None,
+                scenarios_count=int(intro_scenarios_count),
+            )
+        except ValueError as exc:
+            st.error(f"Невалидные параметры: {exc}")
+            st.stop()
+
+        intro_progress_bar, _intro_progress = _make_progress_callbacks()
+
+        try:
+            intro_result = generate_intro(intro_request, progress=_intro_progress)
+        except CDPGenerationError as exc:
+            intro_progress_bar.empty()
+            st.error(f"Ошибка генерации: {exc}")
+            st.stop()
+        except Exception as exc:  # noqa: BLE001
+            intro_progress_bar.empty()
+            st.exception(exc)
+            st.stop()
+
+        intro_progress_bar.empty()
+        st.success(
+            f"Заход готов · {intro_result.client_name} · "
+            f"{len(intro_result.scenarios_pitched)} сценария упомянуто."
+        )
+
+        col_meta1, col_meta2 = st.columns(2)
+        with col_meta1:
+            st.metric("Клиент", intro_result.client_name)
+        with col_meta2:
+            st.metric("Отрасль", intro_result.industry)
+
+        st.markdown("### 📧 Email-версия")
+        st.text_input(
+            "Тема письма",
+            value=intro_result.email_version.subject,
+            key="intro_out_subject",
+        )
+        st.text_area(
+            "Текст письма",
+            value=intro_result.email_version.body,
+            height=320,
+            key="intro_out_email_body",
+        )
+
+        st.markdown("### 💬 Telegram-версия")
+        st.text_area(
+            "Текст для Telegram",
+            value=intro_result.telegram_version,
+            height=200,
+            key="intro_out_telegram",
+        )
+
+        with st.expander("Сценарии, которые упомянуты в заходе"):
+            for i, sc in enumerate(intro_result.scenarios_pitched, 1):
+                st.markdown(f"**{i}. {sc.title}** — {sc.one_liner}")
+
+        st.caption(
+            "Выдели текст в поле выше и нажми Ctrl+C — вставляется как есть. "
+            "Если хочется иначе — поменяй параметры формы и нажми «Сгенерировать заход» ещё раз."
+        )
