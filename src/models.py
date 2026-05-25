@@ -92,7 +92,7 @@ class IntroPair(BaseModel):
 class ProductRef(BaseModel):
     name: str
     url: str | None = None
-    price_from: int | None = None
+    price_from: float | None = None
     description: str | None = None
 
 
@@ -100,7 +100,7 @@ class ProjectRef(BaseModel):
     name: str
     url: str | None = None
     location: str | None = None
-    price_from: int | None = None
+    price_from: float | None = None
     status: str | None = None
 
 
@@ -126,7 +126,7 @@ class SocialChannel(BaseModel):
     ]
     handle: str | None = None
     url: str | None = None
-    subscribers: int | None = None
+    subscribers: float | None = None
 
 
 class SiteFacts(BaseModel):
