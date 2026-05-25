@@ -147,7 +147,7 @@ def collect_facts(
         ),
         user=user_msg,
         schema=SiteFacts,
-        max_tokens=4096,
+        max_tokens=8192,
     )
     if not facts.primary_domain:
         facts.primary_domain = primary_url

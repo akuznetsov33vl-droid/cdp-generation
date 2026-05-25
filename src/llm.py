@@ -18,6 +18,7 @@ T = TypeVar("T", bound=BaseModel)
 log = logging.getLogger(__name__)
 
 _FENCE_RE = re.compile(r"```(?:json)?\s*(.*?)\s*```", re.DOTALL)
+_FENCE_OPEN_RE = re.compile(r"```(?:json)?\s*", re.IGNORECASE)
 
 
 def _client() -> Anthropic:
@@ -82,8 +83,24 @@ def call_text(
 
 
 def _strip_fence(raw: str) -> str:
-    m = _FENCE_RE.search(raw)
-    return m.group(1).strip() if m else raw.strip()
+    """Достать тело JSON из ответа LLM, даже если он не идеален:
+    - обёрнут в ```json ... ```
+    - открыт fence, но не закрыт (обрезался на max_tokens)
+    - окружён комментариями/markdown сверху и снизу
+    """
+    text = raw.strip()
+    m = _FENCE_RE.search(text)
+    if m:
+        return m.group(1).strip()
+    text = _FENCE_OPEN_RE.sub("", text, count=1)
+    text = text.rstrip("`").rstrip()
+    start = text.find("{")
+    if start == -1:
+        return text
+    end = text.rfind("}")
+    if end > start:
+        return text[start : end + 1]
+    return text[start:]
 
 
 def call_json(
