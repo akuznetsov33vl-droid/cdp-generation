@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#F3EEF9" />
+<title>Виджеты для автодилеров — Calltouch</title>
+<meta name="description" content="5 виджетов для сайта автодилера. Конвертируйте посетителей в заявки." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+<style>
+:root {
+  --violet: #962AD5;
+  --pink: #EC66F5;
+  --cyan: #19BCE5;
+  --sky: #45A2F6;
+  --periwinkle: #997EFF;
+  --lime: #0F9B7A;
+  --ink: #1F282B;
+  --text-1: #121A1E;
+  --text-2: rgba(18,26,30,.88);
+  --text-3: rgba(18,26,30,.58);
+  --line: rgba(150,42,213,.14);
+  --surface: rgba(255,255,255,.78);
+  --surface-solid: #FFFFFF;
+  --grad: linear-gradient(135deg, #EC66F5 0%, #962AD5 35%, #45A2F6 70%, #19BCE5 100%);
+  --grad-hot: linear-gradient(135deg, #FF6BD6 0%, #962AD5 40%, #19BCE5 100%);
+  --radius-xl: 32px;
+  --radius-lg: 22px;
+  --font-h: "Syne", "Manrope", sans-serif;
+  --font-b: "Manrope", system-ui, sans-serif;
+  --font-m: "Consolas", monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-b);
+  color: var(--text-1);
+  background: #F3EEF9;
+  line-height: 1.55;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ═══ СВЕТЛЫЙ МЯГКИЙ ФОН ═══ */
+.bg-layer {
+  position: fixed; inset: 0; z-index: -10; pointer-events: none;
+  background:
+    radial-gradient(ellipse 110% 90% at 50% -15%, rgba(236,102,245,.32) 0%, transparent 58%),
+    radial-gradient(ellipse 80% 70% at 95% 25%, rgba(25,188,229,.26) 0%, transparent 58%),
+    radial-gradient(ellipse 75% 65% at 5% 75%, rgba(150,42,213,.22) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 50% at 70% 95%, rgba(153,126,255,.18) 0%, transparent 55%),
+    linear-gradient(180deg, #FDFBFF 0%, #F5F0FC 38%, #EBF6FD 100%);
+}
+.bg-mesh {
+  position: fixed; inset: -50%; z-index: -9; pointer-events: none; opacity: .55;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(236,102,245,.22) 0%, transparent 42%),
+    radial-gradient(circle at 80% 20%, rgba(25,188,229,.18) 0%, transparent 38%),
+    radial-gradient(circle at 55% 85%, rgba(150,42,213,.16) 0%, transparent 42%);
+  animation: meshMove 24s ease-in-out infinite alternate;
+}
+@keyframes meshMove {
+  0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+  100% { transform: translate(-5%, 3%) rotate(8deg) scale(1.08); }
+}
+.stars {
+  position: fixed; inset: 0; z-index: -8; pointer-events: none; opacity: .55;
+  background-image:
+    radial-gradient(2px 2px at 10% 20%, rgba(150,42,213,.35) 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 30% 60%, rgba(25,188,229,.4) 50%, transparent 51%),
+    radial-gradient(1px 1px at 50% 10%, rgba(236,102,245,.3) 50%, transparent 51%),
+    radial-gradient(2px 2px at 70% 40%, rgba(153,126,255,.35) 50%, transparent 51%),
+    radial-gradient(1px 1px at 90% 70%, rgba(25,188,229,.35) 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 15% 85%, rgba(150,42,213,.25) 50%, transparent 51%);
+  background-size: 600px 600px;
+  animation: starDrift 120s linear infinite;
+}
+@keyframes starDrift { to { background-position: 600px 400px; } }
+
+.grid-glow {
+  position: fixed; inset: 0; z-index: -7; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(150,42,213,.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(25,188,229,.06) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse 100% 80% at 50% 40%, black 8%, transparent 78%);
+  opacity: .7;
+}
+
+.orb {
+  position: fixed; border-radius: 50%; filter: blur(80px); pointer-events: none; z-index: -6;
+}
+.orb--1 { width: 480px; height: 480px; top: 8vh; left: -100px; background: #EC66F5; opacity: .38; animation: orb1 14s ease-in-out infinite; }
+.orb--2 { width: 400px; height: 400px; top: 48vh; right: -80px; background: #19BCE5; opacity: .34; animation: orb2 18s ease-in-out infinite; }
+.orb--3 { width: 360px; height: 360px; bottom: 8vh; left: 30%; background: #997EFF; opacity: .3; animation: orb3 16s ease-in-out infinite; }
+.orb--4 { width: 260px; height: 260px; top: 22vh; right: 28%; background: #C4B5FD; opacity: .28; animation: orb1 20s ease-in-out infinite reverse; }
+@keyframes orb1 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(60px,-40px) scale(1.15)} }
+@keyframes orb2 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-50px,60px) scale(1.1)} }
+@keyframes orb3 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(40px,50px) scale(1.12)} }
+
+.comet {
+  position: fixed; top: 15%; left: -120px; width: 180px; height: 2px; z-index: -5;
+  background: linear-gradient(90deg, transparent, rgba(150,42,213,.6) 70%, var(--cyan));
+  filter: drop-shadow(0 0 12px rgba(25,188,229,.4));
+  transform: rotate(25deg); opacity: 0;
+  animation: comet 10s ease-in infinite;
+}
+@keyframes comet {
+  0%,75%,100% { opacity: 0; transform: translate(0,0) rotate(25deg); }
+  78% { opacity: .85; }
+  92% { opacity: 0; transform: translate(110vw, 40vh) rotate(25deg); }
+}
+
+.glow-cursor {
+  position: fixed; width: 520px; height: 520px; border-radius: 50%; pointer-events: none; z-index: 0;
+  background: radial-gradient(circle, rgba(236,102,245,.12) 0%, rgba(25,188,229,.06) 45%, transparent 70%);
+  transform: translate(-50%, -50%); mix-blend-mode: multiply;
+}
+
+.container { max-width: 1240px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+/* ═══ NAV ═══ */
+.nav {
+  position: fixed; top: 16px; left: 50%; transform: translateX(-50%); z-index: 200;
+  width: calc(100% - 32px); max-width: 900px;
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  background: rgba(255,255,255,.82);
+  border: 1px solid rgba(150,42,213,.12);
+  border-radius: 999px;
+  box-shadow: 0 8px 32px rgba(150,42,213,.12), 0 2px 8px rgba(31,40,43,.04);
+  animation: navDrop .8s cubic-bezier(.22,1,.36,1) both;
+}
+@keyframes navDrop { from{opacity:0;transform:translateX(-50%) translateY(-20px)} to{opacity:1;transform:translateX(-50%) translateY(0)} }
+.nav__inner { display: flex; align-items: center; justify-content: space-between; padding: 12px 20px 12px 24px; }
+.nav__logo img { height: 28px; display: block; opacity: .95; }
+.nav__links { display: flex; gap: 8px; }
+.nav__links a {
+  font-size: 13px; font-weight: 600; color: var(--text-2); text-decoration: none;
+  padding: 8px 14px; border-radius: 999px; transition: background .2s, color .2s;
+}
+.nav__links a:hover { background: rgba(150,42,213,.08); color: var(--violet); }
+@media (max-width: 640px) { .nav__links { display: none; } }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 13px 24px; border-radius: 999px; font-weight: 700; font-size: 14px;
+  text-decoration: none; border: none; cursor: pointer; transition: transform .25s, box-shadow .25s;
+  position: relative; overflow: hidden;
+}
+.btn::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,.25) 50%, transparent 60%);
+  transform: translateX(-100%); transition: transform .5s;
+}
+.btn:hover::after { transform: translateX(100%); }
+.btn--fire {
+  background: var(--grad-hot); color: #fff;
+  box-shadow: 0 8px 32px rgba(236,102,245,.5), 0 0 0 1px rgba(255,255,255,.15) inset;
+  animation: btnPulse 3s ease-in-out infinite;
+}
+@keyframes btnPulse {
+  0%,100% { box-shadow: 0 8px 32px rgba(236,102,245,.5), 0 0 0 1px rgba(255,255,255,.15) inset; }
+  50% { box-shadow: 0 8px 48px rgba(25,188,229,.6), 0 0 24px rgba(236,102,245,.4), 0 0 0 1px rgba(255,255,255,.2) inset; }
+}
+.btn--fire:hover { transform: translateY(-3px) scale(1.02); }
+.btn--glass {
+  background: rgba(255,255,255,.85); color: var(--ink); border: 1px solid rgba(150,42,213,.18);
+  backdrop-filter: blur(8px); box-shadow: 0 4px 16px rgba(150,42,213,.08);
+}
+.btn--glass:hover { background: #fff; transform: translateY(-2px); }
+.btn--white { background: var(--ink); color: #fff; box-shadow: 0 12px 32px rgba(31,40,43,.18); }
+
+/* ═══ HERO — центрированный, full-screen ═══ */
+.hero {
+  min-height: 100vh; display: flex; flex-direction: column; align-items: center;
+  justify-content: center; padding: 120px 24px 100px; text-align: center; position: relative;
+}
+.hero__badge {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: var(--font-m); font-size: 11px; letter-spacing: .25em; text-transform: uppercase;
+  padding: 10px 20px; border-radius: 999px; margin-bottom: 28px; font-weight: 700;
+  background: rgba(255,255,255,.85); border: 1px solid rgba(150,42,213,.2);
+  color: var(--text-2);
+  animation: fadeUp .9s .1s cubic-bezier(.22,1,.36,1) both;
+}
+.hero__badge-dot {
+  width: 8px; height: 8px; border-radius: 50%; background: var(--cyan);
+  box-shadow: 0 0 10px rgba(25,188,229,.5); animation: ping 1.5s ease-out infinite;
+}
+@keyframes ping { 0%{box-shadow:0 0 0 0 rgba(25,188,229,.55)} 70%{box-shadow:0 0 0 14px rgba(25,188,229,0)} 100%{box-shadow:0 0 0 0 rgba(25,188,229,0)} }
+
+.hero__title {
+  font-family: var(--font-h); font-size: clamp(42px, 8vw, 96px);
+  line-height: .95; font-weight: 800; letter-spacing: -0.04em; max-width: 900px;
+  color: var(--text-1);
+  text-shadow: 0 2px 0 rgba(255,255,255,.9), 0 12px 40px rgba(150,42,213,.12);
+  animation: fadeUp .9s .2s cubic-bezier(.22,1,.36,1) both;
+}
+.hero__title .line { display: block; }
+.hero__title .grad {
+  background: var(--grad); background-size: 300% 100%;
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  animation: gradFlow 6s linear infinite;
+  filter: drop-shadow(0 4px 24px rgba(150,42,213,.28));
+}
+@keyframes gradFlow { 0%{background-position:0% 50%} 100%{background-position:300% 50%} }
+
+.grad-inline {
+  background: var(--grad); background-size: 200% 100%;
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  animation: gradFlow 5s linear infinite;
+}
+
+.hero__lead {
+  font-size: clamp(17px, 2.4vw, 22px); color: var(--text-2); max-width: 580px; margin: 24px auto 36px;
+  font-weight: 600; line-height: 1.6;
+  animation: fadeUp .9s .35s cubic-bezier(.22,1,.36,1) both;
+}
+.hero__actions {
+  display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; margin-bottom: 64px;
+  animation: fadeUp .9s .45s cubic-bezier(.22,1,.36,1) both;
+}
+@keyframes fadeUp { from{opacity:0;transform:translateY(32px)} to{opacity:1;transform:none} }
+
+/* Floating stats orbit */
+.hero__orbit {
+  position: relative; width: min(920px, 100%); margin: 0 auto;
+  animation: fadeUp 1s .55s cubic-bezier(.22,1,.36,1) both;
+}
+.orbit-ring {
+  position: absolute; border-radius: 50%; border: 1px dashed rgba(150,42,213,.18);
+  top: 50%; left: 50%; transform: translate(-50%, -50%);
+  animation: ringSpin 30s linear infinite;
+}
+.orbit-ring--1 { width: 100%; height: 280px; }
+.orbit-ring--2 { width: 85%; height: 240px; animation-direction: reverse; animation-duration: 22s; opacity: .6; }
+@keyframes ringSpin { to { transform: translate(-50%, -50%) rotate(360deg); } }
+
+.hero__stage-wrap { position: relative; padding: 40px 0; }
+.floating-stat {
+  position: absolute; z-index: 5; padding: 14px 20px; border-radius: 16px;
+  background: rgba(255,255,255,.88); border: 1px solid rgba(150,42,213,.1);
+  backdrop-filter: blur(16px); text-align: left;
+  animation: floatStat 4s ease-in-out infinite;
+  box-shadow: 0 12px 32px rgba(150,42,213,.12);
+}
+.floating-stat:nth-child(1) { top: 10%; left: 0; animation-delay: 0s; }
+.floating-stat:nth-child(2) { top: 5%; right: 0; animation-delay: 1.3s; }
+.floating-stat:nth-child(3) { bottom: 15%; left: 5%; animation-delay: .7s; }
+@keyframes floatStat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+.floating-stat__num { font-family: var(--font-h); font-size: 22px; font-weight: 800; color: var(--violet); }
+.floating-stat__label { font-size: 12px; color: var(--text-2); font-weight: 600; }
+
+.tilt-wrap {
+  perspective: 1200px;
+  transform-style: preserve-3d;
+  animation: browserFloat 6s ease-in-out infinite;
+}
+.browser {
+  position: relative; border-radius: var(--radius-xl); overflow: hidden; z-index: 2;
+  border: 1px solid rgba(150,42,213,.15);
+  background: #fff;
+  box-shadow:
+    0 24px 64px rgba(150,42,213,.18),
+    0 8px 24px rgba(31,40,43,.06);
+}
+@keyframes browserFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+.browser__bar {
+  display: flex; align-items: center; gap: 8px; padding: 14px 18px;
+  background: #F5F2FA; border-bottom: 1px solid rgba(150,42,213,.1);
+}
+.browser__dot { width: 10px; height: 10px; border-radius: 50%; }
+.browser__dot:nth-child(1) { background: #FF5F57; }
+.browser__dot:nth-child(2) { background: #FFBD2E; }
+.browser__dot:nth-child(3) { background: #28CA41; }
+.browser__url { flex: 1; margin-left: 8px; height: 28px; border-radius: 8px; background: #fff; border: 1px solid rgba(150,42,213,.1); }
+.browser__stage { position: relative; aspect-ratio: 16/10; background: linear-gradient(180deg, #EDE8F5, #E4EFFA); overflow: hidden; }
+.browser__stage::before {
+  content: ""; position: absolute; inset: 0;
+  background: radial-gradient(circle at 50% 55%, var(--stage-glow, rgba(150,42,213,.3)) 0%, transparent 65%);
+  transition: background .6s;
+}
+.hero-slide {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  padding: 20px 24px; opacity: 0; transform: scale(.92) translateY(12px);
+  transition: opacity .5s, transform .5s cubic-bezier(.22,1,.36,1); pointer-events: none;
+}
+.hero-slide.active { opacity: 1; transform: scale(1) translateY(0); pointer-events: auto; }
+.hero-slide img {
+  max-height: 82%; max-width: 92%; object-fit: contain; object-position: center center;
+  transform: translateY(var(--slide-offset, -10%));
+  filter: drop-shadow(0 20px 40px rgba(0,0,0,.45));
+}
+
+.hero-tabs {
+  display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 28px;
+}
+.hero-tab {
+  padding: 10px 18px; border-radius: 999px; font-size: 13px; font-weight: 600;
+  border: 1px solid rgba(150,42,213,.12); background: rgba(255,255,255,.8); color: var(--text-2);
+  cursor: pointer; transition: all .3s; box-shadow: 0 2px 8px rgba(150,42,213,.06);
+}
+.hero-tab.active {
+  color: #fff; border-color: transparent;
+  background: var(--tab-bg, var(--grad));
+  box-shadow: 0 8px 28px var(--tab-glow, rgba(150,42,213,.4));
+  transform: scale(1.05);
+}
+
+/* ═══ MARQUEE ═══ */
+.marquee-wrap {
+  overflow: hidden; padding: 20px 0;
+  border-top: 1px solid rgba(150,42,213,.1); border-bottom: 1px solid rgba(150,42,213,.1);
+  background: rgba(255,255,255,.45);
+  mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+}
+.marquee { display: flex; width: max-content; animation: marquee 28s linear infinite; }
+.marquee__item {
+  display: flex; align-items: center; gap: 12px; padding: 0 32px;
+  font-family: var(--font-h); font-size: 18px; font-weight: 800; white-space: nowrap; color: var(--text-1);
+}
+.marquee__item span { color: var(--pink); font-size: 24px; }
+@keyframes marquee { to { transform: translateX(-50%); } }
+
+/* ═══ WIDGETS — bento grid ═══ */
+section { padding: 100px 0; position: relative; }
+.section-tag {
+  display: inline-block; font-family: var(--font-m); font-size: 11px; letter-spacing: .22em;
+  text-transform: uppercase; color: #0A7FA0; margin-bottom: 12px; font-weight: 700;
+  padding: 8px 16px; border-radius: 999px; background: rgba(25,188,229,.14); border: 1px solid rgba(25,188,229,.35);
+}
+.section-title {
+  font-family: var(--font-h); font-size: clamp(32px, 5vw, 56px);
+  font-weight: 800; letter-spacing: -0.03em; line-height: 1.05; margin-bottom: 16px;
+  color: var(--text-1);
+}
+.section-desc { font-size: 18px; color: var(--text-2); max-width: 560px; font-weight: 600; line-height: 1.65; }
+
+.widgets-layout {
+  display: grid; grid-template-columns: 1.2fr 1fr 1fr; grid-template-rows: auto auto; gap: 16px;
+  margin-top: 48px;
+}
+@media (max-width: 960px) { .widgets-layout { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 560px) { .widgets-layout { grid-template-columns: 1fr; } }
+
+
+.tilt-card {
+  transform-style: preserve-3d;
+  transition: box-shadow .35s, border-color .3s;
+  will-change: transform;
+}
+.tilt-card__shine {
+  position: absolute; inset: 0; border-radius: inherit; pointer-events: none; z-index: 10;
+  background: radial-gradient(circle at var(--tilt-x, 50%) var(--tilt-y, 50%), rgba(255,255,255,.55) 0%, transparent 55%);
+  opacity: 0; transition: opacity .3s;
+}
+.tilt-card:hover .tilt-card__shine { opacity: 1; }
+
+.widget-card {
+  position: relative; border-radius: var(--radius-lg); overflow: hidden; cursor: pointer;
+  border: 1px solid rgba(150,42,213,.1); background: rgba(255,255,255,.72);
+  backdrop-filter: blur(12px); transition: box-shadow .4s, border-color .3s;
+  min-height: 200px; padding: 24px;
+  box-shadow: 0 8px 28px rgba(150,42,213,.08);
+}
+.widget-card::before {
+  content: ""; position: absolute; inset: 0; opacity: 0; transition: opacity .4s;
+  background: radial-gradient(circle at 30% 20%, var(--card-glow, rgba(150,42,213,.12)) 0%, transparent 60%);
+}
+.widget-card.tilt-card:hover, .widget-card.active {
+  border-color: rgba(150,42,213,.22);
+  box-shadow: 0 20px 48px rgba(150,42,213,.16), 0 0 32px var(--card-glow-shadow, rgba(150,42,213,.08));
+}
+.widget-card:hover::before, .widget-card.active::before { opacity: 1; }
+.widget-card--hero { grid-row: span 2; min-height: 420px; padding: 32px; display: flex; flex-direction: column; }
+@media (max-width: 960px) { .widget-card--hero { grid-row: span 1; min-height: 320px; } }
+
+.widget-card__num {
+  font-family: var(--font-m); font-size: 11px; color: var(--text-3); letter-spacing: .15em;
+}
+.widget-card__icon { font-size: 36px; margin: 12px 0; position: relative; z-index: 1; }
+.widget-card__title { font-family: var(--font-h); font-size: 22px; font-weight: 800; margin-bottom: 8px; position: relative; z-index: 1; }
+.widget-card--hero .widget-card__title { font-size: clamp(28px, 4vw, 40px); }
+.widget-card__text { font-size: 15px; color: var(--text-2); font-weight: 500; position: relative; z-index: 1; flex: 1; line-height: 1.55; }
+.widget-card__preview {
+  margin-top: auto; display: flex; justify-content: center; align-items: flex-end;
+  min-height: 140px; position: relative; z-index: 1;
+}
+.widget-card__preview img {
+  max-height: 160px; max-width: 100%; object-fit: contain;
+  filter: drop-shadow(0 16px 32px rgba(0,0,0,.4));
+  transition: transform .4s;
+}
+.widget-card:hover .widget-card__preview img { transform: scale(1.05) translateY(-4px); }
+.widget-card__bar {
+  position: absolute; bottom: 0; left: 0; right: 0; height: 4px;
+  background: var(--card-accent, var(--grad)); transform: scaleX(0); transform-origin: left;
+  transition: transform .4s;
+}
+.widget-card.active .widget-card__bar, .widget-card:hover .widget-card__bar { transform: scaleX(1); }
+
+/* ═══ JOURNEY ═══ */
+.section-journey { padding: 88px 0; }
+.journey-head { text-align: center; max-width: 640px; margin: 0 auto 48px; }
+.journey-panel {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: stretch;
+  padding: 32px; border-radius: var(--radius-xl);
+  background: rgba(255,255,255,.72); border: 1px solid rgba(150,42,213,.1);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 16px 48px rgba(150,42,213,.1);
+}
+@media (max-width: 900px) {
+  .journey-panel { grid-template-columns: 1fr; padding: 24px; gap: 28px; }
+}
+
+.journey__visual {
+  position: relative; border-radius: var(--radius-lg); overflow: hidden;
+  min-height: 340px; height: 100%;
+  border: 1px solid rgba(150,42,213,.08);
+  background: linear-gradient(160deg, #F8F5FD 0%, #EEF6FC 100%);
+  display: flex; align-items: center; justify-content: center;
+}
+.journey__visual img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: contain; object-position: center; padding: 28px;
+  opacity: 0; transition: opacity .65s ease, transform .65s ease;
+  transform: scale(.97);
+  pointer-events: none;
+}
+.journey__visual img.active { opacity: 1; transform: scale(1); }
+
+.journey__steps {
+  display: flex; flex-direction: column; justify-content: center;
+  position: relative; padding: 8px 0 8px 20px;
+}
+.journey__steps::before {
+  content: ""; position: absolute; left: 35px; top: 36px; bottom: 36px; width: 2px;
+  background: linear-gradient(180deg, rgba(150,42,213,.08), rgba(150,42,213,.18), rgba(150,42,213,.08));
+  border-radius: 2px;
+}
+
+.journey-step {
+  position: relative; padding: 20px 16px 20px 48px; margin-left: 0;
+  border-left: none;
+  opacity: .55; cursor: pointer; border-radius: 12px;
+  transition: opacity .35s, background .35s, transform .2s;
+  user-select: none;
+}
+.journey-step:active { transform: scale(.99); }
+.journey-step:hover { opacity: .8; }
+.journey-step.active {
+  opacity: 1;
+  background: rgba(150,42,213,.06);
+}
+.journey-step::before {
+  content: attr(data-num);
+  position: absolute; left: 8px; top: 18px;
+  width: 36px; height: 36px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-h); font-weight: 800; font-size: 15px;
+  background: #fff; border: 2px solid rgba(150,42,213,.15);
+  transition: border-color .35s, box-shadow .35s, background .35s, color .35s;
+}
+.journey-step.active::before {
+  border-color: var(--step-color, var(--cyan));
+  background: var(--step-color, var(--cyan)); color: #fff;
+  box-shadow: 0 0 16px color-mix(in srgb, var(--step-color, var(--cyan)) 45%, transparent);
+}
+.journey-step__title { font-family: var(--font-h); font-size: 20px; font-weight: 800; margin-bottom: 6px; line-height: 1.25; color: var(--text-1); }
+.journey-step__text { font-size: 15px; color: var(--text-2); font-weight: 500; line-height: 1.55; max-width: 420px; }
+.journey-step.active .journey-step__text { color: rgba(18,26,30,.92); }
+
+/* ═══ FEATURES — zigzag ═══ */
+.features-zigzag { display: flex; flex-direction: column; gap: 24px; margin-top: 48px; }
+.feature-row {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: stretch;
+}
+.feature-row:nth-child(even) { direction: rtl; }
+.feature-row:nth-child(even) > * { direction: ltr; }
+@media (max-width: 760px) {
+  .feature-row, .feature-row:nth-child(even) { grid-template-columns: 1fr; direction: ltr; }
+}
+.feature-block {
+  padding: 36px; border-radius: var(--radius-xl); position: relative; overflow: hidden;
+  border: 1px solid rgba(150,42,213,.1); background: rgba(255,255,255,.72);
+  transition: box-shadow .4s;
+  box-shadow: 0 8px 28px rgba(150,42,213,.07);
+}
+.feature-block.tilt-card:hover { box-shadow: 0 20px 48px rgba(150,42,213,.14); }
+.feature-block--accent {
+  background: linear-gradient(135deg, rgba(255,255,255,.92) 0%, rgba(236,102,245,.08) 50%, rgba(25,188,229,.06) 100%);
+  border-color: rgba(150,42,213,.15);
+}
+.feature-block__glow {
+  position: absolute; width: 200px; height: 200px; border-radius: 50%; filter: blur(60px);
+  top: -60px; right: -40px; background: var(--fb-glow, var(--pink)); opacity: .25;
+  animation: orb1 8s ease-in-out infinite;
+}
+.feature-block__icon { font-size: 40px; margin-bottom: 16px; position: relative; }
+.feature-block__title { font-family: var(--font-h); font-size: 24px; font-weight: 800; margin-bottom: 10px; position: relative; }
+.feature-block__text { font-size: 16px; color: var(--text-2); font-weight: 500; position: relative; margin-bottom: 16px; line-height: 1.6; }
+.feature-block__tags { display: flex; flex-wrap: wrap; gap: 8px; position: relative; }
+.feature-block__tag {
+  font-size: 12px; padding: 6px 12px; border-radius: 999px;
+  background: rgba(150,42,213,.06); border: 1px solid rgba(150,42,213,.12); color: var(--text-2);
+}
+
+/* ═══ PROMO — 2x2 animated grid ═══ */
+.promo-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 48px;
+}
+@media (max-width: 640px) { .promo-grid { grid-template-columns: 1fr; } }
+
+.promo-tile {
+  position: relative; border-radius: var(--radius-xl); overflow: hidden; cursor: pointer;
+  min-height: 280px; border: 1px solid rgba(150,42,213,.1);
+  transition: box-shadow .4s;
+  box-shadow: 0 8px 28px rgba(150,42,213,.1);
+}
+.promo-tile.tilt-card:hover { box-shadow: 0 20px 48px rgba(150,42,213,.18); }
+.promo-tile img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; transition: transform .6s; }
+.promo-tile:hover img { transform: scale(1.08); }
+.promo-tile__overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, transparent 25%, rgba(31,40,43,.75) 100%);
+  display: flex; flex-direction: column; justify-content: flex-end; padding: 28px;
+}
+.promo-tile__icon { font-size: 28px; margin-bottom: 8px; }
+.promo-tile__title { font-family: var(--font-h); font-size: 22px; font-weight: 800; color: #fff; }
+.promo-tile__text { font-size: 13px; color: rgba(255,255,255,.85); margin-top: 6px; line-height: 1.5; }
+.promo-tile__ring {
+  position: absolute; top: 20px; right: 20px; width: 48px; height: 48px;
+  border-radius: 50%; border: 2px solid rgba(255,255,255,.3);
+  animation: ringSpin 8s linear infinite;
+}
+.promo-tile__ring::after {
+  content: ""; position: absolute; top: -4px; left: 50%; width: 8px; height: 8px;
+  border-radius: 50%; background: var(--promo-dot, var(--cyan));
+  box-shadow: 0 0 12px var(--promo-dot, var(--cyan));
+}
+
+/* ═══ CTA split ═══ */
+.cta-split {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center;
+  padding: 64px; border-radius: var(--radius-xl);
+  background: rgba(255,255,255,.88); border: 2px solid rgba(150,42,213,.16);
+  backdrop-filter: blur(20px); position: relative; overflow: hidden;
+  box-shadow: 0 24px 64px rgba(150,42,213,.14), 0 4px 0 rgba(255,255,255,.8) inset;
+}
+.cta-split::before {
+  content: ""; position: absolute; inset: -2px; border-radius: var(--radius-xl); z-index: -1;
+  background: var(--grad); background-size: 300% 300%;
+  animation: gradFlow 8s linear infinite; opacity: .22; filter: blur(28px);
+}
+@media (max-width: 860px) { .cta-split { grid-template-columns: 1fr; padding: 40px 28px; } }
+
+.cta-form-box {
+  padding: 28px; border-radius: var(--radius-lg);
+  background: linear-gradient(155deg, #FFFFFF 0%, #F8F3FF 55%, #EFF9FF 100%);
+  border: 2px solid rgba(150,42,213,.18);
+  box-shadow: 0 16px 48px rgba(150,42,213,.1);
+}
+.cta-form { display: flex; flex-direction: column; gap: 18px; }
+.field { display: flex; flex-direction: column; gap: 8px; }
+.field__label {
+  font-size: 12px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--violet);
+}
+.cta-input {
+  width: 100%; padding: 18px 22px; border-radius: 16px;
+  border: 2px solid rgba(150,42,213,.2); background: #fff;
+  color: var(--text-1); font-size: 17px; font-weight: 600; font-family: inherit; outline: none;
+  transition: border-color .25s, box-shadow .25s, transform .2s;
+  box-shadow: 0 4px 16px rgba(150,42,213,.06);
+}
+.cta-input::placeholder { color: rgba(18,26,30,.32); font-weight: 500; }
+.cta-input:hover { border-color: rgba(150,42,213,.35); }
+.cta-input:focus {
+  border-color: var(--violet);
+  box-shadow: 0 0 0 4px rgba(150,42,213,.12), 0 12px 32px rgba(25,188,229,.14);
+  transform: translateY(-1px);
+}
+.cta-form .btn--fire { padding: 18px 24px; font-size: 16px; letter-spacing: .02em; }
+.cta-consent { font-size: 12px; color: var(--text-3); text-align: center; line-height: 1.5; font-weight: 500; }
+.cta-consent a { color: #0A7FA0; font-weight: 700; }
+.btn--loading { opacity: .7; pointer-events: none; }
+.btn--loading::after { content: " …"; animation: dots 1s steps(3) infinite; }
+@keyframes dots { 0%{content:" ."} 33%{content:" .."} 66%{content:" ..."} }
+
+.form-toast {
+  position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(80px);
+  padding: 16px 28px; border-radius: 999px; font-weight: 600; font-size: 14px; z-index: 300;
+  background: rgba(255,255,255,.95); border: 1px solid rgba(150,42,213,.15);
+  backdrop-filter: blur(20px); box-shadow: 0 16px 40px rgba(150,42,213,.15);
+  color: var(--text-1);
+  opacity: 0; transition: transform .4s cubic-bezier(.22,1,.36,1), opacity .4s;
+  pointer-events: none;
+}
+.form-toast.visible { opacity: 1; transform: translateX(-50%) translateY(0); }
+.form-toast--ok { border-color: rgba(15,155,122,.35); color: #0F9B7A; }
+.form-toast--err { border-color: rgba(220,80,80,.35); color: #C44; }
+
+.footer { padding: 48px 0; border-top: 1px solid rgba(150,42,213,.1); text-align: center; }
+.footer img { height: 24px; opacity: .85; margin-bottom: 16px; }
+.footer p { font-size: 12px; color: var(--text-3); }
+
+.reveal { opacity: 0; transform: translateY(40px); transition: opacity .8s cubic-bezier(.22,1,.36,1), transform .8s cubic-bezier(.22,1,.36,1); }
+.reveal.visible { opacity: 1; transform: none; }
+.reveal-delay-1 { transition-delay: .1s; }
+.reveal-delay-2 { transition-delay: .2s; }
+.reveal-delay-3 { transition-delay: .3s; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; }
+  .reveal { opacity: 1; transform: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-layer" aria-hidden="true"></div>
+<div class="bg-mesh" aria-hidden="true"></div>
+<div class="stars" aria-hidden="true"></div>
+<div class="grid-glow" aria-hidden="true"></div>
+<div class="orb orb--1" aria-hidden="true"></div>
+<div class="orb orb--2" aria-hidden="true"></div>
+<div class="orb orb--3" aria-hidden="true"></div>
+<div class="orb orb--4" aria-hidden="true"></div>
+<div class="comet" aria-hidden="true"></div>
+<div class="glow-cursor" id="glowCursor" aria-hidden="true"></div>
+
+<nav class="nav">
+  <div class="nav__inner">
+    <a href="https://www.calltouch.ru" class="nav__logo"><img src="https://static.tildacdn.com/tild3361-6134-4363-a566-383132656232/Calltouch-logo-a.svg" alt="Calltouch" /></a>
+    <div class="nav__links">
+      <a href="#widgets">Виджеты</a>
+      <a href="#journey">Как работает</a>
+      <a href="#promo">Промо</a>
+    </div>
+    <a href="#cta" class="btn btn--fire">Подключить</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero__badge"><span class="hero__badge-dot"></span> Для автодилеров</div>
+  <h1 class="hero__title">
+    <span class="line">Виджеты,</span>
+    <span class="line">которые собирают <span class="grad">заявки</span></span>
+  </h1>
+  <p class="hero__lead">На сайте автосалона — с первой страницы. Клиент сам оставляет контакт, чтобы быстро связаться и приехать в 1 клик.</p>
+  <div class="hero__actions">
+    <a href="#widgets" class="btn btn--fire">Смотреть 5 виджетов →</a>
+    <a href="#cta" class="btn btn--glass">Подключить бесплатно</a>
+  </div>
+
+  <div class="hero__orbit">
+    <div class="orbit-ring orbit-ring--1"></div>
+    <div class="orbit-ring orbit-ring--2"></div>
+    <div class="hero__stage-wrap">
+      <div class="floating-stat"><div class="floating-stat__num count-up" data-count="30" data-prefix="до " data-suffix="%">0</div><div class="floating-stat__label">больше заявок</div></div>
+      <div class="floating-stat"><div class="floating-stat__num count-up" data-count="5" data-suffix=" мин">0</div><div class="floating-stat__label">до установки</div></div>
+      <div class="floating-stat"><div class="floating-stat__num count-up" data-count="5">0</div><div class="floating-stat__label">виджетов</div></div>
+      <div class="tilt-wrap">
+      <div class="browser tilt-card" id="heroBrowser" data-tilt-max="6">
+        <div class="browser__bar">
+          <span class="browser__dot"></span><span class="browser__dot"></span><span class="browser__dot"></span>
+          <div class="browser__url"></div>
+        </div>
+        <div class="browser__stage" id="heroStage">
+          <div id="heroSlides"></div>
+        </div>
+        <div class="tilt-card__shine"></div>
+      </div>
+      </div>
+    </div>
+    <div class="hero-tabs" id="heroTabs"></div>
+  </div>
+</header>
+
+<div class="marquee-wrap" aria-hidden="true">
+  <div class="marquee">
+    <div class="marquee__item"><span>◆</span> Обратный звонок</div>
+    <div class="marquee__item"><span>◆</span> Форма заявки</div>
+    <div class="marquee__item"><span>◆</span> Мессенджер</div>
+    <div class="marquee__item"><span>◆</span> Маршрут до салона</div>
+    <div class="marquee__item"><span>◆</span> Трейд-ин</div>
+    <div class="marquee__item"><span>◆</span> Промо-баннер</div>
+    <div class="marquee__item"><span>◆</span> Колесо фортуны</div>
+    <div class="marquee__item"><span>◆</span> Обратный звонок</div>
+    <div class="marquee__item"><span>◆</span> Форма заявки</div>
+    <div class="marquee__item"><span>◆</span> Мессенджер</div>
+    <div class="marquee__item"><span>◆</span> Маршрут до салона</div>
+    <div class="marquee__item"><span>◆</span> Трейд-ин</div>
+    <div class="marquee__item"><span>◆</span> Промо-баннер</div>
+    <div class="marquee__item"><span>◆</span> Колесо фортуны</div>
+  </div>
+</div>
+
+<section id="widgets">
+  <div class="container">
+    <div class="reveal">
+      <span class="section-tag">Каталог</span>
+      <h2 class="section-title">5 виджетов.<br/>Один <span class="grad-inline">мультикнопка.</span></h2>
+      <p class="section-desc">Кликните на карточку — увидите, как виджет выглядит на сайте дилера.</p>
+    </div>
+    <div class="widgets-layout reveal reveal-delay-1" id="widgetsGrid"></div>
+  </div>
+</section>
+
+<section id="journey" class="section-journey">
+  <div class="container">
+    <div class="journey-head reveal">
+      <span class="section-tag">Как это работает</span>
+      <h2 class="section-title">Путь клиента за <span class="grad-inline">4 шага</span></h2>
+      <p class="section-desc" style="margin:12px auto 0">От первого визита на сайт до заявки в CRM — без потерянных лидов.</p>
+    </div>
+    <div class="journey-panel reveal reveal-delay-1">
+      <div class="journey__visual" id="journeyVisual">
+        <img src="https://static.tildacdn.com/tild6332-6434-4031-a635-396638613461/browser.webp" alt="" class="active" data-step="0" />
+        <img src="https://static.tildacdn.com/tild3435-3237-4265-b866-396461363665/gearbox.webp" alt="" data-step="1" />
+        <img src="https://static.tildacdn.com/tild3235-6262-4130-a338-353562323533/helmet.webp" alt="" data-step="2" />
+        <img src="https://static.tildacdn.com/tild3932-3231-4134-a334-363362613830/keys.webp" alt="" data-step="3" />
+      </div>
+      <div class="journey__steps" id="journeySteps">
+        <div class="journey-step active" data-step="0" data-num="1" style="--step-color:#19BCE5" tabindex="0" role="button">
+          <div class="journey-step__title">Заходит на сайт</div>
+          <p class="journey-step__text">Видит заметный, но аккуратный виджет и сам выбирает время для обращения.</p>
+        </div>
+        <div class="journey-step" data-step="1" data-num="2" style="--step-color:#EC66F5" tabindex="0" role="button">
+          <div class="journey-step__title">Выбирает канал</div>
+          <p class="journey-step__text">Звонок, заявка, мессенджер, маршрут или трейд-ин — все варианты в одной мультикнопке.</p>
+        </div>
+        <div class="journey-step" data-step="2" data-num="3" style="--step-color:#962AD5" tabindex="0" role="button">
+          <div class="journey-step__title">Оставляет заявку</div>
+          <p class="journey-step__text">Минимум полей, максимум конверсии. Форму можно адаптировать под сценарий.</p>
+        </div>
+        <div class="journey-step" data-step="3" data-num="4" style="--step-color:#57FFCB" tabindex="0" role="button">
+          <div class="journey-step__title">Менеджер получает лид</div>
+          <p class="journey-step__text">Мгновенное уведомление + данные в CRM. Горячий контакт сразу в работе.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="reveal" style="text-align:center;margin-bottom:16px">
+      <span class="section-tag">Возможности</span>
+      <h2 class="section-title">Гибкие настройки<br/>под ваш бизнес</h2>
+    </div>
+    <div class="features-zigzag">
+      <div class="feature-row reveal">
+        <div class="feature-block feature-block--accent tilt-card" data-tilt-max="8">
+          <div class="tilt-card__shine"></div>
+          <div class="feature-block__glow" style="--fb-glow:#19BCE5"></div>
+          <div class="feature-block__icon">📐</div>
+          <div class="feature-block__title">Форматы виджетов</div>
+          <p class="feature-block__text">От мультикнопки до встраиваемой формы — формат под задачу и дизайн сайта.</p>
+          <div class="feature-block__tags"><span class="feature-block__tag">Мультикнопка</span><span class="feature-block__tag">Формы</span><span class="feature-block__tag">Отдельные кнопки</span></div>
+        </div>
+        <div class="feature-block tilt-card" data-tilt-max="8">
+          <div class="tilt-card__shine"></div>
+          <div class="feature-block__glow" style="--fb-glow:#962AD5"></div>
+          <div class="feature-block__icon">⚙️</div>
+          <div class="feature-block__title">Настройка сценариев</div>
+          <p class="feature-block__text">Включайте каналы: звонок, заявка, чат, маршрут, трейд-ин — под каждую страницу.</p>
+          <div class="feature-block__tags"><span class="feature-block__tag">По страницам</span><span class="feature-block__tag">По офферам</span></div>
+        </div>
+      </div>
+      <div class="feature-row reveal reveal-delay-1">
+        <div class="feature-block tilt-card" data-tilt-max="8">
+          <div class="tilt-card__shine"></div>
+          <div class="feature-block__glow" style="--fb-glow:#EC66F5"></div>
+          <div class="feature-block__icon">⏱</div>
+          <div class="feature-block__title">Логика показа</div>
+          <p class="feature-block__text">По времени на странице, глубине скролла или источнику трафика — точный момент появления.</p>
+        </div>
+        <div class="feature-block feature-block--accent tilt-card" data-tilt-max="8">
+          <div class="tilt-card__shine"></div>
+          <div class="feature-block__glow" style="--fb-glow:#57FFCB"></div>
+          <div class="feature-block__icon">🔀</div>
+          <div class="feature-block__title">Маршрутизация обращений</div>
+          <p class="feature-block__text">Заявки распределяются по менеджерам, брендам или отделам автоматически.</p>
+          <div class="feature-block__tags"><span class="feature-block__tag">По брендам</span><span class="feature-block__tag">По отделам</span></div>
+        </div>
+      </div>
+      <div class="feature-row reveal reveal-delay-2">
+        <div class="feature-block feature-block--accent tilt-card" style="grid-column:1/-1;max-width:600px;margin:0 auto;width:100%" data-tilt-max="6">
+          <div class="tilt-card__shine"></div>
+          <div class="feature-block__glow" style="--fb-glow:#997EFF"></div>
+          <div class="feature-block__icon">✨</div>
+          <div class="feature-block__title">Дизайн под брендбук</div>
+          <p class="feature-block__text">Полностью адаптируем визуальное оформление под фирменный стиль конкретного бренда.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="promo">
+  <div class="container">
+    <div class="reveal">
+      <span class="section-tag">Ещё больше продаж</span>
+      <h2 class="section-title">Промо-инструменты<br/>для вовлечения</h2>
+      <p class="section-desc">Усильте виджеты акциями и спецпредложениями прямо на сайте.</p>
+    </div>
+    <div class="promo-grid reveal reveal-delay-1">
+      <article class="promo-tile tilt-card" style="--promo-dot:#19BCE5" data-tilt-max="10">
+        <div class="tilt-card__shine"></div>
+        <div class="promo-tile__ring"></div>
+        <img src="https://static.tildacdn.com/tild3965-6139-4637-a532-376630643736/promo-banner.webp" alt="" loading="lazy" />
+        <div class="promo-tile__overlay"><div class="promo-tile__icon">🏷</div><div class="promo-tile__title">Промо-баннер</div><p class="promo-tile__text">Акции, скидки на ТО, сезонные предложения — прямо на сайте.</p></div>
+      </article>
+      <article class="promo-tile tilt-card" style="--promo-dot:#962AD5" data-tilt-max="10">
+        <div class="tilt-card__shine"></div>
+        <div class="promo-tile__ring"></div>
+        <img src="https://static.tildacdn.com/tild3939-3663-4530-a234-336238303938/promo-ssilki.webp" alt="" loading="lazy" />
+        <div class="promo-tile__overlay"><div class="promo-tile__icon">🔗</div><div class="promo-tile__title">Промо-ссылка</div><p class="promo-tile__text">UTM-метки для отслеживания эффективности каждой акции.</p></div>
+      </article>
+      <article class="promo-tile tilt-card" style="--promo-dot:#EC66F5" data-tilt-max="10">
+        <div class="tilt-card__shine"></div>
+        <div class="promo-tile__ring"></div>
+        <img src="https://static.tildacdn.com/tild6465-3435-4831-b538-663466613431/promo-landing.webp" alt="" loading="lazy" />
+        <div class="promo-tile__overlay"><div class="promo-tile__icon">🪟</div><div class="promo-tile__title">Промо-лендинг</div><p class="promo-tile__text">Страница под акцию с аналитикой и сбором заявок.</p></div>
+      </article>
+      <article class="promo-tile tilt-card" style="--promo-dot:#57FFCB" data-tilt-max="10">
+        <div class="tilt-card__shine"></div>
+        <div class="promo-tile__ring"></div>
+        <img src="https://static.tildacdn.com/tild6565-3664-4461-b266-353539393930/koleso.webp" alt="" loading="lazy" />
+        <div class="promo-tile__overlay"><div class="promo-tile__icon">🎡</div><div class="promo-tile__title">Колесо фортуны</div><p class="promo-tile__text">Игра с призом — больше вовлечённости и контактов.</p></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="cta">
+  <div class="container">
+    <div class="cta-split reveal tilt-card" data-tilt-max="4">
+      <div class="tilt-card__shine"></div>
+      <div>
+        <h2 class="section-title">Готовы увеличить<br/><span class="grad-inline">количество заявок?</span></h2>
+        <p class="section-desc" style="margin-top:16px">Подключите виджеты за 5 минут — настройте под ваш сайт и бренд.</p>
+      </div>
+      <div class="cta-form-box">
+      <form class="cta-form" id="ctaForm" novalidate>
+        <div class="field">
+          <label class="field__label" for="ctaName">Ваше имя</label>
+          <input type="text" name="name" id="ctaName" class="cta-input" placeholder="Иван Иванов" required />
+        </div>
+        <div class="field">
+          <label class="field__label" for="ctaPhone">Телефон</label>
+          <input type="tel" name="phone" id="ctaPhone" class="cta-input" placeholder="+7 (___) ___-__-__" required />
+        </div>
+        <button type="submit" class="btn btn--fire" id="ctaSubmit" style="width:100%">Отправить заявку</button>
+        <p class="cta-consent">Нажимая кнопку, вы соглашаетесь с <a href="https://www.calltouch.ru/upload/documents/usloviya-obrabotki.pdf" target="_blank" rel="noopener">условиями обработки ПДн</a></p>
+      </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <img src="https://static.tildacdn.com/tild3361-6134-4363-a566-383132656232/Calltouch-logo-a.svg" alt="Calltouch" />
+  <p>© Calltouch · Виджеты для автодилеров</p>
+</footer>
+
+<div class="form-toast" id="formToast" role="status" aria-live="polite"></div>
+
+<!-- Calltouch: коллтрекинг + sessionId для заявок (как на promo.calltouch.ru/widgets_auto) -->
+<script>
+(function(w,d,n,c){w.CalltouchDataObject=n;w[n]=function(){w[n]["callbacks"].push(arguments)};
+if(!w[n]["callbacks"]){w[n]["callbacks"]=[]}w[n]["loaded"]=false;if(typeof c!=="object"){c=[c]}
+w[n]["counters"]=c;for(var i=0;i<c.length;i+=1){p(c[i])}
+function p(cId){var a=d.getElementsByTagName("script")[0],s=d.createElement("script"),m=typeof Array.prototype.find==="function",n=m?"init-min.js":"init.js";
+s.type="text/javascript";s.async=true;s.src="https://mod.calltouch.ru/"+n+"?id="+cId;
+if(w.opera=="[object Opera]"){d.addEventListener("DOMContentLoaded",function(){a.parentNode.insertBefore(s,a)},false)}
+else{a.parentNode.insertBefore(s,a)}}})(window,document,"ct","8e87d68b");
+</script>
+
+<script>
+const WIDGETS = [
+  { id:"callback", title:"Обратный звонок", icon:"📞", slideOffset:"-14%", accent:"linear-gradient(90deg,#19BCE5,#45A2F6)", glow:"rgba(25,188,229,.35)", glowShadow:"rgba(25,188,229,.25)", stageGlow:"rgba(25,188,229,.35)", bg:"linear-gradient(135deg,#054777,#19BCE5)", image:"https://static.tildacdn.com/tild3761-3536-4430-b061-633764303330/OZ.webp", text:"Форма на сайте: посетитель оставляет контакт — его перезвонят в удобное время.", bullets:["24/7 без выходных","Разделение по брендам"] },
+  { id:"form", title:"Форма заявки", icon:"📋", slideOffset:"-12%", accent:"linear-gradient(90deg,#962AD5,#EC66F5)", glow:"rgba(150,42,213,.4)", glowShadow:"rgba(150,42,213,.25)", stageGlow:"rgba(150,42,213,.35)", bg:"linear-gradient(135deg,#962AD5,#EC66F5)", image:"https://static.tildacdn.com/tild3730-6464-4032-a266-376264383565/UZ.webp", text:"Всплывающая форма реагирует на действия пользователя — максимум конверсии.", bullets:["Минимум полей","Комментарии клиента"] },
+  { id:"messenger", title:"Мессенджер", icon:"💬", accent:"linear-gradient(90deg,#EC66F5,#997EFF)", glow:"rgba(236,102,245,.4)", glowShadow:"rgba(236,102,245,.25)", stageGlow:"rgba(236,102,245,.35)", bg:"linear-gradient(135deg,#EC66F5,#997EFF)", image:"https://static.tildacdn.com/tild3761-3536-4430-b061-633764303330/OZ.webp", text:"Переход в мессенджер без лишних шагов — VK, Telegram, Max.", bullets:["Несколько каналов","Аналитика"] },
+  { id:"route", title:"Маршрут", icon:"📍", accent:"linear-gradient(90deg,#054777,#19BCE5)", glow:"rgba(0,101,188,.4)", glowShadow:"rgba(0,101,188,.25)", stageGlow:"rgba(0,101,188,.35)", bg:"linear-gradient(135deg,#054777,#19BCE5)", image:"https://static.tildacdn.com/tild3761-3536-4430-b061-633764303330/OZ.webp", text:"Построение маршрута до дилерского центра прямо на сайте.", bullets:["От просмотра к визиту"] },
+  { id:"tradein", title:"Трейд-ин", icon:"🚗", accent:"linear-gradient(90deg,#19BCE5,#57FFCB)", glow:"rgba(87,255,203,.35)", glowShadow:"rgba(87,255,203,.2)", stageGlow:"rgba(87,255,203,.3)", bg:"linear-gradient(135deg,#19BCE5,#57da96)", image:"https://static.tildacdn.com/tild3761-3536-4430-b061-633764303330/OZ.webp", text:"Заявка на оценку авто — готовый лид для переговоров.", bullets:["Оценка авто","Рост среднего чека"] }
+];
+
+let heroIdx = 0, heroTimer;
+
+function setHero(i) {
+  heroIdx = i;
+  const w = WIDGETS[i];
+  document.getElementById("heroStage").style.setProperty("--stage-glow", w.stageGlow);
+  document.querySelectorAll("#heroTabs .hero-tab").forEach((t, j) => {
+    t.classList.toggle("active", j === i);
+    if (j === i) { t.style.setProperty("--tab-bg", w.bg); t.style.setProperty("--tab-glow", w.glow); }
+  });
+  document.querySelectorAll(".hero-slide").forEach((s, j) => s.classList.toggle("active", j === i));
+  document.querySelectorAll(".widget-card").forEach((c, j) => c.classList.toggle("active", j === i));
+}
+
+function renderHero() {
+  document.getElementById("heroSlides").innerHTML = WIDGETS.map((w, i) =>
+    `<div class="hero-slide${i===0?" active":""}"><img src="${w.image}" alt="${w.title}" style="--slide-offset:${w.slideOffset || "-8%"}" /></div>`).join("");
+  document.getElementById("heroTabs").innerHTML = WIDGETS.map((w, i) =>
+    `<button class="hero-tab${i===0?" active":""}" type="button" data-i="${i}">${w.icon} ${w.title}</button>`).join("");
+  document.getElementById("heroTabs").querySelectorAll(".hero-tab").forEach(btn => {
+    btn.addEventListener("click", () => { setHero(+btn.dataset.i); resetHeroAutoplay(); });
+  });
+}
+
+function renderWidgetsGrid() {
+  const grid = document.getElementById("widgetsGrid");
+  grid.innerHTML = WIDGETS.map((w, i) => `
+    <article class="widget-card tilt-card${i===0?" widget-card--hero active":""}" data-i="${i}" data-tilt-max="12"
+      style="--card-accent:${w.accent};--card-glow:${w.glowShadow};--card-glow-shadow:${w.glowShadow}">
+      <div class="tilt-card__shine"></div>
+      <div class="widget-card__num">0${i+1}</div>
+      <div class="widget-card__icon">${w.icon}</div>
+      <div class="widget-card__title">${w.title}</div>
+      <p class="widget-card__text">${w.text}</p>
+      ${i===0 ? `<div class="widget-card__preview"><img src="${w.image}" alt="${w.title}" /></div>` : ""}
+      <div class="widget-card__bar"></div>
+    </article>`).join("");
+  grid.querySelectorAll(".widget-card").forEach(card => {
+    card.addEventListener("click", () => {
+      const i = +card.dataset.i;
+      setHero(i);
+      resetHeroAutoplay();
+      document.getElementById("heroBrowser").scrollIntoView({ behavior:"smooth", block:"center" });
+    });
+  });
+  initTiltCards();
+}
+
+function resetHeroAutoplay() {
+  clearInterval(heroTimer);
+  heroTimer = setInterval(() => setHero((heroIdx + 1) % WIDGETS.length), 4000);
+}
+
+renderHero();
+renderWidgetsGrid();
+resetHeroAutoplay();
+initTiltCards();
+
+/* ── 3D Tilt ── */
+function initTiltCards() {
+  if (window.matchMedia("(hover: none)").matches) return;
+  document.querySelectorAll(".tilt-card").forEach(card => {
+    if (card.dataset.tiltBound) return;
+    card.dataset.tiltBound = "1";
+    const max = +(card.dataset.tiltMax || 10);
+    card.addEventListener("mousemove", e => {
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - 0.5;
+      const y = (e.clientY - r.top) / r.height - 0.5;
+      card.style.transform = `rotateY(${x * max * 2}deg) rotateX(${-y * max * 2}deg) translateZ(8px)`;
+      card.style.setProperty("--tilt-x", `${((e.clientX - r.left) / r.width) * 100}%`);
+      card.style.setProperty("--tilt-y", `${((e.clientY - r.top) / r.height) * 100}%`);
+    });
+    card.addEventListener("mouseleave", () => {
+      card.style.transform = "";
+      card.style.removeProperty("--tilt-x");
+      card.style.removeProperty("--tilt-y");
+    });
+  });
+}
+
+/* ── Count-up ── */
+function animateCountUp(el) {
+  const target = +el.dataset.count;
+  if (!target || el.dataset.counted) return;
+  el.dataset.counted = "1";
+  const prefix = el.dataset.prefix || "";
+  const suffix = el.dataset.suffix || "";
+  const duration = 1400;
+  const start = performance.now();
+  function tick(now) {
+    const p = Math.min((now - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - p, 3);
+    el.textContent = prefix + Math.round(target * eased) + suffix;
+    if (p < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+const countObs = new IntersectionObserver(entries => {
+  entries.forEach(en => { if (en.isIntersecting) animateCountUp(en.target); });
+}, { threshold: 0.5 });
+document.querySelectorAll(".count-up").forEach(el => countObs.observe(el));
+
+/* ── Calltouch API ── */
+const CT_SITE_ID = "303";
+const CT_MOD_ID = "8e87d68b";
+
+function getCalltouchSessionId() {
+  try {
+    if (typeof window.ct === "function") {
+      const p = window.ct("calltracking_params", CT_MOD_ID);
+      return p && p.sessionId ? p.sessionId : "";
+    }
+  } catch (_) {}
+  return "";
+}
+
+function showToast(msg, ok) {
+  const t = document.getElementById("formToast");
+  t.textContent = msg;
+  t.className = "form-toast visible " + (ok ? "form-toast--ok" : "form-toast--err");
+  clearTimeout(showToast._tm);
+  showToast._tm = setTimeout(() => t.classList.remove("visible"), 4500);
+}
+
+async function sendCalltouchLead(name, phone) {
+  const body = new URLSearchParams({
+    fio: name,
+    phoneNumber: phone,
+    subject: "Заявка продукт. Виджеты авто",
+    tags: "Продукт",
+    requestUrl: location.href,
+    sessionId: getCalltouchSessionId()
+  });
+  const url = `https://api.calltouch.ru/calls-service/RestAPI/requests/${CT_SITE_ID}/register/`;
+  const res = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: body.toString()
+  });
+  if (!res.ok) throw new Error("HTTP " + res.status);
+  return res;
+}
+
+/* Journey — только по клику */
+const journeySteps = document.querySelectorAll(".journey-step");
+const journeyImages = document.querySelectorAll("#journeyVisual img");
+
+function setJourneyStep(idx) {
+  journeySteps.forEach((s, j) => {
+    const on = j === idx;
+    s.classList.toggle("active", on);
+    s.setAttribute("aria-pressed", on ? "true" : "false");
+  });
+  journeyImages.forEach((img, j) => img.classList.toggle("active", j === idx));
+}
+
+journeySteps.forEach(step => {
+  step.addEventListener("click", () => setJourneyStep(+step.dataset.step));
+  step.addEventListener("keydown", e => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      setJourneyStep(+step.dataset.step);
+    }
+  });
+});
+setJourneyStep(0);
+
+/* Reveal */
+const revealObs = new IntersectionObserver(entries => {
+  entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add("visible"); revealObs.unobserve(en.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll(".reveal").forEach(el => revealObs.observe(el));
+
+/* Cursor glow */
+const glow = document.getElementById("glowCursor");
+document.addEventListener("mousemove", e => { glow.style.left = e.clientX + "px"; glow.style.top = e.clientY + "px"; });
+
+/* Form → Calltouch */
+document.getElementById("ctaForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const form = e.target;
+  const btn = document.getElementById("ctaSubmit");
+  const fd = new FormData(form);
+  const name = String(fd.get("name") || "").trim();
+  const phone = String(fd.get("phone") || "").trim();
+  if (!name || !phone) {
+    showToast("Заполните имя и телефон", false);
+    return;
+  }
+  btn.classList.add("btn--loading");
+  btn.disabled = true;
+  try {
+    await sendCalltouchLead(name, phone);
+    showToast(`Спасибо, ${name}! Менеджер скоро свяжется с вами.`, true);
+    form.reset();
+  } catch (_) {
+    showToast("Не удалось отправить — попробуйте позже или позвоните нам", false);
+  } finally {
+    btn.classList.remove("btn--loading");
+    btn.disabled = false;
+  }
+});
+
+/* Parallax orbs on scroll */
+window.addEventListener("scroll", () => {
+  const y = window.scrollY;
+  document.querySelectorAll(".orb").forEach((orb, i) => {
+    orb.style.transform = `translateY(${y * (0.03 + i * 0.02)}px)`;
+  });
+}, { passive: true });
+</script>
+</body>
+</html>
